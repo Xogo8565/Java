@@ -1,0 +1,11 @@
+
+public class Exam01_Print {
+
+	public static void main(String[] args) {
+		// print 구문 작성 - A,B,C
+		System.out.print("A");
+		System.out.print("B");
+		System.out.println("C");
+
+	}
+}

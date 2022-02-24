@@ -1,0 +1,7 @@
+
+public class HelloWorld {//Áß°ıÈ£ = ¹üÀ§, Áö¿ª°³³ä
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		System.out.printf("%s´Ô ¾È³çÇÏ¼¼¿ä", Çï·Î);
+	}
+}

@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class Exam01_Print {
+
+	public static void main(String[] args) {
+		// print 구문 작성 - A,B,C
+		System.out.println("A");
+		System.out.println("B");
+		System.out.println("C");
+
+		// 같은 줄에 A,B,C를 출력
+		System.out.print("A");
+		System.out.print("B");
+		System.out.print("C");
+		Scanner sc = new Scanner(System.in);
+		String str = sc.next();
+		if(str == "a") {
+			System.out.println("일치합니다");
+		}
+	}
+}
