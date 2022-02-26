@@ -19,9 +19,7 @@ public class Exam01_Scanner {
 //         */
 //        int i = sc.nextInt();
 //        System.out.println("intInput : " + i);
-//        /*
-//        https://devlog-wjdrbs96.tistory.com/80
-//         */
+//
 //
 //        /*
 //        Cf) nextLine() 사용 전에 nextInt()[명시적인 next 메소드], next()를 사용한 경우 \n이 버퍼에 남아 다음 nextLine()을 건너뛰게 된다.
