@@ -15,6 +15,8 @@ public class Exam03_Switch {
         ** 주의점 :
         break; 필수
         break; 가 없으면 값이 충족되는 순간, 그 다음 case 들은 equal 조건을 충족하건 말건 반드시 수행됨.
+        switch 문으로 짤 수 있는 코드 -> if 문으로도 가능
+        역은 불가
 
          */
 
