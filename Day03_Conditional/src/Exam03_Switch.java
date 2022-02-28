@@ -37,6 +37,7 @@ public class Exam03_Switch {
         System.out.println("1,2 3 중에 하나를 입력하시오 : ");
         int opt = sc.nextInt();
         sc.nextLine();
+
         switch (opt){
             case 1 :
                 System.out.println(2);
@@ -47,6 +48,10 @@ public class Exam03_Switch {
             case 3 :
                 System.out.println(3);
                 break;
+            default:
+                // default -> if 문의 else 와 비슷한 역할
+                // break; 불필요. 추가적인 조건이 올 일이 없기 때문
+                System.out.println("잘못 입력했습니다.");
 
         }
     }
