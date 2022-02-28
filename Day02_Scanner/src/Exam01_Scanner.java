@@ -39,7 +39,7 @@ public class Exam01_Scanner {
         System.out.println("나이 : " + age);
         System.out.println("직업 : " + job);
 
-         // 2. Integer.parseInt(); 활용
+         // 버퍼 이슈 해결방법 2. Integer.parseInt(); 활용
 
         System.out.println("이름 : ");
         String name2 = sc.nextLine();
@@ -56,7 +56,7 @@ public class Exam01_Scanner {
         boolean condition = Boolean.parseBoolean(sc.nextLine());
         System.out.println("Condition : " + condition);
 
-        // Cf2) nextLine() : String to char
+        // Cf2) nextLine().charAt : String to char
         System.out.println("성별을 입력하세요");
         char ch = sc.nextLine().charAt(0);
         System.out.println("Sex :" + ch);

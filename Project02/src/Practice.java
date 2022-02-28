@@ -10,7 +10,6 @@ public class Practice {
         char sex;
         double grade;
 
-
         while(true){
             System.out.print("이름 : ");
             String name = sc.nextLine();
