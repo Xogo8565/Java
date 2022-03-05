@@ -3,13 +3,15 @@ import java.util.Scanner;
 public class Practice05_Conditional {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String myId = "myId";
+        String myPwd = "123456";
         System.out.print(" 아이디 : ");
-        String id = sc.nextLine();
+        String inputId = sc.nextLine();
         System.out.print(" 비밀번호 : ");
-        String pwd = sc.nextLine();
+        String inputPwd = sc.nextLine();
 
-        if (id.equals("myId")) {
-            if( pwd.equals("123456")){
+        if (inputId.equals(myId)) {
+            if( inputPwd.equals(myPwd)){
                 System.out.println("로그인 성공");
             } else {
                 System.out.println("비밀번호가 틀렸습니다.");

@@ -2,16 +2,16 @@ package com.example;
 
 // 하나의 계좌 정보를 담고 있는 클래스
 
-public class Account20 {
+public class Account {
     private String ano;
     private String owner;
-    private int balnace;
+    private int balance;
 
 
-    public Account20(String ano, String owner, int balance) {
+    public Account(String ano, String owner, int balance) {
         this.ano = ano;
         this.owner = owner;
-        this.balnace = balance;
+        this.balance = balance;
     }
 
     String getAno() {
@@ -30,12 +30,12 @@ public class Account20 {
         this.owner = owner;
     }
 
-    int getBalnace() {
-        return balnace;
+    int getBalance() {
+        return balance;
     }
 
-    void setBalnace(int balnace) {
-        this.balnace = balnace;
+    void setBalance(int balance) {
+        this.balance = balance;
     }
 
 

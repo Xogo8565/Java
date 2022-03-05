@@ -14,7 +14,7 @@ public class Practice {
             System.out.print("이름 : ");
             String name = sc.nextLine();
 
-            //반복문으로 input type mismatching 설정
+            //반복문으로 inputMismatching 설정
 
             while (true){
                 System.out.print("학년 : ");

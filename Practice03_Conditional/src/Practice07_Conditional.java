@@ -9,8 +9,8 @@ public class Practice07_Conditional {
         double weight = sc.nextDouble();
         double bmi = weight/(height*height);
         System.out.println("BMI 지수 : " + bmi);
-        String status;
 
+        String status;
         if(bmi>30){
             status = "고도비만";
         } else if(bmi>=25&&bmi<30){

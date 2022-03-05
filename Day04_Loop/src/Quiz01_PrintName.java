@@ -25,18 +25,17 @@ public class Quiz01_PrintName {
 //        }
 
         //while 문의 경우
-
         while(true){
             System.out.println("입장을 종료하려면 q를 입력하세요 **");
             System.out.print("닉네임을 입력하세요 >> ");
-            String input = sc.nextLine();;
+            String input = sc.nextLine();
 
             if(input.equalsIgnoreCase("q")){
                 System.out.println("프로그램을 종료합니다.");
                 break;
             }
 
-            if (input.toUpperCase().equals("MANAGER")) {
+            if (input.equalsIgnoreCase("MANAGER")) {
                 System.out.println(input+"님 오셨어요?");
                continue;
             }

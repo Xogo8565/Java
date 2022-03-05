@@ -14,22 +14,21 @@ public class Practice03_Conditional {
         int mathScore = sc.nextInt();
         sc.nextLine();
 
-        String result;
-        int totalScore = korScore+engScore+mathScore;
-        int averageScore = totalScore/3;
+        int totalScore = korScore + engScore + mathScore;
+        double averageScore = totalScore/3d;
 
-        if((korScore>=40&&engScore>=40&&mathScore>=40)&&averageScore>=60){
-            result = "축하합니다, 합격입니다.";
+        if((korScore >= 40 && engScore >= 40 && mathScore >= 40) && averageScore >= 60){
+            System.out.println("국어 : " + korScore);
+            System.out.println("영어 : " + engScore);
+            System.out.println("수학 : " + mathScore);
+            System.out.println("합계 : " + totalScore);
+            System.out.printf("평균 : %.2f\n", averageScore);
+            System.out.println("축하합니다, 불합격입니다.");
         } else {
-            result = "불합격입니다";
+            System.out.println("불합격입니다.");
         }
 
-        System.out.println("국어 : " +korScore);
-        System.out.println("국어 : " +engScore);
-        System.out.println("국어 : " +mathScore);
-        System.out.println("합계 : " +totalScore);
-        System.out.println("평균 : " +averageScore);
-        System.out.println(result);
+
 
 
 
