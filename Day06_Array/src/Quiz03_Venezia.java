@@ -11,6 +11,7 @@ public class Quiz03_Venezia {
             int menu = Integer.parseInt(sc.nextLine());
             if(menu==1){
                 long start = System.currentTimeMillis();
+                boolean quit;
                 while (true) {
                     for (String s : strArr) {
                         System.out.print(s + "\t");
@@ -19,10 +20,10 @@ public class Quiz03_Venezia {
                     System.out.print("입력 >> ");
                     String input = sc.nextLine();
 
-                    boolean quit = true;
+                    quit = true;
                     for (int i = 0; i < strArr.length; i++) {
                         if (input.equals(strArr[i])) strArr[i] = ""; // 입력값을 공란으로
-                        if (!strArr[i].equals("")) quit = false; // 종료플래그 설정
+                        if(!strArr[i].equals("")) quit = false; // 종료 플래그 설정
                     }
                     if (quit) break;
                 }

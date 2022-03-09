@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <libraryInfos>
     <libraryInfo home="C:\Program Files\java\java-11-openjdk" version="11.0.14"/>
+    <libraryInfo home="/Users/jangseoksu/Library/Java/JavaVirtualMachines/openjdk-17.0.2-1/Contents/Home" version="17.0.2"/>
+    <libraryInfo home="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home" version="11.0.11"/>
 </libraryInfos>
