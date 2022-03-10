@@ -23,7 +23,7 @@ public class Quiz06_JavaMethod {
         System.out.println("Java 는 총 " + rsJava + "개");
 
     }
-// #1 반복문 이용
+// #1 반복문/배열 이용
 //    public static int countA(String str) {
 //        int numA =0;
 //        char[] chArr = new char[str.length()];
@@ -55,12 +55,12 @@ public class Quiz06_JavaMethod {
 
     //#2 replace() 이용
     public static int countA(String str){
-        return str.length() - str.replace(String.valueOf('A'), "").length();
+        return str.length() - str.replace("A","").length();
     }
     public static int countChar(String str, char ch){
         return str.length() - str.replace(String.valueOf(ch), "").length();
     }
     public static int findJava(String str){
-        return str.length() - str.replace(String.valueOf("Java"), "   ").length();
+        return str.length() - str.replace("Java", "   ").length();
     }
 }
