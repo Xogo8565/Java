@@ -32,7 +32,7 @@ public class Person {
         this.id = id;
     }
 
-    public void printAll(){
-        System.out.println("ID: "+ id + "\nName: " + name + "\nContact: " + contact);
+    public String printAll(){
+        return "ID: "+ id + "\nName: " + name + "\nContact: " + contact;
     }
 }

@@ -31,7 +31,7 @@ public class Person_Run {
 
         //#6
         System.out.println("#6 Test");
-        p.printAll();
+        System.out.println(p.printAll());
 
     }
 }
