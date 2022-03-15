@@ -2,7 +2,7 @@ package com.oop.student;
 
 import java.util.Scanner;
 
-public class studentRun2 {
+public class studentRun_2 {
     public static void printMenu(){
         System.out.print("===== 학생 관리 프로그램 =====\n메뉴를 선택하세요. (종료버튼 : q)\n1. 학생 정보 등록\n2. 학생 목록 확인\n3. 학생 정보 수정\n4. 학생 정보 삭제\n>> ");
     }
