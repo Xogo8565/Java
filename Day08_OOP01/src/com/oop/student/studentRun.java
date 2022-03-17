@@ -18,7 +18,7 @@ public class studentRun {
             String select = sc.nextLine();
             if(select.equals("1")){
                 System.out.print("===== 학생 정보 등록 =====\n번호를 입력하세요 >> ");
-                stuNo = Integer.parseInt(sc.nextLine());
+                stuNo = Integer.parseInt(sc.nextLine())-1;
                 System.out.print("이름을 입력하세요 >> ");
                 stuName = sc.nextLine();
                 System.out.print("나이를 입력하세요 >> ");
@@ -28,8 +28,10 @@ public class studentRun {
 
                 for(int i =0; i<students.length; i++){
                     if(students[i]==null) {
-                        students[i] = new student(stuNo-1, stuName, stuAge, stuSex);
+                        students[i] = new student(stuNo, stuName, stuAge, stuSex);
                         break;
+                    } else if (students[i]!=null){
+                        System.out.println("다른 번호를 입력해주세요.");
                     }
                 }
 
@@ -55,6 +57,7 @@ public class studentRun {
                         students[editNum].setName(stuName);
                         students[editNum].setAge(stuAge);
                         students[editNum].setGender(stuSex);
+                        break;
                     } else if (students[editNum]== null) System.out.println("존재하지 않는 학생입니다.");
                     break;
                 }
