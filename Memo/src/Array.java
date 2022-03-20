@@ -1,9 +1,11 @@
+import java.util.Arrays;
+
 public class Array {
 
     public static void main(String[] args) {
         //2차원 배열의 값들을 1차원배열로 옮기기
         // 2차원 배열 선언
-        int arr2[][] =
+        int[][] arr2 =
                 {
                         {1, 2, 3},
                         {4, 5, 6},
@@ -11,7 +13,7 @@ public class Array {
                         {10, 11, 12}
                 };
         // 2차원 -> 1차원
-        int arr[] = new int[arr2.length*arr2[0].length];
+        int[] arr = new int[arr2.length*arr2[0].length];
 		/*  규칙 정리
 		 	arr2[0].length = 3;
 		 	arr[0][0] = 3 * 0 + 0;	0
@@ -40,6 +42,24 @@ public class Array {
         for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
+
+        //1차원 배열 선언
+        int arrLength = 0;
+        for(int i =0; i<arr2.length; i++){
+            for(int j =0; j<arr2[i].length; j++){
+                arrLength++;
+            }
+        }
+        int[] arr3 = new int[arrLength];
+
+        //1차원 배열에 값 담기
+        for(int i =0; i<arr2.length; i++){
+            for(int j =0; j<arr2[i].length; j++){
+                arr3[arr2[i].length * i + j] = arr2[i][j];
+            }
+        }
+
+        System.out.println(Arrays.toString(arr3));
 
 
 
