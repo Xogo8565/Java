@@ -2,37 +2,35 @@ package com.stdmanager.dao;
 
 import com.stdmanager.dto.StudentDTO;
 
+import java.util.ArrayList;
+
 public class StudentDAO {
-    private StudentDTO[] students = new StudentDTO[10];
-    private int index = 0;
+    private ArrayList students = new ArrayList<>();
 
     public void insert(StudentDTO std){
-        students[index++] = std;
+        students.add(std);
     }
 
-    public StudentDTO[] selectAll(){
+    public ArrayList selectAll(){
         return students;
     }
 
     public void delete(int deleteNum){
-        for(int i = 0; i< students.length; i++){
-            if(students[deleteNum]!=null && students[deleteNum]== students[i]){
-                students[deleteNum ]= null;
-                System.out.println("삭제가 완료되었습니다.");
-                break;
-            } else if(students[deleteNum]==null) {
-                System.out.println("존재하지 않는 학생입니다.");
+        for(int i = 0; i<students.size(); i++){
+            if(((StudentDTO)students.get(i)).getNo() == deleteNum){
+                students.remove(i);
                 break;
             }
         }
     }
 
-    public void modify(StudentDTO std){
-        for(int i = 0; i< students.length; i++){
-            if(students[i].getNo()== std.getNo()&& students[i]!=null){
-                students[i].setName(std.getName());
-                students[i].setAge(std.getAge());
-                students[i].setGender(std.getGender());
+    public void modify(int modifyNum, StudentDTO std){
+        for(int i = 0; i<students.size(); i++){
+            if(((StudentDTO)students.get(i)).getNo() == modifyNum){
+//                students.set(modifyNum, std); // 새로운 StudentDTO 형 인스턴스로 갈아끼우는 작업
+                ((StudentDTO)students.get(i)).setName(std.getName());
+                ((StudentDTO)students.get(i)).setAge(std.getAge());
+                ((StudentDTO)students.get(i)).setGender(std.getGender());
                 break;
             }
         }

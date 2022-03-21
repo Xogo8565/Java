@@ -5,18 +5,15 @@ public class Shop { //재고 관리
     private String name;
     private String openTime;
     private String closeTime;
-    private IceCream[] iceCream;
-    private Bread[] bread;
-    private Beverage[] beverage;
-    private int iceIndex = 0;
-    private int breadIndex = 0;
-    private int beverageIndex = 0;
+    private Product[] product;
+    private int index = 0;
 
-    public Shop(String name, String openTime, String closeTime, IceCream[] icecream, Bread[] bread) {
+    //this. 를 붙이지 않으면 멤버필드가 아닌 배개변수 name 이 호출된다.
+    public Shop(String name, String openTime, String closeTime, Product[] product) {
         this.name = name;
         this.openTime = openTime;
         this.closeTime = closeTime;
-        this.iceCream = icecream;
+        this.product = product;
     }
 
     public Shop() {}
@@ -44,77 +41,25 @@ public class Shop { //재고 관리
         this.closeTime = closeTime;
     }
 
-    public IceCream[] getIceCream() {
-        return iceCream;
+    public Product[] getProduct() { return product; }
+
+    public void setProduct(Product[] product) { this.product = product; }
+
+    public void addProduct(Product product) {
+        this.product[index++] = product;
     }
 
-    public void setIceCream(IceCream[] iceCream) {
-        this.iceCream = iceCream;
-    }
-
-    public Bread[] getBread() {
-        return bread;
-    }
-
-    public void setBread(Bread[] bread) {
-        this.bread = bread;
-    }
-
-    public Beverage[] getBeverage() {
-        return beverage;
-    }
-
-    public void setBeverage(Beverage[] beverage) {
-        this.beverage = beverage;
-    }
-
-    public void addIceCream(IceCream icecream) {
-        this.iceCream[iceIndex++] = icecream;
-    }
-
-    public void addBread(Bread bread) {
-        this.bread[breadIndex++] = bread;
-    }
-
-    public void addBeverage(Beverage beverage) {
-        this.beverage[beverageIndex++] = beverage;
-    }
-
-    public String printIceCream(){
+    public String printProduct(){
         String rs = "";
-        for(int i =0; i< iceCream.length; i++){
-            if(this.iceCream[i]!=null){
-                rs += this.iceCream[i].getProduct_no()
-                        + this. iceCream[i].getName()
-                        + this. iceCream[i].getPrice()
+        for(int i =0; i< product.length; i++){
+            if(this.product[i]!=null){
+                rs += this.product[i].getProduct_no() + " "
+                        + this.product[i].getName() + " "
+                        + this.product[i].getPrice()+ " "
                         +"\n";
             }
         }
         return  rs;
     }
 
-    public String printBread(){
-        String rs = "";
-        for(int i =0; i< bread.length; i++){
-            if(this.bread[i]!=null){
-                rs += this.bread[i].getProduct_no()
-                        + this. bread[i].getName()
-                        + this. bread[i].getPrice()
-                        +"\n";
-            }
-        }
-        return  rs;
-    }
-    public String printBeverage(){
-        String rs = "";
-        for(int i =0; i< beverage.length; i++){
-            if(this.beverage[i]!=null){
-                rs += this.beverage[i].getProduct_no()
-                        + this. beverage[i].getName()
-                        + this. beverage[i].getPrice()
-                        +"\n";
-            }
-        }
-        return  rs;
-    }
 }

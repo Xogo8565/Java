@@ -2,6 +2,7 @@ package com.stdmanager.run;
 import com.stdmanager.dao.StudentDAO;
 import com.stdmanager.dto.StudentDTO;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Run {
@@ -32,18 +33,16 @@ public class Run {
                    dao.insert(std);
 
                 } else if (select.equals("2")) {
-                    StudentDTO[] list = dao.selectAll();
+                    ArrayList stdList = dao.selectAll();
 
-                    for(StudentDTO std : list){
-                        if(std != null){
-                            System.out.println(std);
-                        }
+                    for(int i = 0; i<stdList.size(); i++){
+                        System.out.println(stdList.get(i));
                     }
 
                 } else if (select.equals("3")){
                     System.out.print("수정할 학생의 번호를 입력하세요 >> ");
-                    int editNum = Integer.parseInt(sc.nextLine()) - 1;
-                    // 사용자가 입력한 번호가 존재하는ㅂ ㅓㄴ호인지 확인하는 메서드
+                    int modifyNum = Integer.parseInt(sc.nextLine());
+                    // 사용자가 입력한 번호가 존재하는 번호인지 확인하는 메서드
                     System.out.print("이름을 입력하세요 >> ");
                     stuName = sc.nextLine();
                     System.out.print("나이를 입력하세요 >> ");
@@ -53,18 +52,18 @@ public class Run {
                     System.out.print("성별을 입력하세요(남/여)");
                     stuGender = sc.nextLine().charAt(0);
 
-                    dao.modify(new StudentDTO(editNum, stuName, stuAge, stuGender));
+                    dao.modify(modifyNum, new StudentDTO(modifyNum, stuName, stuAge, stuGender));
 
                 } else if(select.equals("4")){
                     System.out.print("===== 학생 정보 삭제 =====\n삭제할 학생의 번호를 입력해주세요.");
-                    int deleteNum = Integer.parseInt(sc.nextLine())-1;
+                    int deleteNum = Integer.parseInt(sc.nextLine());
 
                     dao.delete(deleteNum);
 
                 } else if (select.equals("q")){
                     System.out.println("프로그램을 종료합니다.");
                     break;
-                }
+                } else System.out.println("없는 메뉴입니다.");
 
             }
         }

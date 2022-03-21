@@ -51,7 +51,7 @@ public class StudentDTO {
     @Override
     public String toString() {
         return "student{" +
-                "no=" + (no + 1) +
+                "no=" + no +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", gender=" + gender +

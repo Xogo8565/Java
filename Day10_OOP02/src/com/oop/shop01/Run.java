@@ -12,25 +12,31 @@ public class Run {
         3. 저장소(배열) 사이즈 문제, 추가, 삭제, 수정이 복잡
          */
         IceCream[] iceCreams = new IceCream[3];
-        Shop baskin = new Shop("BaskinRobbins31","09:00","21:00",iceCreams);
+        Shop baskin = new Shop("BaskinRobbins31","09:00", "21:00", new Product[10]);
         while (true){
-            System.out.print("===== Baskin 재고 관리 프로그램 =====\n1. 아이스크림 등록\n2. 아이스크림 목록 확인\n3. 가게 정보 확인\n0. 프로그램 종료\n>> ");
+            System.out.print("===== Baskin 재고 관리 프로그램 =====\n1. 제품 등록\n2. 제품 목록 확인\n3. 가게 정보 확인\n0. 프로그램 종료\n>> ");
             int selectNum = Integer.parseInt(sc.nextLine());
 
             if(selectNum==1){
-                System.out.print("품번 입력");
+                System.out.println("등록할 제품을 선택하세요\n1. 아이스크림\n2. 빵\n3. 음료\n>> ");
+                int pd = Integer.parseInt(sc.nextLine());
+
+                System.out.print("품번 입력 >>");
                 String product_no = sc.nextLine();
-                System.out.print("이름 입력");
+                System.out.print("이름 입력 >>");
                 String name = sc.nextLine();
-                System.out.print("가격 입력");
+                System.out.print("가격 입력 >>");
                 int price = Integer.parseInt(sc.nextLine());
-
-                baskin.addIceCream(new IceCream(product_no,name,price));
-
-                baskin.getIceCream()[0] = new IceCream(product_no,name,price);
+                if(pd == 1){
+                    baskin.addProduct(new IceCream(product_no, name,price));
+                } else if(pd == 2){
+                    baskin.addProduct(new Bread(product_no, name,price));
+                } else if (pd == 3){
+                    baskin.addProduct(new Beverage(product_no, name,price));
+                }
 
             } else if(selectNum==2){
-                System.out.println(baskin.printIceCream());
+                System.out.println(baskin.printProduct());
             } else if(selectNum==3){
 
             } else if(selectNum==0){
