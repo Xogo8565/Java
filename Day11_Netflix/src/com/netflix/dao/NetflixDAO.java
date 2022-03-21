@@ -63,4 +63,12 @@ public class NetflixDAO {
         return member;
     }
 
+    public int numberConvert(String str){
+        try{
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e){
+            return -1;
+        }
+    }
+
 }
