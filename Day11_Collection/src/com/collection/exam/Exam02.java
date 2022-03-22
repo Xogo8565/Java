@@ -19,10 +19,10 @@ public class Exam02 {
         // object (Java 의 모든 클래스들은 Object 를 상속 받음)
         // 다형성 : 다양한 클래스(자식)들의 성질을 가질 수 있는 것
 
-        //Object 형이기 대문에 String 형으로 바로 변경 불가
-
+        //Object 형이기 대문에 char 형으로 바로 변경 불가(Downcasting 필요)
         char temp1 = ((String)list.get(0)).charAt(0);
         System.out.println("temp : " + temp1);
+
         int temp2 = ((int)list.get(1));
         double temp3 = ((double)list.get(2));
         boolean temp4 = ((boolean)list.get(3));

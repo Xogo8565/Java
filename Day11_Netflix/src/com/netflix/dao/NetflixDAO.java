@@ -1,74 +1,66 @@
 package com.netflix.dao;
 
-import com.netflix.dto.MemberShip;
+import com.netflix.dto.Membership;
 
 import java.util.ArrayList;
 
 public class NetflixDAO {
-    ArrayList member = new ArrayList<>();
+    ArrayList<Membership> member = new ArrayList<>();
 
-    public void addMember(MemberShip memberShips){
-        member.add(memberShips);
+    public void addMember(Membership memberships){
+        member.add(memberships);
     }
 
     public boolean isIdAlreadyExist(String id){
         for(int i = 0; i<member.size(); i++){
-            if(((MemberShip)member.get(i)).getId().equals(id))
+            if(member.get(i).getId().equals(id))
                 return true;
         } return false;
     }
 
-    public boolean isNickNameAlreadyExist(String nickName){
+    public boolean isNicknameAlreadyExist(String nickName){
         for(int i = 0; i<member.size(); i++){
-            if(((MemberShip)member.get(i)).getNickname().equals(nickName))
+            if(member.get(i).getNickname().equals(nickName))
                 return true;
         } return false;
     }
 
-    public MemberShip findMemberByID(String id){
+    public Membership findMemberByID(String id){
         for(int i = 0; i<member.size(); i++){
-            if(((MemberShip)member.get(i)).getId().equals(id)){
-                return (MemberShip) member.get(i);
+            if(member.get(i).getId().equals(id)){
+                return member.get(i);
             }
         } return null;
     }
 
-    public MemberShip findMemberBynickName(String nickName){
+    public Membership findMemberByNickname(String nickname){
         for(int i = 0; i<member.size(); i++){
-            if(((MemberShip)member.get(i)).getNickname().equals(nickName)){
-                return (MemberShip) member.get(i);
+            if(member.get(i).getNickname().equals(nickname)){
+                return member.get(i);
             }
         } return null;
     }
 
     public void deleteMember(String id){
         for(int i = 0; i<member.size(); i++){
-            if(((MemberShip)member.get(i)).getId().equals(id)){
+            if(member.get(i).getId().equals(id)){
                 member.remove(i);
                 break;
             }
         }
     }
 
-    public void modifyMember(String id, String nickName, int point) {
+    public void modifyMember(String id, String nickname, int point) {
         for(int i = 0; i<member.size(); i++){
-            if(((MemberShip)member.get(i)).getId().equals(id)){
-                ((MemberShip)member.get(i)).setNickname(nickName);
-                ((MemberShip)member.get(i)).setPoint(point);
+            if(member.get(i).getId().equals(id)){
+                member.get(i).setNickname(nickname);
+                member.get(i).setPoint(point);
             }
         }
     }
 
-    public ArrayList selectAll(){
+    public ArrayList<Membership> selectAll(){
         return member;
-    }
-
-    public int numberConvert(String str){
-        try{
-            return Integer.parseInt(str);
-        } catch (NumberFormatException e){
-            return -1;
-        }
     }
 
 }

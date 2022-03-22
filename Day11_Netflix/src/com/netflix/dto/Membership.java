@@ -1,15 +1,15 @@
 package com.netflix.dto;
 
-public abstract class MemberShip {
+public abstract class Membership {
     private String id;
     private String memberShip;
     private String nickname;
     private String signup_date;
     private int point;
 
-    public MemberShip(){}
+    public Membership(){}
 
-    public MemberShip(String id, String nickname, String signup_date, int point) {
+    public Membership(String id, String nickname, String signup_date, int point) {
         this.id = id;
         this.nickname = nickname;
         this.signup_date = signup_date;
