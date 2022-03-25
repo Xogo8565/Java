@@ -24,7 +24,7 @@ public class Quiz04_Notepad {
                 String fileName = sc.nextLine();
 
                 memoList.add(fileName);
-                saveFile(memo, fileName);
+                saveFile(fileName, memo);
 
             } else if (select.equals("2")) {
                 if (memoList.size() != 0) {
@@ -64,7 +64,7 @@ public class Quiz04_Notepad {
 
     }
 
-        public static void saveFile (String memo, String fileName){
+        public static void saveFile (String fileName, String memo){
             try (FileWriter fw = new FileWriter(fileName)) {
                 fw.write(memo);
                 fw.flush();
