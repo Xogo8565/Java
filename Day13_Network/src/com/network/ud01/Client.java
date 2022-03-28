@@ -1,4 +1,4 @@
-package com.network.download02;
+package com.network.ud01;
 
 import java.io.*;
 import java.net.Socket;
