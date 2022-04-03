@@ -49,7 +49,7 @@ public class Client {
 
                         while (true){
 
-                            System.out.print("\n=== Instagram ===\n1. 피드 등록\n2. 피드 확인\n3. 프로필 등록\n4. 프로필 확인\n5. 프로그램 종료\n>> ");
+                            System.out.print("\n=== Instagram ===\n1. 피드 등록\n2. 피드 확인\n3. 프로필 등록\n4. 프로필 확인\n5. 로그아웃\n>> ");
                             menu = sc.nextLine();
 
                             dos.writeUTF(menu);
@@ -68,7 +68,7 @@ public class Client {
 
                             }else if (menu.equals("2")){
 
-                                System.out.println("1. 전체 피드 목록\n2. 개별 피드 목록");
+                                System.out.print("1. 전체 피드 목록\n2. 개별 피드 목록\n>> ");
                                 menu = sc.nextLine();
 
                                 dos.writeUTF(menu);
@@ -77,7 +77,7 @@ public class Client {
                                 if(menu.equals("1")){
 
                                     String feedList = dis.readUTF();
-                                    System.out.println("=== 전체 피드 목록 ===\n글번호\t닉네임\t작성일\t제목\t내용\n" + feedList);
+                                    System.out.println("=== 전체 피드 목록 ===\n글번호\t닉네임\t제목\t내용\n" + feedList);
 
                                 } else if (menu.equals("2")){
 
@@ -89,7 +89,7 @@ public class Client {
 
                                     String selectedFeed =  dis.readUTF();
 
-                                    System.out.println("글번호\t닉네임\t작성일\t제목\t내용\n"+selectedFeed);
+                                    System.out.println("글번호\t닉네임\t제목\t내용\n"+selectedFeed);
 
                                 }
 
