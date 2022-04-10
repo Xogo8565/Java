@@ -6,7 +6,7 @@ public class p70_07 {
         Scanner sc = new Scanner(System.in);
 
         int no;
-        int cn;
+        int cd;
         int dno;
         char[] cno = new char[36];
 
@@ -14,39 +14,33 @@ public class p70_07 {
         System.out.print("변환하는 음이 아닌 정수 : ");
         no = Integer.parseInt(sc.nextLine());
         System.out.print("어떤 진수로 변환할까요? (2~36) : ");
-        cn = Integer.parseInt(sc.nextLine());
+        cd = Integer.parseInt(sc.nextLine());
 
-        dno = CardConv(no, cn, cno);
+        dno = CardConv(no, cd, cno);
 
-        for (int i = 0; i < dno; i++) {
+        System.out.print( cd + "진수로는 ");
+        for(int i= dno -1; i>= 0; i--){
             System.out.print(cno[i]);
         }
+        System.out.println("입니다.");
     }
 
-    static int CardConv (int x, int y, char[] d) {
+    static int CardConv(int x, int r, char[] d){
         int digits = 0;
-        String dchar = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        String dchar = "0123456789ABDCEFGHIJKLMNOPQRSTUVWXYZ";
+        System.out.printf("%2d|%6d\n",r,x);
         do {
-            if (digits == 0) {
-                System.out.printf("%d|%6d\n", y, x);
-                System.out.println(" +------");
-            }
-            else if (x / y != 0) {
-                System.out.printf("%d|%6d  ...%d\n", y, x ,x % y);
-                System.out.println(" +------");
-            }
-            else System.out.printf("%8d  ...%d\n", x ,x % y);
+            System.out.println("  + -------");
+            d[digits++] = dchar.charAt(x % r);
+            x /= r;
 
-            d[digits++] = dchar.charAt(x % y);
-            x /= y;
+            if (x != 0) {
+                System.out.printf("%2d|%6d ... %c\n", r, x, d[digits - 1]);
+            } else System.out.printf("\t%6d ... %c\n", x, d[digits - 1]);
+        }    while (x != 0);
 
-        } while (x != 0);
-
-        for (int i = 0; i < digits /2; i++) {
-            char temp = d[i];
-            d[i] = d[digits - i - 1];
-            d[digits - i - 1] = temp;
-        }
         return digits;
     }
+
 }

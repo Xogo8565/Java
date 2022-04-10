@@ -17,12 +17,13 @@ public class Client {
             클라이언트의 HDD 에 파일을 저장(출력)
              */
 
-            int size = dis.readInt();
+            int size = dis.readInt(); //1
             byte[] bytes = new byte[size]; // Server 측에서 보낸 바이트 배얼 크기의 배열 생성
 
-            dis.readFully(bytes);
+            dis.readFully(bytes); //2
             System.out.println("받아 온 파일의 크기 : "+bytes.length);
 
+            //FileOutputStream 을 통해 저장
             try(FileOutputStream fos = new FileOutputStream(path + "img.jpeg");){
 
                 fos.write(bytes);

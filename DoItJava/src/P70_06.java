@@ -10,7 +10,7 @@ public class P70_06 {
 
         } while (x != 0);
 
-        for(int i = 0; i < digits; i++){
+        for(int i = 0; i < digits/2; i++){
             char ch = d[i];
             d[i] = d[digits - i - 1];
             d[digits - i - 1] = ch;
