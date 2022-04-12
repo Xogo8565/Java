@@ -4,6 +4,7 @@
 	<item key="org.eclipse.jdt.ui.last.selected.execution.enviroment" value="JavaSE-11"/>
 	<item key="org.eclipse.jdt.ui.last.selected.project.jre" value="java-11-openjdk"/>
 	<item key="org.eclipse.jdt.ui.last.selected.create.moduleinfo" value="false"/>
+	<item key="org.eclipse.jdt.ui.lastextjar" value="/Volumes/My Passport/lib"/>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item key="group_libraries" value="true"/>
 		<item key="layout" value="2"/>
@@ -39,6 +40,6 @@
 		<item key="patterns" value="*"/>
 	</section>
 	<section name="ClasspathContainerSelectionPage">
-		<item key="index" value="5"/>
+		<item key="index" value="8"/>
 	</section>
 </section>
