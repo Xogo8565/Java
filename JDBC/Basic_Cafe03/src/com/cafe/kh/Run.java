@@ -68,7 +68,7 @@ public class Run {
                         ArrayList<CafeDTO> list = cafeDao.selectAll();
                         if(list!=null){
                             for(CafeDTO cafeDTO : list){
-                                System.out.println(cafeDTO.toString());
+                                System.out.println(cafeDTO.toString() );
                             }
                         }
                     } catch (Exception e){

@@ -16,7 +16,7 @@ public class Update {
 
             System.out.println("DB 접속");
 
-            String sql = "com.kh.cafe.Update cafe set product_name = '바닐라라떼', price = 4500 where product_id = 1";
+            String sql = "Update cafe set product_name = '바닐라라떼', price = 4500 where product_id = 1";
 
             int rs = stm.executeUpdate(sql);
 

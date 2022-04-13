@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="student/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/student"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/Volumes/My Passport/lib/commons-dbcp2-2.9.0.jar"/>
+	<classpathentry kind="lib" path="/Volumes/My Passport/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="/Volumes/My Passport/lib/commons-pool2-2.11.1.jar"/>
+	<classpathentry kind="lib" path="/Volumes/My Passport/lib/ojdbc8-21.1.0.0.jar"/>
+	<classpathentry kind="output" path="out/production/Basic_Student04"/>
+</classpath>
