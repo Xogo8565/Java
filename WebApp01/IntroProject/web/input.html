@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- client 가 서버에 데이터를 전송하기 위한 방식 2가지
+    get / post
+
+    get :  url 에 쿼리를 붙여서 데이터를 전송하는 방식
+    - url?key=value 의 형식으로 데이터를 전송 -> 전송하고자 하는 데이터가 url 모두 노출
+    -> 보안에 취약 -> 단순 조회
+    -> 데이터 길이에 제한
+d
+    post : body 영역에 데이터가 담겨 전송되는 방식
+    -> 데이터가 외부로 드러나지 않음 -> 최소한의 보안 / 데이터의 길이에 제한 X
+-->
+    <a href="InputServlet?msg=hello">send Hello</a>
+    <form action = "/InputServlet" method="get">
+        <!-- action : 요청 url, method : 데이터 전송방식   -->
+        <!-- form 태그 안에서 전송해주고 싶은 input 태그의 경우, name 속성이 반드시 부여되야 함
+            name : -->
+        <input type="text" name="msg">
+        <!-- form 태그 안에서의 button 의 type 을 button 으로 만들어두면 일반 버튼으로 인식해서 form 제출 x
+            button type 을 명시하지 않거나 submit 으로 만들면 form 제출이 이뤄짐 -> submit button 으로 동작
+        -->
+        <button type="submit">전송</button>
+    </form>
+
+    <!-- post 방식-->
+<form action="/InputServlet" method="post">
+    <input type="text" name="msg">
+    <button type="submit"> 전송 </button>
+</form>
+</body>
+</html>

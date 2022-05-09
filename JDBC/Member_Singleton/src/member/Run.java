@@ -76,9 +76,10 @@ public class Run {
                 }
 
             } else if (menu == 2) {
-
+                try {
                 System.out.print("회원가입\nID 입력 >> ");
                 String id;
+
                 while (true) {
                     id = scanner.nextLine();
                     if (!memberDAO.doesIdExist(id)) break;
@@ -90,7 +91,7 @@ public class Run {
                 String nickname = scanner.nextLine();
                 MemberDTO memberDTO = new MemberDTO(id, pw, nickname);
 
-                try {
+
                     int rs = memberDAO.addMember(memberDTO);
                     if (rs > 0) System.out.println("회원가입 성공");
                     else System.out.println("회원가입 실패");

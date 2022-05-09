@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Sevlet02_Post:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Sevlet02_Post_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Sevlet02_Post/web/웹" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Sevlet02_Post" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="application" name="JDBC" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
