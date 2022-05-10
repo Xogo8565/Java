@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="title">신규 정보 입력</div>
+    <div class="content">
+        <form action='input.proc' method="post">
+            <div class="input">
+                <div><input type="text" name='name' placeholder="이름"></div>
+                <div><input type="number" name='kor' placeholder="국어점수"></div>
+                <div><input type="number" name="eng" placeholder="영어점수"></div>
+                <div><input type="number" name="math" placeholder="수학점수"></div>
+            </div>
+            <div class="btn">
+                <button type="submit">입력하기</button>
+                <button type="button" id ='backBtn'>뒤로가기</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById("backBtn").onclick = function () {
+        location.href = '/index.html';
+    }
+</script>
+</body>
+</html>

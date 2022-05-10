@@ -79,6 +79,7 @@ public class Server {
                                     String selectedFeed = feedDAO.showSelectFeed(seq);
 
                                     dos.writeUTF(selectedFeed);
+                                    dos.flush();
 
                                 }
 

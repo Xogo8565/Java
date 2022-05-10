@@ -14,7 +14,11 @@
             // why? 페이지 간의 이동에 있어 점근 권한/ 값의 유효성 등 복잡한 로직에 대해 servlet 에서 처리 후 이동이 가능하게 만들어 줘야 하기 때문
 
             // anchor 태그 클릭 했을 때와 같은 효과
-            location.href="toInput.proc";
+            location.href="/toInput.proc";
+        }
+
+        document.getElementById("toOutput").onclick = function (){
+            location.href = "/toOutput.proc";
         }
     </script>
 </body>

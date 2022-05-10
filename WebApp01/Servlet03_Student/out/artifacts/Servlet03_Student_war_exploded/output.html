@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .container * {
+            box-sizing: border-box;
+            border: 1px solid black;
+            text-align: center;
+            padding: 2px;
+        }
+
+        .container {
+            width: 600px;
+        }
+
+        .head {
+            display: flex;
+            font-weight: bold;
+        }
+
+        .head > div {
+            flex-basis: 100px
+        }
+
+        .result {
+            display: flex
+        }
+
+        .result > div {
+            flex-basis: 100px
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body>
+<div class='container'>
+    <div class='resultContainer'>
+        <div class='title'>Student</div>
+        <div class='head'>
+            <div>ID</div>
+            <div>NAME</div>
+            <div>KOR</div>
+            <div>ENG</div>
+            <div>MATH</div>
+            <div>SUM</div>
+        </div>
+        <div class='result'></div>
+    </div>
+    <div class='deleteContainer'>
+        <form action='/delete.proc' method='get'><input type='number' placeholder='Delete by Number' name='no'>
+            <button type='submit'>delete</button>
+        </form>
+    </div>
+    <div class='updateContainer'>
+        <form action='/update.proc' method='post'>
+            <div><input type='number' placeholder='No' name='no'></div>
+            <div><input type='text' placeholder='Name' name='name'></div>
+            <div><input type='number' placeholder='Kor' name='kor'></div>
+            <div><input type='number' placeholder='Eng' name='eng'></div>
+            <div><input type='number' placeholder='Math' name='math'></div>
+            <div>
+                <button type='submit'>update</button>
+            </div>
+        </form>
+    </div>
+    <div>
+        <form action='/search.proc' method="get"><input type='number' placeholder='find by No' name='no'>
+            <button type='submit'>Search</button>
+            <button type='button' id ='searchAllBtn'>Search All</button>
+        </form>
+    </div>
+
+    <div>
+        <button type='button' id='backBtn'>back</button>
+    </div>
+
+</div>
+<script>
+    document.getElementById('backBtn').onclick = function () {
+        location.href = '/index.html'
+    }
+    document.getElementById('searchAllBtn').onclick = function () {
+        location.href = '/searchAll.proc';
+    }
+</script>
+
+</body>
+</html>
