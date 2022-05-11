@@ -18,7 +18,7 @@ public class Update extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        StudentDAO studentDAO = StudentDAO.getInstance();
+        StudentDAO studentDAO = new StudentDAO();
         request.setCharacterEncoding("UTF-8");
         int no = Integer.parseInt(request.getParameter("no"));
         String name = request.getParameter("name");
@@ -29,7 +29,7 @@ public class Update extends HttpServlet {
         try{
             int rs = studentDAO.update(new StudentDTO(no,name,kor,eng,math));
             if(rs>0){
-                response.sendRedirect("toPrint.proc");
+                response.sendRedirect("output.html");
             }
         } catch (Exception e){
             e.printStackTrace();

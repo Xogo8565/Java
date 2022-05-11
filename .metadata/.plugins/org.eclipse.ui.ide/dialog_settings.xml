@@ -18,6 +18,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/Volumes/My Passport/WorkSpace/WebApp01/Sevlet02_Post"/>
 			<item value="/Volumes/My Passport/WebApp01"/>
 			<item value="/Volumes/My Passport/WorkSpace/JDBC/Member"/>
 			<item value="/Volumes/My Passport/WorkSpace/JDBC/Basic_Student04"/>

@@ -12,10 +12,10 @@ public class Delete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int no = Integer.parseInt(request.getParameter("no"));
-        StudentDAO studentDAO = StudentDAO.getInstance();
+        StudentDAO studentDAO = new StudentDAO();
         try{
             int rs = studentDAO.delete(no);
-            if(rs>0) response.sendRedirect("/toPrint.proc");
+            if(rs>0) response.sendRedirect("/output.html");
         } catch (Exception e) {
             e.printStackTrace();
         }

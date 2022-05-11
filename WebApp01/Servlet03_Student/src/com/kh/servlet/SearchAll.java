@@ -14,19 +14,19 @@ import java.util.ArrayList;
 public class SearchAll extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter printWriter = response.getWriter();
-        StudentDAO studentDAO = StudentDAO.getInstance();
-        response.setContentType("text/html; charset : UTF-8");
+        StudentDAO studentDAO = new StudentDAO();
 
         try{
             ArrayList<StudentDTO> arrayList = studentDAO.selectAll();
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter printWriter = response.getWriter();
 
             printWriter.write("<!DOCTYPE html>\n" +
                     "<html lang=\"en\">\n" +
                     "<head>\n" +
                     "    <meta charset=\"UTF-8\">\n" +
                     "    <title>Title</title>\n" +
-                    "    <style>\n" +
+                    "    <style>" +
                     "        .container * {\n" +
                     "            box-sizing: border-box;\n" +
                     "            border: 1px solid black;\n" +
@@ -100,7 +100,7 @@ public class SearchAll extends HttpServlet {
                     "    <div>\n" +
                     "        <form action='/search.proc' method=\"get\"><input type='number' placeholder='find by No' name='no'>\n" +
                     "            <button type='submit'>Search</button>\n" +
-                    "            <button type='button'>Search All</button>\n" +
+                    "            <button type='button' id='searchAllBtn'>Search All</button>\n" +
                     "        </form>\n" +
                     "    </div>\n" +
                     "\n" +

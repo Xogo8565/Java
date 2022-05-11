@@ -14,17 +14,19 @@ public class Search extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int no = Integer.parseInt(request.getParameter("no"));
-        StudentDAO studentDAO = StudentDAO.getInstance();
+        StudentDAO studentDAO = new StudentDAO();
         try{
             StudentDTO studentDTO = studentDAO.select(no);
+            response.setContentType("text/html; charset=utf-8");
             PrintWriter printWriter = response.getWriter();
-            response.setContentType("text/html; charset :utf-8");
+
+
             printWriter.write("<!DOCTYPE html>\n" +
                     "<html lang=\"en\">\n" +
                     "<head>\n" +
                     "    <meta charset=\"UTF-8\">\n" +
                     "    <title>Title</title>\n" +
-                    "    <style>\n" +
+                    "    <style>" +
                     "        .container * {\n" +
                     "            box-sizing: border-box;\n" +
                     "            border: 1px solid black;\n" +
@@ -101,7 +103,7 @@ public class Search extends HttpServlet {
                     "    <div>\n" +
                     "        <form action='/search.proc' method=\"get\"><input type='number' placeholder='find by No' name='no'>\n" +
                     "            <button type='submit'>Search</button>\n" +
-                    "            <button type='button'>Search All</button>\n" +
+                    "            <button type='button' id='searchAllBtn'>Search All</button>\n" +
                     "        </form>\n" +
                     "    </div>\n" +
                     "\n" +

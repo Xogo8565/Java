@@ -19,7 +19,7 @@ public class Input extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        StudentDAO studentDAO = StudentDAO.getInstance();
+        StudentDAO studentDAO = new StudentDAO();
         request.setCharacterEncoding("utf-8");
         String name = request.getParameter("name");
         int kor = Integer.parseInt(request.getParameter("kor"));

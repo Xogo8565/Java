@@ -58,4 +58,15 @@ public class StudentDTO {
     public void setMath(int math) {
         this.math = math;
     }
+
+    @Override
+    public String toString() {
+        return "StudentDTO{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                ", kor=" + kor +
+                ", eng=" + eng +
+                ", math=" + math +
+                '}';
+    }
 }

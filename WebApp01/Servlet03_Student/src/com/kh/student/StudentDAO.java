@@ -1,8 +1,9 @@
 package com.kh.student;
 
-import oracle.jdbc.proxy.annotation.Pre;
-import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,24 +11,21 @@ import java.util.ArrayList;
 
 public class StudentDAO {
 
-    BasicDataSource basicDataSource = new BasicDataSource();
+    private BasicDataSource basicDataSource;
 
-    private StudentDAO() {
-        basicDataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
-        basicDataSource.setUsername("kh");
-        basicDataSource.setPassword("kh");
-    }
-
-    private static class InstanceHolder {
-        private static final StudentDAO instance = new StudentDAO();
+    public StudentDAO() {
+        // 서버에 이미 생성된 ConnectionPoll 을 찾는 작업
+        try {
+            Context context = new InitialContext(); // ConnectionPool 을 검색하기 위한 인스턴스 생성
+            Context envContext = (Context)context.lookup("java:comp/env"); //자원이 실제 존재하는 위치까지 찾아가는 작업
+            basicDataSource = (BasicDataSource) envContext.lookup("jdbc/bds"); // 자원의 name 값을 이용해 이미 만들어진 bds 인스턴스 가져오기
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Connection getConnection() throws Exception {
         return basicDataSource.getConnection();
-    }
-
-    public static StudentDAO getInstance() {
-        return InstanceHolder.instance;
     }
 
     public int insert(StudentDTO studentDTO) throws Exception {
@@ -74,29 +72,30 @@ public class StudentDAO {
         }
     }
 
-    public int update(StudentDTO studentDTO) throws Exception{
+    public int update(StudentDTO studentDTO) throws Exception {
         String sql = "update tbl_stu set name = ?, kor = ?, eng = ?, math =? where no =?";
-        try(Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, studentDTO.getName());
             preparedStatement.setInt(2, studentDTO.getKor());
             preparedStatement.setInt(3, studentDTO.getEng());
-            preparedStatement.setInt(4,studentDTO.getMath());
+            preparedStatement.setInt(4, studentDTO.getMath());
             preparedStatement.setInt(5, studentDTO.getNo());
 
             return preparedStatement.executeUpdate();
         }
     }
 
-    public StudentDTO select(int no) throws  Exception{
+    public StudentDTO select(int no) throws Exception {
         String sql = "select * from tbl_stu where no = ?";
-        try(Connection connection = getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setInt(1,no);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, no);
             ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next()){
-                return new StudentDTO(no, rs.getString(2), rs.getInt(3),rs.getInt(4),rs.getInt(5));
-            } return null;
+            if (rs.next()) {
+                return new StudentDTO(no, rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
+            }
+            return null;
         }
     }
 }

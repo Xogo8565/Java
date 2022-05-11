@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="out/artifacts/Sevlet02_Post_war_exploded/WEB-INF/lib/commons-dbcp2-2.9.0.jar"/>
+	<classpathentry kind="lib" path="out/artifacts/Sevlet02_Post_war_exploded/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="out/artifacts/Sevlet02_Post_war_exploded/WEB-INF/lib/commons-pool2-2.11.1.jar"/>
+	<classpathentry kind="lib" path="out/artifacts/Sevlet02_Post_war_exploded/WEB-INF/lib/ojdbc8-12.2.0.1.jar"/>
+	<classpathentry kind="output" path="out/artifacts/Sevlet02_Post_war_exploded/WEB-INF/classes"/>
+</classpath>

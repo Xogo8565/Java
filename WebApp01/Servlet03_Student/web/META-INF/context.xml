@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/">
+    <!--
+    0511 : 커넥션풀 설정
+    maxWait -1 : 반납까지 무한대기
+    -->
+    <Resource name='jdbc/bds'
+              auth='Container'
+              driverClassName='oracle.jdbc.driver.OracleDriver'
+              type='javax.sql.DataSource'
+              factory='org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory'
+              url='jdbc:oracle:thin:@localhost:1521:xe'
+              username='kh'
+              password='kh'
+              maxActive='30'
+              maxWait='-1'/>
+</Context>
