@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MsgDAO {
     private BasicDataSource basicDataSource;
 
-    private MsgDAO() {
+    public MsgDAO() {
         try {
             Context context = new InitialContext();
             Context contextEnv = (Context) context.lookup("java:comp/env");
@@ -22,14 +22,6 @@ public class MsgDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static class InstanceHolder {
-        private static final MsgDAO instance = new MsgDAO();
-    }
-
-    public static MsgDAO getInstance() {
-        return InstanceHolder.instance;
     }
 
     public Connection getConnection() throws SQLException {

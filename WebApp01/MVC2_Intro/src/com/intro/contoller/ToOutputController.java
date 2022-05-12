@@ -41,7 +41,7 @@ public class ToOutputController extends HttpServlet {
         request.getRequestDispatcher("/output.jsp").forward(request, response);
 
          */
-        MsgDAO msgDAO = MsgDAO.getInstance();
+        MsgDAO msgDAO = new MsgDAO();
         try{
             ArrayList<MsgDTO> arrayList = msgDAO.selectAll();
             request.setAttribute("arrayList", arrayList);

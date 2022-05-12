@@ -20,7 +20,7 @@ public class InsertController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String nickname = request.getParameter("nickname");
         String msg = request.getParameter("msg");
-        MsgDAO msgDAO = MsgDAO.getInstance();
+        MsgDAO msgDAO = new MsgDAO();
         try {
             int rs = msgDAO.insert(new MsgDTO(0, nickname, msg));
             if(rs>0){

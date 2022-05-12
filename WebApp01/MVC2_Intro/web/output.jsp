@@ -40,6 +40,7 @@ var ->
 <table border="1" align="center">
     <thead>
     <tr>
+        <th>No</th>
         <th>Nickname</th>
         <th>Message</th>
     </tr>
@@ -47,6 +48,7 @@ var ->
     <tbody>
     <c:forEach items="${arrayList}" var="msgDTO">
         <tr>
+            <td>${msgDTO.getNo()}</td>
             <td>${msgDTO.getNickname()}</td>
             <td>${msgDTO.getMsg()}</td>
         </tr>
