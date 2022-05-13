@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="MVC2_Cafe:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/MVC2_Cafe_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="MVC2_Cafe/web/웹" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="MVC2_Cafe" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
