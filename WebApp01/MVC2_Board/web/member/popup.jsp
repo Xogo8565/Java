@@ -85,10 +85,10 @@
 <body>
 <div class="container">
     <div class="title">아이디 중복 확인</div>
-    <form action="/checkId.member" method="get">
+    <form action="/checkId.member" method="get" id="form">
         <div class="content1">
             <input type="text" id="id" name="id" placeholder="ID" value="${id}">
-            <button type="submit" id="checkBtn">중복 확인</button>
+            <button type="button" id="checkBtn">중복 확인</button>
         </div>
         <div class="content2">
             <div class="content2_title">
@@ -106,13 +106,30 @@
             </div>
         </div>
         <div class="footer">
-            <button type="button" id='useBtn'>사용</button>
+            <button type="button" id='useBtn' disabled>사용</button>
             <button type="button" id="cancleBtn">닫기</button>
         </div>
     </form>
 </div>
 <script>
-    document.getElementById("useBtn").onclick = function () {
+    // 중복 확인 버튼을 눌렀으ㅜㄹ 때 id 값이 유요한 값인지 체크한 후에 서버로 중복 확인 요청
+    document.getElementById("checkBtn").onclick = function () {
+        let regex = /[a-zA-Z0-9_]{6,12}/;
+        if (!regex.test(document.getElementById("id").value)) {
+            alert("아이디 형식 불일치");
+            return;
+        }
+        document.getElementById("form").submit();
+    }
+
+    let useBtn = document.getElementById("useBtn");
+
+    console.log("${rs}");
+    if ("${rs}" === "true") {
+        useBtn.disabled = false;
+    }
+
+    useBtn.onclick = function () {
         // 1. 팝업창을 열어줬던 부모창의 id input 칸에 사용자가 입력한 id를 전달하는 것
         // 2. 팝업창을 닫음
         opener.document.getElementById("idInput").value = document.getElementById("id").value;
