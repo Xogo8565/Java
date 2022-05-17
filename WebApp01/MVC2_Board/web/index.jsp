@@ -88,6 +88,7 @@
             height: 25px;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
 <body>
 <c:choose>
@@ -98,7 +99,7 @@
             </script>
         </c:if>
         <div class="container2">
-            <div class="head"><h3>${loginSession} 님 환영합니다</h3></div>
+            <div class="head"><h3>${loginSession.nickname} 님 환영합니다</h3></div>
             <div class="select">
                 <button type="button" id="logoutBtn">로그아웃</button>
                 <button type="button" id="myPageBtn">마이페이지</button>
@@ -112,6 +113,15 @@
             }
             document.getElementById("myPageBtn").onclick = function () {
                 location.href = "/myPage.member";
+            }
+            document.getElementById("resignBtn").onclick = function () {
+                let resign = confirm("정말로 탈퇴하시겠습니까?");
+                if(resign) {
+                    location.href = "/resign.member";
+                }
+            }
+            document.getElementById("boardBtn").onclick = function () {
+                location.href = "/toBoard.board"
             }
         </script>
     </c:when>

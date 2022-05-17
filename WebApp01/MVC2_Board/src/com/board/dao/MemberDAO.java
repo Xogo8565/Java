@@ -54,18 +54,38 @@ public class MemberDAO {
         }
     }
 
-    public boolean checkLogin(String id, String pw) throws Exception {
-        String sql = "SELECT count(*) FROM tbl_member WHERE id = ?  and pw = ?";
+//    public MemberDTO checkLogin(String id, String pw) throws Exception {
+//        String sql = "SELECT * FROM tbl_member WHERE id = ?  and pw = ?";
+//
+//        try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+//            preparedStatement.setString(1, id);
+//            preparedStatement.setString(2, pw);
+//
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            if(resultSet.next()){
+//                String nickname = resultSet.getString(3);
+//            } return null;
+//        }
+//    }
+
+    public MemberDTO checkLogin(String id, String pw) throws Exception {
+        String sql = "SELECT * FROM tbl_member WHERE id = ?  and pw = ?";
 
         try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, pw);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
+            if(resultSet.next()){
+                String nickname = resultSet.getString(3);
+                String phone = resultSet.getString(4);
+                String postCode = resultSet.getString(5);
+                String address_1 = resultSet.getString(6);
+                String address_2 = resultSet.getString(7);
+                String address_3 = resultSet.getString(8);
 
-            if(resultSet.getInt(1)==1) return true;
-            else return false;
+                return new MemberDTO(id, null, nickname, phone, postCode, address_1, address_2, address_3);
+            } return null;
         }
     }
 
@@ -75,7 +95,6 @@ public class MemberDAO {
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
-                String pw = resultSet.getString(2);
                 String nickname = resultSet.getString(3);
                 String phone = resultSet.getString(4);
                 String postCode = resultSet.getString(5);
@@ -83,8 +102,32 @@ public class MemberDAO {
                 String address_2 = resultSet.getString(7);
                 String address_3 = resultSet.getString(8);
 
-                return new MemberDTO(id, pw, nickname, phone, postCode, address_1, address_2, address_3);
+                return new MemberDTO(id, null, nickname, phone, postCode, address_1, address_2, address_3);
             } else return null;
+        }
+    }
+
+    public int updateMemberInfo(MemberDTO memberDTO) throws Exception {
+        String sql = "update tbl_member set nickname = ?, phone = ?, postcode = ?, roadAddr = ?, detailAddr  = ?, extraAddr = ? where id = ?";
+        try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, memberDTO.getNickname());
+            preparedStatement.setString(2, memberDTO.getPhone());
+            preparedStatement.setString(3, memberDTO.getPostcode());
+            preparedStatement.setString(4, memberDTO.getAddress_1());
+            preparedStatement.setString(5, memberDTO.getAddress_2());
+            preparedStatement.setString(6, memberDTO.getAddress_3());
+            preparedStatement.setString(7, memberDTO.getId());
+
+            return preparedStatement.executeUpdate();
+        }
+    }
+
+    public int resign(String id) throws Exception{
+        String sql = "delete from tbl_member where id = ?";
+        try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, id);
+
+            return preparedStatement.executeUpdate();
         }
     }
 

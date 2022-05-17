@@ -96,12 +96,12 @@
             flex-grow: 1;
         }
 
-        .footer {
+        .footer1 {
             display: flex;
             justify-content: center;
         }
 
-        .footer #modifyBtn {
+        .footer1 #modifyBtn {
             flex-basis: 60px;
             border-radius: 10px;
             border: none;
@@ -109,7 +109,27 @@
             color: white;
         }
 
-        .footer #cancelBtn {
+        .footer1 #backBtn {
+            flex-basis: 60px;
+            border-radius: 10px;
+            border: none;
+            background-color: silver;
+            color: white;
+        }
+        .footer2 {
+            display: none;
+            justify-content: center;
+        }
+
+        .footer2 #completeBtn {
+            flex-basis: 60px;
+            border-radius: 10px;
+            border: none;
+            background-color: gold;
+            color: white;
+        }
+
+        .footer2 #cancelBtn {
             flex-basis: 60px;
             border-radius: 10px;
             border: none;
@@ -127,9 +147,9 @@
 </head>
 <body>
 <div class="container">
-    <form action="" method="post" id="modifyForm">
+    <form action="/modify.member" method="post" id="modifyForm">
         <div class="title">
-            정보수정
+            마이 페이지
         </div>
         <div class="contentContainer">
             <div id="content1">
@@ -142,7 +162,7 @@
                 <div id="content2_title">Nickname</div>
                 <div id="content2_content">
                     <input type="text" name="nickname" placeholder="nickname" id="nickname"
-                           value="${memberDTO.getNickname()}">
+                           value="${memberDTO.getNickname()}" readonly>
                 </div>
             </div>
             <div id="content3">
@@ -153,47 +173,89 @@
                         <option value="011">011</option>
                         <option value="017">017</option>
                     </select>
-                    <input type="number" name="phoneNum2" id="phoneNum2">
-                    <input type="number" name="phoneNum3" id=phoneNum3>
-                    <input type="text" name="phoneNum" id="phoneNum" value = "${memberDTO.getPhone()}">
+                    <input type="number" name="phoneNum2" id="phoneNum2" readonly>
+                    <input type="number" name="phoneNum3" id=phoneNum3 readonly>
+                    <input type="text" name="phoneNum" id="phoneNum"  readonly>
                 </div>
             </div>
             <div id="content4">
                 <div id="content4_content1">
                     <input type="text" name="postCode" placeholder="우편번호" id="postCode"
-                           value="${memberDTO.getPostcode()}">
-                    <button type="button" id="findAddressBtn">우편번호 찾기</button>
+                           value="${memberDTO.getPostcode()}" readonly>
+                    <button type="button" id="findAddressBtn" disabled>우편번호 찾기</button>
                 </div>
                 <div id="content4_content2">
                     <input type="text" name="address_1" placeholder="도로명 주소" id="address_1"
-                           value="${memberDTO.getAddress_1()}">
+                           value="${memberDTO.getAddress_1()}" readonly>
                 </div>
                 <div id="content4_content3">
                     <input type="text" name="address_2" placeholder="상세 주소" id="address_2"
-                           value="${memberDTO.getAddress_2()}">
+                           value="${memberDTO.getAddress_2()}" readonly>
                     <input type="text" name="address_3" placeholder="읍/면/동" id="address_3"
-                           value="${memberDTO.getAddress_3()}">
+                           value="${memberDTO.getAddress_3()}" readonly>
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <button type="button" id="cancelBtn">취소</button>
+        <div class="footer1">
+            <button type="button" id="backBtn">뒤로가기</button>
             <button type="button" id="modifyBtn">수정</button>
+        </div>
+        <div class="footer2">
+            <button type='button' id='cancelBtn'>취소</button>
+            <button type='button' id='completeBtn'>완료</button>
+
         </div>
     </form>
 </div>
 <script>
-    window.onload = function () {
-        let phone = document.getElementById("phoneNum").value;
-        console.log(phone);
-        let phoneNum1 = phone.substr(0, 3);
-        let phoneNum2 = phone.substr(3, 4);
-        let phoneNum3 = phone.substr(7, 4);
 
+    let phone = "${memberDTO.getPhone()}";
+    console.log(phone);
+    let phoneNum1 = phone.slice(0, 3);
+    let phoneNum2 = phone.slice(3, 7);
+    let phoneNum3 = phone.slice(7);
 
-        document.getElementById("phoneNum2").value = phoneNum2;
-        document.getElementById("phoneNum3").value = phoneNum3;
-    }
+    $("#phoneNum1").val(phoneNum1).prop("selected", true);
+    $("#phoneNum2").val(phoneNum2);
+    $("#phoneNum3").val(phoneNum3);
+
+    $("#modifyBtn").on("click", function () {
+        $("input").not("#idInput").prop("readonly", false); // id 를 제외한 input -> readonly 제거
+        $("#findAddressBtn").prop("disabled", false); // 우편번호 disabled 제거
+        $(".footer1").css("display","none");
+        $(".footer2").css("display","flex");
+    });
+    $("#backBtn").on("click", function (){
+        location.href = "/";
+    });
+    $("#cancelBtn").on("click", function () {
+        location.href = "/myPage.member";
+    });
+    $("#completeBtn").on("click", function (){
+        // 닉네임 정규식 적용 ( 영문자, 한글, 숫자 적용하여 4~8)
+        let nickname = document.getElementById("nickname");
+        let nicknameRegex = /[a-zA-Zㄱ-힣0-9]{4,8}/;
+        // 휴대번호 정규식 적용
+        let phoneNum = $("#phoneNum1 option:selected").val() + $("#phoneNum2").val() + $("#phoneNum3").val();
+        document.getElementById("phoneNum").value = phoneNum;
+        let phoneNumRegex = /[0-9]{11}/;
+
+        //우편번호 , 도로명 주소
+        let postCode = document.getElementById("postCode");
+        let address = document.getElementById("address_1");
+
+        if (!nicknameRegex.test(nickname.value)){
+            alert("넥네임 형식 불일치");
+            return;
+        } else if (!phoneNumRegex.test(phoneNum)){
+            alert("전화번호 형식 불일치");
+            return;
+        } else if (postCode.value==="" || address.value ===""){
+            alert("주소를 입력하세요");
+            return;
+        }
+        document.getElementById("modifyForm").submit();
+    });
 
     document.getElementById("findAddressBtn").onclick = function execDaumPostcode() {
         new daum.Postcode({

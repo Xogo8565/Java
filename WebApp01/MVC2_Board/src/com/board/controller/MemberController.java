@@ -39,8 +39,7 @@ public class MemberController extends HttpServlet {
                 boolean rs = memberDAO.checkId(id);
                 System.out.println(rs);
 
-                if (rs) request.setAttribute("rs", rs);
-                else request.setAttribute("rs", rs);
+                request.setAttribute("rs", rs);
 
                 request.setAttribute("id", id);
                 request.getRequestDispatcher("/member/popup.jsp").forward(request, response);
@@ -71,11 +70,21 @@ public class MemberController extends HttpServlet {
             String pw = request.getParameter("pw");
             try {
                 pw = EncryptionUtils.getSHA512(pw);
-                if (memberDAO.checkLogin(id, pw)) {
+//                if (memberDAO.checkLogin(id, pw)) {
+//                    request.setAttribute("rs", true);
+//                    //session 저장소를 이용해 login 정보를 저장
+//                    HttpSession httpSession = request.getSession();
+//                    httpSession.setAttribute("loginSession", id);
+//
+//                    //session 은 별도로 forward 해주지 않아도 jsp 와 값의 공유가 가능.
+//                } else request.setAttribute("rs", false);
+
+                MemberDTO memberDTO = memberDAO.checkLogin(id, pw);
+                if (memberDTO!=null) {
                     request.setAttribute("rs", true);
                     //session 저장소를 이용해 login 정보를 저장
                     HttpSession httpSession = request.getSession();
-                    httpSession.setAttribute("loginSession", id);
+                    httpSession.setAttribute("loginSession", memberDTO);
                     //session 은 별도로 forward 해주지 않아도 jsp 와 값의 공유가 가능.
                 } else request.setAttribute("rs", false);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -89,22 +98,46 @@ public class MemberController extends HttpServlet {
             // 1. Session 객체를 초기화하는 방법
 //          // 로그아웃의 경우는 invalidate() 를 활용
             httpSession.invalidate();
-            response.sendRedirect("/index.jsp");
+            response.sendRedirect("/");
             /*
             2. Session 저장소에서 loginSession 값만 삭제
             httpSession.removeAttribute("loginSession");
             response.sendRedirect("/index.jsp");
             */
         } else if(uri.equals("/myPage.member")){
+            HttpSession httpSession = request.getSession();
+            String id  = ((MemberDTO)httpSession.getAttribute("loginSession")).getId();
             try {
-                HttpSession httpSession = request.getSession();
-                String id = (String) httpSession.getAttribute("loginSession");
-                MemberDTO memberDTO = memberDAO.getLoginMemberInfo(id);
-                System.out.println(memberDTO.toString());
-                request.setAttribute("memberDTO", memberDTO);
+                MemberDTO memberDTO2 = memberDAO.getLoginMemberInfo(id);
+                request.setAttribute("memberDTO", memberDTO2);
                 request.getRequestDispatcher("/member/myPage.jsp").forward(request,response);
 
             } catch (Exception e){
+                e.printStackTrace();
+            }
+        } else if(uri.equals("/modify.member")){
+            HttpSession httpSession = request.getSession();
+            String id  = ((MemberDTO)httpSession.getAttribute("loginSession")).getId();
+            String nickname = request.getParameter("nickname");
+            String phoneNum = request.getParameter("phoneNum");
+            String postCode = request.getParameter("postCode");
+            String address_1 = request.getParameter("address_1");
+            String address_2 = request.getParameter("address_2");
+            String address_3 = request.getParameter("address_3");
+            try{
+                int rs = memberDAO.updateMemberInfo(new MemberDTO(id, null, nickname, phoneNum, postCode, address_1, address_2, address_3 ));
+                if(rs>0) response.sendRedirect("/myPage.member");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(uri.equals("/resign.member")){
+            HttpSession httpSession = request.getSession();
+            String id  = ((MemberDTO)httpSession.getAttribute("loginSession")).getId();
+            try{
+                int rs = memberDAO.resign(id);
+                httpSession.invalidate();
+                if(rs>0) response.sendRedirect("/");
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

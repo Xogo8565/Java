@@ -167,8 +167,8 @@
                         <option value="011">011</option>
                         <option value="017">017</option>
                     </select>
-                    <input type="number" name="phoneNum2" id="phoneNum2"><input type="number" name="phoneNum3"
-                                                                                id=phoneNum3>
+                    <input type="number" name="phoneNum2" id="phoneNum2">
+                    <input type="number" name="phoneNum3" id=phoneNum3>
                     <input type="text" name = "phoneNum" id = "phoneNum">
                 </div>
             </div>
