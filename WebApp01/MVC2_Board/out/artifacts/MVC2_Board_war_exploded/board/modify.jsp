@@ -137,72 +137,54 @@
     .hiddenContainer {
         display: none;
     }
-</style>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</style>
 <body>
 <div class="container">
-    <div class="header"><h3>상세보기</h3></div>
-    <div class="contentContainer">
-        <div class="contentContainer1">
-            <div class="contentContainer1_1">
-                <div class="contentContainer1_title">제목</div>
-                <div class="contentContainer1_content">
-                    ${boardDTO.getTitle()}
+    <form action="/modify.board" method="post">
+        <div class="header"><h3>상세보기</h3></div>
+        <div class="contentContainer">
+            <div class="contentContainer1">
+                <div class="contentContainer1_1">
+                    <div class="contentContainer1_title">제목</div>
+                    <div class="contentContainer1_content">
+                        <input type="text" name="title" id="title" value="${boardDTO.getTitle()}">
+                    </div>
+                </div>
+                <div class="contentContainer1_2">
+                    <div class="contentContainer1_title"> 글쓴이</div>
+                    <div class="contentContainer1_content_1"> ${boardDTO.getNickname()} </div>
+                    <div class="contentContainer1_title"> 작성일</div>
+                    <div class="contentContainer1_content_2"> ${boardDTO.getWritten_date()} </div>
+                    <div class="hiddenContainer"><input type="number" name="no" id="no" value="${boardDTO.getNo()}">
+                    </div>
+                </div>
+                <div class="contentContainer1_3">
+                    <div class="contentContainer1_title">내용</div>
+                    <div class="contentContainer1_content">
+                        <textarea name="content" id="content">${boardDTO.getContent()}</textarea>
+                    </div>
                 </div>
             </div>
-            <div class="contentContainer1_2">
-                <div class="contentContainer1_title"> 글쓴이</div>
-                <div class="contentContainer1_content_1"> ${boardDTO.getNickname()} </div>
-                <div class="contentContainer1_title"> 작성일</div>
-                <div class="contentContainer1_content_2"> ${boardDTO.getWritten_date()} </div>
-            </div>
-            <div class="contentContainer1_3">
-                <div class="contentContainer1_title">내용</div>
-                <div class="contentContainer1_content">
-                    <textarea id = "content" readonly>${boardDTO.getContent()}</textarea>
+            <div class="contentContainer2">
+                <div class="contentContainer2_title">
+                    <h4>댓글</h4>
+                </div>
+                <div class="contentContainer2_content">
+                    <input type="text" name="comment" id="comment" readonly>
+                    <button type="button" id="commentBtn"> 댓글 등록</button>
                 </div>
             </div>
         </div>
-        <div class="contentContainer2">
-            <div class="contentContainer2_title">
-                <h4>댓글</h4>
-            </div>
-            <div class="contentContainer2_content">
-                <input type="text" name="comment" id="comment">
-                <button type="button" id="commentBtn"> 댓글 등록</button>
-            </div>
+        <div class="footer">
+            <button id="backBtn" type="button">뒤로가기</button>
+            <button id="modifyBtn" type="submit">수정</button>
         </div>
-    </div>
-    <div class="footer">
-        <button id="backBtn" type="button">뒤로가기</button>
-        <c:if test="${loginSession.id eq boardDTO.id}">
-            <button id="modifyBtn" type="button">수정</button>
-            <button id="deleteBtn" type="button">삭제</button>
-            <script>
-                document.getElementById("modifyBtn").onclick = function () {
-                    location.href = "/toModify.board?no=${boardDTO.no}";
-                }
-                document.getElementById("deleteBtn").onclick = function () {
-                    let deleteConfirm = confirm("정말로 삭제하시겠습니까?");
-                    if (deleteConfirm) {
-                        let deleteForm = $("<form action='/delete.board' method='post' id = 'deleteForm'></form>");
-                        deleteForm.append($("<input>", {
-                            type: 'text',
-                            name: 'no',
-                            value: ${boardDTO.no},
-                            id: "delete"
-                        }));
-                    }
-                }
-            </script>
-        </c:if>
-    </div>
+    </form>
 </div>
 <script>
     document.getElementById("backBtn").onclick = function () {
-        location.href = "/toBoard.board";
+        location.href = "/detailView.board?no=${boardDTO.getNo()}";
     }
 </script>
 </body>

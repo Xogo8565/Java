@@ -31,11 +31,11 @@ public class BoardController extends HttpServlet {
         System.out.println("요청 uri :" + uri);
 
         if (uri.equals("/toBoard.board")) {
-            try{
+            try {
                 ArrayList<BoardDTO> arrayList = boardDAO.selectAll();
                 request.setAttribute("arrayList", arrayList);
-                request.getRequestDispatcher("/board/board.jsp").forward(request,response);
-            } catch (Exception e){
+                request.getRequestDispatcher("/board/board.jsp").forward(request, response);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (uri.equals("/toWrite.board")) {
@@ -49,18 +49,58 @@ public class BoardController extends HttpServlet {
             String content = request.getParameter("content");
             try {
                 int rs = boardDAO.newPost(new BoardDTO(0, id, nickname, title, content, 0, null));
-                if(rs>0) response.sendRedirect("/toBoard.board");
+                if (rs > 0) response.sendRedirect("/toBoard.board");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (uri.equals("/detailView.board")){
+        } else if (uri.equals("/detailView.board")) {
             int no = Integer.parseInt(request.getParameter("no"));
-            try{
+            try {
+                //조회수++
+                boardDAO.plusViewCount(no);
+
                 BoardDTO boardDTO = boardDAO.selectByNo(no);
-                request.setAttribute("boardDTO",boardDTO);
-                request.getRequestDispatcher("/board/detailView.jsp").forward(request,response);
+                request.setAttribute("boardDTO", boardDTO);
+                request.getRequestDispatcher("/board/detailView.jsp").forward(request, response);
 
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (uri.equals("/toModify.board")) {
+            int no = Integer.parseInt(request.getParameter("no"));
+            try {
+                BoardDTO boardDTO = boardDAO.selectByNo(no);
+                request.setAttribute("boardDTO", boardDTO);
+                request.getRequestDispatcher("/board/modify.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (uri.equals("/modify.board")) {
+            String title = request.getParameter("title");
+            String content = request.getParameter("content");
+            int no = Integer.parseInt(request.getParameter("no"));
+            try {
+                int rs = boardDAO.modifyPost(new BoardDTO(no, null, null, title, content, 0, null));
+                if (rs > 0) response.sendRedirect("/detailView.board?no=" + no);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (uri.equals("/delete.board")) {
+            int no = Integer.parseInt(request.getParameter("no"));
+            try {
+                int rs = boardDAO.deletePost(no);
+                if (rs > 0) response.sendRedirect("/toBoard.board");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(uri.equals("/search.board")){
+            String search = request.getParameter("search");
+            try{
+                ArrayList<BoardDTO> arrayList = boardDAO.searchByTitle(search);
+                request.setAttribute("arrayList", arrayList);
+                request.getRequestDispatcher("/board/board.jsp").forward(request,response);
+            } catch (Exception e){
                 e.printStackTrace();
             }
         }

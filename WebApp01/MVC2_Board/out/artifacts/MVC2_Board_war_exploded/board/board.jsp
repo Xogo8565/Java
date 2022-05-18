@@ -40,6 +40,24 @@
         color: white;
     }
 
+    .searchDiv {
+        margin: 10px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+
+    #search {
+        width: 200px;
+    }
+
+    #searchBtn {
+        border-radius: 10px;
+        border: none;
+        background-color: gold;
+        color: white;
+    }
+
     .content {
         height: 80%;
     }
@@ -97,6 +115,12 @@
         <button type="button" id="logoutBtn">로그아웃</button>
         <button type="button" id="writeBtn">글쓰기</button>
     </div>
+    <div class="searchDiv">
+        <form action="/search.board" method="get">
+            <input type="text" name="search" id="search">
+            <button type="submit" id="searchBtn">검색</button>
+        </form>
+    </div>
     <div class="content">
         <table>
             <thead>
@@ -143,7 +167,6 @@
     document.getElementById("writeBtn").onclick = function () {
         location.href = "/toWrite.board";
     }
-
 
 </script>
 </body>

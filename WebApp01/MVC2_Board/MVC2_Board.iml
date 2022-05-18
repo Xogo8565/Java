@@ -10,6 +10,7 @@
         <webroots>
           <root url="file://$MODULE_DIR$/web" relative="/" />
         </webroots>
+        <sourceRoots />
       </configuration>
     </facet>
   </component>
@@ -24,5 +25,6 @@
     <orderEntry type="library" exported="" name="JDBC" level="application" />
     <orderEntry type="library" exported="" name="jstl-1.2" level="application" />
     <orderEntry type="library" exported="" name="tomcat-dbcp" level="application" />
+    <orderEntry type="library" exported="" name="gson-2.8.9" level="application" />
   </component>
 </module>
