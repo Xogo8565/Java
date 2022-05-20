@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="MVC2_Board:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/MVC2_Board_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="MVC2_Board/web/웹" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="MVC2_Board" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="application" name="tomcat-dbcp" />
+          <element id="library" level="application" name="jstl-1.2" />
+          <element id="library" level="application" name="JDBC" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

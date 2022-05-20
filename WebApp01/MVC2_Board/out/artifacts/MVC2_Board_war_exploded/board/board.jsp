@@ -107,8 +107,9 @@
         background-color: gold;
         color: white;
     }
-
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <body>
 <div class="container">
     <div class="header">
@@ -116,9 +117,9 @@
         <button type="button" id="writeBtn">글쓰기</button>
     </div>
     <div class="searchDiv">
-        <form action="/search.board" method="get">
+        <form>
             <input type="text" name="search" id="search">
-            <button type="submit" id="searchBtn">검색</button>
+            <button type="button" id="searchBtn">검색</button>
         </form>
     </div>
     <div class="content">
@@ -132,7 +133,7 @@
                 <th class='view_count'>조회수</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="boardBody">
             <c:if test="${empty arrayList}">
                 <tr>
                     <td colspan="5"> 등록된 게시글이 없습니다.</td>
@@ -158,6 +159,42 @@
     </div>
 </div>
 <script>
+    document.getElementById("searchBtn").onclick = function () {
+        let search = document.getElementById("search").value;
+        $.ajax({
+            url : "/search.board?search="+search,
+            dataType: "json",
+            success : function (data) {
+                // a 요소를 기준으로
+                // a.empty() -> a라는 요소를 기준으로 모든 하위 요소를 삭제
+                // a.remove() -> a라는 요소를 삭제
+                console.log(data);
+                $(".boardBody").empty();
+                console.log(data.length);
+                if (data.length !== 0) {
+                    for (let boardDto of data) {
+                        let tr = $("<tr>");
+                        let td1 = $("<td>").html(boardDto.no);
+                        let anchor = $("<a>").attr("href", "/detailView.board?no="+boardDto.no).html(boardDto.title);
+                        let td2 = $("<td>").append(anchor);
+                        let td3 = $("<td>").html(boardDto.nickname);
+                        let td4 = $("<td>").html(boardDto.written_date);
+                        let td5 = $("<td>").html(boardDto.view_count);
+                        tr.append(tr, td1, td2, td3, td4, td5);
+                        $(".boardBody").append(tr);
+                    }
+                } else {
+                    $(".boardBody").append("<tr><td colspan='5'>검색된 게시글이 없습니다</td></tr>");
+                    // let tr = $("<tr>");
+                    // let td = $("<td colspan='5'>").html("검색된 게시글이 없습니다.");
+                    // tr.append(td);
+                    // $(".boardBody").append(tr);
+                }
+            }, error : function (e){
+                console.log(e);
+            }
+        });
+    }
     document.getElementById("homeBtn").onclick = function () {
         location.href = "/";
     }

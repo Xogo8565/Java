@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .container{
+        width:  1200px;
+        height: 400px;
+    }
+    .header{
+        display: flex;
+        justify-content: flex-end;
+        height: 10%;
+    }
+    .header #logoutBtn{
+        border-radius: 10px;
+        border: none;
+        background-color: red;
+        color: white;
+    }
+    .header #writeBtn{
+        border-radius: 10px;
+        border: none;
+        background-color: gold;
+        color: white;
+    }
+    .content {
+        height: 80%;
+    }
+    .content table{
+        width: 100%;
+    }
+    .content table * {
+        border: 1px solid black;
+    }
+    .content table tbody {
+        text-align: center;
+        height: 90%;
+    }
+    .footer{
+        display: flex;
+        justify-content: flex-end;
+        height: 10%;
+    }
+    .footer #homeBtn{
+        border-radius: 10px;
+        border: none;
+        background-color: gold;
+        color: white;
+    }
+
+</style>
+<body>
+<div class="container">
+    <div class="header">
+        <button type="button" id = "logoutBtn">로그아웃</button>
+        <button type="button" id = "writeBtn">글쓰기</button></div>
+    <div class="content">
+        <table>
+            <thead>
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>글쓴이</th>
+                <th>작성일</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan = "5"> 등록된 게시글이 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="footer"><button type="button" id = "homeBtn"> 홈으로 </button></div>
+</div>
+
+</body>
+</html>

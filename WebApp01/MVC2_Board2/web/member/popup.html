@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>Title</title>
+</head>
+<style>
+    .container {
+        width: 450px;
+        height: 250px;
+    }
+    .container * {
+        margin: 5px;
+    }
+    .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.2em;
+        height : 20%
+    }
+    .content1 {
+        display: flex;   
+        height: 30%;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    .content1 #id {
+        flex-basis: 250px;
+    }
+    .content1 #checkBtn {
+        flex-basis: 70px;
+        border-radius: 10px;
+        border: none;
+        background-color: gold;
+        color : white;
+    }
+    .content2 {
+        display: flex;       
+        height: 30%;
+    }
+    .content2_title{
+        flex-grow: 1;
+    }
+    .content2_content{
+        flex-grow: 1;
+    }
+    .footer {
+        height: 20%;
+        display: flex;
+        justify-content: center;
+    }
+    #useBtn{
+        flex-basis: 60px;
+        border-radius: 10px;
+        border: none;
+        background-color: gold;
+        color : white;
+    }
+    #cancleBtn{
+        flex-basis: 60px;
+        border-radius: 10px;
+        border: none;
+        background-color: silver;
+        color : white;
+    }
+</style>
+<body>
+<div class="container">
+    <div class="title">아이디 중복 확인</div>
+    <form action="checkId.member" method="get">
+        <div class="content1">
+            <input type="text" id = "id" name = "id" placeholder="ID">
+            <button type="submit" id="checkBtn">중복 확인</button>
+        </div>
+        <div class="content2">
+            <div class="content2_title">
+                확인 결과 :
+            </div>
+            <div class="content2_content">
+
+            </div>
+        </div>
+        <div class="footer">
+            <button type="button" id = 'useBtn'>사용</button>
+            <button type="button" id = "cancleBtn">닫기</button></div>
+    </form>
+</div>
+</body>
+</html>
