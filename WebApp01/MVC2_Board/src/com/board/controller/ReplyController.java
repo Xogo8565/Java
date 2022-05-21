@@ -38,10 +38,6 @@ public class ReplyController extends HttpServlet {
                 if (rs > 0) {
                     System.out.println("/detailView.board?no=" + board_no);
                     response.sendRedirect("/detailView.board?no=" + board_no);
-//                    Gson gson = new Gson();
-//                    ArrayList<ReplyDTO> arrayList = replyDAO.selectAllReply(board_no);
-//                    String strRs = gson.toJson(arrayList);
-//                    response.getWriter().append(strRs);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

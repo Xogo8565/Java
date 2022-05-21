@@ -2,130 +2,185 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          * {
+            border: 1px solid black;
+            box-sizing: border-box;
+          }
+
+          .container {
+            width: 1200px;
+            height: 1000px;
+          }
+          .header {
+              display: flex;
+              justify-content : center;
+              height: 10%;
+          }
+          .postHeader_1{
+              display: flex;
+          }
+          .postHeader_2 {
+              display: flex;
+          }
+          .postHeaderTitle {
+              flex-basis: 10%;
+              text-align : center;
+          }
+          .postHeaderDetail{
+              flex-basis: 40%;
+          }
+          .contentContainer{
+              height: 85%;
+          }
+          .postContainer{
+              height: 50%;
+          }
+          .postContent{
+              display: flex;
+              height: 85%;
+          }
+          .postContentTitle{
+              flex-basis: 10%;
+              text-align: center;
+          }        
+          .postContentDetail{
+              flex-basis: 90%;
+          }
+          .postContentDetail textarea {
+              width: 95%;
+              height: 95%;
+              resize: none;
+          }
+          .footer {
+              height: 3%;
+              display: flex;
+              justify-content: flex-end;
+          }
+          #backBtn {
+              border: none;
+              border-radius: 5px;
+              color : white;
+              background-color: silver;
+          }
+          button[class*="delete"]{
+            border: none;
+              border-radius: 5px;
+              color : white;
+              background-color: RED;
+          }
+          button[class*="modify"]{
+            border: none;
+              border-radius: 5px;
+              color : white;
+              background-color: gold;
+          }
+          .modifyReplyCompleteBtn{
+              display: none;
+          }
+          .replyContainer{
+              height: 50%;
+          }
+          .replyHeader {
+              display: flex;
+              justify-content: center;
+              height: 20%;
+          }
+          .replyDiv1 {
+              display: flex;
+          }
+          .reply_nickname {
+              flex-basis: 15%;
+          }
+          .reply_date {
+              flex-basis: 15%;
+              align-self: flex-end;
+          }
+          .replyDiv2{
+              display: flex;
+          }
+          .replyDiv2 input {
+              flex-basis: 80%;
+          }
+          .replyBtnContainer {
+              flex-basis: 20%;
+          }
+          #createReply{
+            border: none;
+              border-radius: 5px;
+              color : white;
+              background-color: gold;
+          }
+          .replyInputDiv {
+              height: 7%;
+              display: flex;
+              justify-content: center;
+              gap: 30px;
+          }
+          .replyInputDiv input {
+              flex-basis: 80%;
+          }
+          .replyContent{
+              height: 70%;
+          }
+          .reply_date{
+              color: silver;
+              font-size: 0.7em;
+          }
+    </style>
 </head>
-<style>
-    .container{
-        width: 1200px;
-        height: 800px;
-    }
-    .container * {
-        border: solid black 1px;
-        box-sizing: border-box;
-    }
-    .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 10%;
-    }
-    .contentContainer .contentContainer1 {
-        height: 80%;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_1{
-        display: flex;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_2{
-        display: flex;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_3{           
-        display: flex;
-        height : 80%
-    }
-    .contentContainer .contentContainer1 .contentContainer1_title{
-        flex-basis: 10%;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_content{
-        flex-basis: 90%;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_content_1{
-        flex-basis: 30%;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_content_2{
-        flex-basis: 50%;
-    }
-    .contentContainer .contentContainer1 .contentContainer1_3  .contentContainer1_content{
-        height: 400px;
-    }
-    .contentContainer2_title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .contentContainer2_content {
-        display: flex;
-        justify-content: space-around;
-    }
-    #comment {
-        width: 70% ;
-    }
-    #commentBtn {
-        border: none;
-        background-color: gold;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-    .footer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        height: 10%;
-
-    }
-    #backBtn {
-        border: none;
-        background-color: silver;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-    #modifyBtn {
-        border: none;
-        background-color: gold;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-
-</style>
 <body>
     <div class="container">
         <div class="header"><h3>상세보기</h3></div>
         <div class="contentContainer">
-            <div class="contentContainer1">
-                <div class="contentContainer1_1">
-                    <div class="contentContainer1_title">제목</div>
-                    <div class="contentContainer1_content">124</div>
+            <div class="postContainer">
+                <div class="postHeader">
+                    <div class="postHeader_1">
+                        <div class = "postHeaderTitle"><span>제목</span></div>
+                        <div class="postHeaderDetail"><span>ㅏㄱ나다라맏사</span></div>
+                    </div>
+                    <div class="postHeader_2">
+                        <div class = "postHeaderTitle"><span>글쓴이</span></div>
+                        <div class="postHeaderDetail"><span>asdfasf</span></div>
+                        <div class = "postHeaderTitle"><span>날짜</span></div>
+                        <div class="postHeaderDetail"><span>asdfdsf11</span></div>
+                    </div>
                 </div>
-                <div class="contentContainer1_2">
-                    <div class="contentContainer1_title_"> 글쓴이 </div>
-                    <div class="contentContainer1_content_1"> 1234 </div>
-                    <div class="contentContainer1_title"> 작성일 </div>
-                    <div class="contentContainer1_content_2"> 12134856498 </div>
-                </div>
-                <div class="contentContainer1_3">
-                    <div class="contentContainer1_title">내용</div>
-                    <div class="contentContainer1_content">12ㅇㄹ65ㅁㄴㅇ4ㄹ5ㅁㄴㅇ4ㄹ1ㅇㄴㄹ</div>
+                <div class="postContent">
+                    <div class="postContentTitle"><span>내용</span></div>
+                    <div class="postContentDetail"><textarea readonly></textarea></div>
                 </div>
             </div>
-            <div class="contentContainer2">
-                <div class="contentContainer2_title">
-                    <h4>댓글</h4>
+            <div class="replyContainer">
+                <div class="replyHeader">
+                    <h4> 댓글 보기</h4>
                 </div>
-                <div class="contentContainer2_content">
-                    <input type="text" name = "comment" id = "comment">
-                    <button type="button" id = "commentBtn"> 댓글 등록 </button>
+                <div class="replyContent">
+                    <div class="reply">
+                        <div class="replyDiv1">
+                            <span class ="reply_nickname">가나다</span><span class ="reply_date">2134124</span>
+                        </div>
+                        <div class="replyDiv2">
+                            <input type="text" value = "댓글" class = "modifyReplyInput" readonly>
+                            <div class="replyBtnContainer">
+                                <button type = "button" class = "modifyReplyCompleteBtn">수정완료</button>><button type="button" class = "modifyReplyBtn">수정하기</button><button type = "button" class = "deleteReplyBtn">삭제하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="replyInputDiv">
+                    <input type="text" id = "replyInput"><button type="button" id ="createReply">댓글 등록</button>   
                 </div>
             </div>
         </div>
-        <div class="footer">
-            <button id = "backBtn" type="button">뒤로가기</button>
-            <button id = "modifyBtn" type="button">수정</button>
+        <div class="footer">            
+            <button type = "button" class = "deletePostBtn">삭제</button>
+            <button type = "button" class = "modifyPostBtn">수정</button>
+            <button type="button" id = "backBtn">뒤로가기</button>
         </div>
     </div>
-
 </body>
 </html>

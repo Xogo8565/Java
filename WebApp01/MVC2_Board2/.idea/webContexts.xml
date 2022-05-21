@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/web/board/board.html" value="file://$PROJECT_DIR$/web/board" />
         <entry key="file://$PROJECT_DIR$/web/board/board.jsp" value="file://$PROJECT_DIR$/web/board" />
+        <entry key="file://$PROJECT_DIR$/web/board/detailView.html" value="file://$PROJECT_DIR$/web/board" />
         <entry key="file://$PROJECT_DIR$/web/board/detailView.jsp" value="file://$PROJECT_DIR$/web/board" />
         <entry key="file://$PROJECT_DIR$/web/board/write.html" value="file://$PROJECT_DIR$/web/board" />
         <entry key="file://$PROJECT_DIR$/web/index.jsp" value="file://$PROJECT_DIR$/web" />

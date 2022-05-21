@@ -11,376 +11,250 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 1200px;
+            height: 1000px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            height: 10%;
+        }
+
+        .postHeader_1 {
+            display: flex;
+        }
+
+        .postHeader_2 {
+            display: flex;
+        }
+
+        .postHeaderTitle {
+            flex-basis: 10%;
+            text-align: center;
+        }
+
+        .postHeaderDetail {
+            flex-basis: 40%;
+        }
+
+        .contentContainer {
+            height: 85%;
+        }
+
+        .postContainer {
+            height: 50%;
+        }
+
+        .postContent {
+            display: flex;
+            height: 85%;
+        }
+
+        .postContentTitle {
+            flex-basis: 10%;
+            text-align: center;
+        }
+
+        .postContentDetail {
+            flex-basis: 90%;
+        }
+
+        .postContentDetail textarea {
+            width: 95%;
+            height: 95%;
+            resize: none;
+        }
+
+        .footer {
+            height: 3%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        #backBtn {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: silver;
+        }
+
+        button[class*="delete"] {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: RED;
+        }
+
+        button[class*="modify"] {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: gold;
+        }
+
+        .modifyReplyCompleteBtn {
+            display: none;
+        }
+
+        .replyContainer {
+            height: 50%;
+        }
+
+        .replyHeader {
+            display: flex;
+            justify-content: center;
+            height: 20%;
+        }
+
+        .replyDiv1 {
+            display: flex;
+        }
+
+        .reply_nickname {
+            flex-basis: 15%;
+        }
+
+        .reply_date {
+            flex-basis: 15%;
+            align-self: flex-end;
+        }
+
+        .replyDiv2 {
+            display: flex;
+        }
+
+        .replyDiv2 input {
+            flex-basis: 80%;
+        }
+
+        .replyBtnContainer {
+            flex-basis: 20%;
+        }
+
+        #createReply {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: gold;
+        }
+
+        .replyInputDiv {
+            height: 7%;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .replyInputDiv input {
+            flex-basis: 80%;
+        }
+
+        .replyContent {
+            height: 70%;
+        }
+
+        .reply_date {
+            color: silver;
+            font-size: 0.7em;
+        }
+    </style>
 </head>
-<style>
-    .container {
-        width: 1200px;
-        height: 800px;
-    }
-
-    .container * {
-        border: solid black 1px;
-        box-sizing: border-box;
-    }
-
-    .header {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 10%;
-    }
-
-    .contentContainer .contentContainer1 {
-        height: 80%;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_1 {
-        display: flex;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_2 {
-        display: flex;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_3 {
-        display: flex;
-        height: 80%
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_title {
-        flex-basis: 10%;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_content {
-        flex-basis: 90%;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_content_1 {
-        flex-basis: 30%;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_content_2 {
-        flex-basis: 50%;
-    }
-
-    .contentContainer .contentContainer1 .contentContainer1_3 .contentContainer1_content {
-        height: 400px;
-    }
-
-    .contentContainer2_title {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .comment_container {
-        padding-left: 15px;
-    }
-
-    .commentInput_container form {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-    }
-
-    #content {
-        width: 95%;
-        height: 95%;
-        resize: none;
-    }
-
-    #comment {
-        width: 70%;
-        resize: none;
-    }
-
-    #commentBtn {
-        border: none;
-        background-color: gold;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-    .footer {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        height: 10%;
-
-    }
-
-    #backBtn {
-        border: none;
-        background-color: silver;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-    #modifyBtn {
-        border: none;
-        background-color: gold;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-    #deleteBtn {
-        border: none;
-        background-color: red;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-    .hiddenContainer {
-        display: none;
-    }
-
-    .c_container_header {
-        display: flex;
-        justify-content: flex-start;
-        gap: 20px;
-        height: 30px;
-    }
-
-    .c_container1 {
-        width: 85%;
-        margin: 2px;
-    }
-
-    .c_container1:not(:first-child) {
-        border-top: 1px solid black;
-    }
-
-    .reply_nickname {
-        font-size: 1.2em;
-    }
-
-    .reply_date {
-        color: silver;
-        font-size: 0.8em;
-    }
-
-    #notFoundReply {
-        text-align: center;
-    }
-
-    .comment {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .comment input {
-        width: 80%;
-    }
-
-    .modifyCommentBtn {
-        border: none;
-        background-color: gold;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-    .deleteCommentBtn {
-        border: none;
-        background-color: red;
-        color: white;
-        width: 70px;
-        height: 25px;
-    }
-
-    .replyModifyCompleteBtn {
-        border: none;
-        background-color: gold;
-        color: white;
-        width: 70px;
-        height: 25px;
-        display: none;
-        text-align: center;
-        line-height: 25px;
-    }
-    .c_container_btn{
-        display: flex;
-    }
-
-</style>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 <body>
 <div class="container">
     <div class="header"><h3>상세보기</h3></div>
     <div class="contentContainer">
-        <div class="contentContainer1">
-            <div class="contentContainer1_1">
-                <div class="contentContainer1_title">제목</div>
-                <div class="contentContainer1_content">
-                    ${boardDTO.getTitle()}
+        <div class="postContainer">
+            <div class="postHeader">
+                <div class="postHeader_1">
+                    <div class="postHeaderTitle"><span>제목</span></div>
+                    <div class="postHeaderDetail"><span>${boardDTO.title}</span></div>
+                </div>
+                <div class="postHeader_2">
+                    <div class="postHeaderTitle"><span>글쓴이</span></div>
+                    <div class="postHeaderDetail"><span>${boardDTO.nickname}</span></div>
+                    <div class="postHeaderTitle"><span>날짜</span></div>
+                    <div class="postHeaderDetail"><span>${boardDTO.written_date}</span></div>
                 </div>
             </div>
-            <div class="contentContainer1_2">
-                <div class="contentContainer1_title"> 글쓴이</div>
-                <div class="contentContainer1_content_1"> ${boardDTO.getNickname()} </div>
-                <div class="contentContainer1_title"> 작성일</div>
-                <div class="contentContainer1_content_2"> ${boardDTO.getWritten_date()} </div>
-            </div>
-            <div class="contentContainer1_3">
-                <div class="contentContainer1_title">내용</div>
-                <div class="contentContainer1_content">
-                    <textarea id="content" readonly>${boardDTO.getContent()}</textarea>
-                </div>
+            <div class="postContent">
+                <div class="postContentTitle"><span>내용</span></div>
+                <div class="postContentDetail"><textarea readonly>${boardDTO.content}</textarea></div>
             </div>
         </div>
-        <div class="contentContainer2">
-            <div class="contentContainer2_title">
-                <h4>댓글</h4>
+        <div class="replyContainer">
+            <div class="replyHeader">
+                <h4> 댓글 보기</h4>
             </div>
-            <div class="contentContainer2_content">
-                <div class="comment_container">
+            <div class="replyContent">
+                <div class="reply">
                     <c:if test="${not empty arrayList}">
                         <c:forEach items="${arrayList}" var="replyDTO">
-                            <div class="c_container1">
-                                <div class="c_container_header">
-                                    <span class="reply_nickname">${replyDTO.nickname}</span>
-                                    <span class="reply_date">${replyDTO.written_date}</span>
-                                </div>
-                                <div class="c_container_content">
-                                    <div class="comment">
-                                        <input type="text" class="comment" id="comment${replyDTO.reply_no}" readonly
-                                               value="${replyDTO.content}">
-                                        <c:if test="${loginSession.id eq replyDTO.id}">
-                                            <div class="c_container_btn">
-                                                <button type="button" class="modifyCommentBtn"
-                                                        value="${replyDTO.reply_no}">수정</button>
-                                                <button type="button" class="deleteCommentBtn"
-                                                        value="${replyDTO.reply_no}">삭제</button>
-                                                <button type="button" class="replyModifyCompleteBtn"
-                                                        value="${replyDTO.reply_no}">수정완료</button>
-                                            </div>
-                                            <script>
-                                                $(".deleteCommentBtn").on("click", function () {
-                                                    let deleteReplyForm = $("<form action = '/delete.reply' method = 'post'></form>");
-                                                    let number = $(this).val();
-                                                    deleteReplyForm.append($("<input>", {
-                                                        type: "hidden",
-                                                        name: "reply_no",
-                                                        value: number
-                                                    }));
-                                                    deleteReplyForm.append($("<input>", {
-                                                        type: "hidden",
-                                                        name: "board_no",
-                                                        id: "board_no",
-                                                        value: "${boardDTO.no}"
-                                                    }));
-                                                    deleteReplyForm.appendTo($("body"));
-                                                    deleteReplyForm.submit();
-                                                });
-
-                                                $(".modifyCommentBtn").on("click", function () {
-                                                    $(this).siblings().css("display", "none");
-                                                    $(this).css("display", "none");
-                                                    $(this).parent().siblings("input").prop("readonly", false);
-                                                    $(this).siblings(".replyModifyCompleteBtn").css("display", "block");
-                                                    $(".replyModifyCompleteBtn").on("click", function () {
-                                                        let modifyForm = $("<form action = '/modify.reply' method='post'></form>");
-                                                        let num = $(this).val();
-                                                        let input = $("#comment${replyDTO.reply_no}").val();
-                                                        modifyForm.append($("<input>",{ type : "hidden", value : num , name : "reply_no"}));
-                                                        modifyForm.append($("<input>",{ type : "hidden", value : "${boardDTO.no}", name : "board_no"}));
-                                                        modifyForm.append($("<input>",{ type : "hidden", value :  input , name : "reply"}));
-                                                        $("body").append(modifyForm);
-                                                        modifyForm.submit();
-                                                    });
-                                                });
-                                            </script>
-                                        </c:if>
+                            <div class="replyDiv1">
+                                <span class="reply_nickname">${replyDTO.nickname}</span>
+                                <span class="reply_date">${replyDTO.written_date}</span>
+                            </div>
+                            <div class="replyDiv2">
+                                <input type="text" value="${replyDTO.content}" class="modifyReplyInput" readonly>
+                                <c:if test="${loginSession.id eq replyDTO.id}">
+                                    <div class="replyBtnContainer">
+                                        <button type="button" class="modifyReplyCompleteBtn" value="${$replyDTO.reply_no}">
+                                            수정 완료
+                                        </button>
+                                        <button type="button" class="modifyReplyBtn" value="${$replyDTO.reply_no}">수정하기
+                                        </button>
+                                        <button type="button" class="deleteReplyBtn" value="${$replyDTO.reply_no}">삭제하기
+                                        </button>
                                     </div>
-                                </div>
+                                </c:if>
                             </div>
                         </c:forEach>
                     </c:if>
                     <c:if test="${empty arrayList}">
-                        <span id="notFoundReply">등록된 댓글이 없습니다.</span>
+                        <span>표시할 댓글이 없습니다.</span>
                     </c:if>
                 </div>
-                <div class="commentInput_container">
-                    <form id="commentForm">
-                        <textarea name="comment" id="comment"></textarea>
-                        <button type="button" id="commentBtn"> 댓글 등록</button>
-                    </form>
-                </div>
+            </div>
+            <div class="replyInputDiv">
+                <input type="text" id="replyInput">
+                <button type="button" id="createReply">댓글 등록</button>
             </div>
         </div>
     </div>
     <div class="footer">
-        <button id="backBtn" type="button">뒤로가기</button>
         <c:if test="${loginSession.id eq boardDTO.id}">
-            <button id="modifyBtn" type="button">수정</button>
-            <button id="deleteBtn" type="button">삭제</button>
-            <script>
-                document.getElementById("modifyBtn").onclick = function () {
-                    location.href = "/toModify.board?no=${boardDTO.no}";
-                }
-                document.getElementById("deleteBtn").onclick = function () {
-                    let deleteConfirm = confirm("정말로 삭제하시겠습니까?");
-                    if (deleteConfirm) {
-                        let deleteForm = $("<form action='/delete.board' method='post' id = 'deleteForm'></form>");
-                        deleteForm.append($("<input>", {
-                            type: 'text',
-                            name: 'no',
-                            value: ${boardDTO.no},
-                            id: "delete"
-                        }));
-                    }
-                }
-            </script>
+            <button type="button" class="deletePostBtn">삭제</button>
+            <button type="button" class="modifyPostBtn">수정</button>
         </c:if>
+        <button type="button" id="backBtn">뒤로가기</button>
     </div>
 </div>
 <script>
-    document.getElementById("backBtn").onclick = function () {
-        location.href = "/toBoard.board";
-    }
-    document.getElementById("commentBtn").onclick = function () {
-        if (document.getElementById("comment").value !== "") {
-            let commentForm = $("#commentForm");
-            commentForm.append($("<input>", {
-                type: "hidden",
-                name: "comment_id",
-                id: "comment_id",
-                value: "${loginSession.id}"
-            }));
-            commentForm.append($("<input>", {
-                type: "hidden",
-                name: "comment_nickname",
-                id: "comment_nickname",
-                value: "${loginSession.nickname}"
-            }));
-            commentForm.append($("<input>", {
-                type: "hidden",
-                name: "board_no",
-                id: "board_no",
-                value: "${boardDTO.no}"
-            }));
-
-            $.ajax({
-                url : "/insert.reply",
-                data : { comment : $("#comment").val()},
-                type : "post",
-                dataType: "json",
-                success : function (data) {
-
-                }, error : function (e){
-                    console.log(e);
-                }
-            });
-        }
-    }
+    $(".deletePostBtn").on("click", function () {
+        let deleteForm = $("<form action='/delete.board' method='post'></form>")
+        deleteForm.append($("<input>",{ type: "hidden", value : "${boardDTO.no}", name : "no"}));
+        $("body").append(deleteForm);
+        deleteForm.submit();
+    })
+    $(".modifyPostBtn").on("click", function () {
+        location.href = "/toModify.board?no=${boardDTO.no}";
+    });
+    $("#backBtn").on("click", function () {
+        location.href = "/toBoard.board"
+    });
 </script>
 </body>
 </html>
