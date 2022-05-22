@@ -12,6 +12,7 @@
         <entry key="file://$PROJECT_DIR$/web/member/myPage.jsp" value="file://$PROJECT_DIR$/web/member" />
         <entry key="file://$PROJECT_DIR$/web/member/signUp.jsp" value="file://$PROJECT_DIR$/web/member" />
         <entry key="file://$PROJECT_DIR$/web/test.jsp" value="file://$PROJECT_DIR$/web" />
+        <entry key="file://$PROJECT_DIR$/web/board/detailView.jsp" value="file://$PROJECT_DIR$/web/board" />
       </map>
     </option>
   </component>

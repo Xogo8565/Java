@@ -117,6 +117,10 @@
             height: 20%;
         }
 
+        .replyContent {
+            overflow-y: auto;
+        }
+
         .replyDiv1 {
             display: flex;
         }
@@ -200,9 +204,9 @@
                 <h4> 댓글 보기</h4>
             </div>
             <div class="replyContent">
-                <div class="reply">
-                    <c:if test="${not empty arrayList}">
-                        <c:forEach items="${arrayList}" var="replyDTO">
+                <c:if test="${not empty arrayList}">
+                    <c:forEach items="${arrayList}" var="replyDTO">
+                        <div class="reply">
                             <div class="replyDiv1">
                                 <span class="reply_nickname">${replyDTO.nickname}</span>
                                 <span class="reply_date">${replyDTO.written_date}</span>
@@ -211,22 +215,24 @@
                                 <input type="text" value="${replyDTO.content}" class="modifyReplyInput" readonly>
                                 <c:if test="${loginSession.id eq replyDTO.id}">
                                     <div class="replyBtnContainer">
-                                        <button type="button" class="modifyReplyCompleteBtn" value="${$replyDTO.reply_no}">
+                                        <button type="button" class="modifyReplyCompleteBtn"
+                                                value="${replyDTO.reply_no}">
                                             수정 완료
                                         </button>
-                                        <button type="button" class="modifyReplyBtn" value="${$replyDTO.reply_no}">수정하기
+                                        <button type="button" class="modifyReplyBtn" value="${replyDTO.reply_no}">수정하기
                                         </button>
-                                        <button type="button" class="deleteReplyBtn" value="${$replyDTO.reply_no}">삭제하기
+                                        <button type="button" class="deleteReplyBtn" value="${replyDTO.reply_no}">삭제하기
                                         </button>
                                     </div>
                                 </c:if>
                             </div>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${empty arrayList}">
-                        <span>표시할 댓글이 없습니다.</span>
-                    </c:if>
-                </div>
+                        </div>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty arrayList}">
+                    <span>표시할 댓글이 없습니다.</span>
+
+                </c:if>
             </div>
             <div class="replyInputDiv">
                 <input type="text" id="replyInput">
@@ -245,16 +251,130 @@
 <script>
     $(".deletePostBtn").on("click", function () {
         let deleteForm = $("<form action='/delete.board' method='post'></form>")
-        deleteForm.append($("<input>",{ type: "hidden", value : "${boardDTO.no}", name : "no"}));
+        deleteForm.append($("<input>", {type: "hidden", value: "${boardDTO.no}", name: "no"}));
         $("body").append(deleteForm);
         deleteForm.submit();
-    })
+    });
     $(".modifyPostBtn").on("click", function () {
         location.href = "/toModify.board?no=${boardDTO.no}";
     });
     $("#backBtn").on("click", function () {
         location.href = "/toBoard.board"
     });
+    $("#createReply").on("click", function () {
+        let form = $("<form></form>");
+        let input = $("#replyInput").val();
+        if(input===""){
+            alert("댓글을 입력하세요.");
+        }
+        if(input!==""){
+            form.append($("<input>", {type: "hidden", name: "id", val: "${boardDTO.id}"}));
+            form.append($("<input>", {type: "hidden", name: "nickname", val: "${boardDTO.nickname}"}));
+            form.append($("<input>", {type: "hidden", name: "reply", val: input}));
+            form.append($("<input>", {type: "hidden", name: "board_no", val: "${boardDTO.no}"}));
+            $("body").append(form);
+            let data = form.serialize();
+            $.ajax({
+                url: "/insert.reply",
+                data: data,
+                type: "post",
+                success: function () {
+                    showReply();
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+            $("#replyInput").val("");
+        }
+    });
+
+    function showReply() {
+        $.ajax({
+            url: "/show.reply?board_no=" +${boardDTO.no},
+            dataType: "json",
+            success: function (data) {
+                $(".replyContent").empty();
+                $.each(data, function (index, item) {
+                    let reply = $("<div class = 'reply'></div>");
+                    let replyDiv1 = $("<div class = 'replyDiv1'></div>");
+                    let replyDiv2 = $("<div class = 'replyDiv2'></div>");
+                    let replyBtnContainer = $("<div class = 'replyBtnContainer'></div>");
+                    let id = "${loginSession.id}";
+
+                    replyDiv1.append("<span class = 'reply_nickname'>" + item.nickname + "</span>");
+                    replyDiv1.append("<span class = 'reply_date'>" + item.written_date + "</span>");
+                    if (id === item.id) {
+                        replyBtnContainer.append("<button type = 'button' class = 'modifyReplyCompleteBtn' value = '" + item.reply_no + "'>수정완료</button>");
+                        replyBtnContainer.append("<button type = 'button' class = 'modifyReplyBtn' value = '" + item.reply_no + "'>수정하기</button>");
+                        replyBtnContainer.append("<button type = 'button' class = 'deleteReplyBtn' value = '" + item.reply_no + "'>삭제하기</button>");
+                    }
+                    replyDiv2.append("<input readonly type='text' class='modifyReplyInput' value = '" + item.content + "'>");
+                    replyDiv2.append(replyBtnContainer);
+                    reply.append(replyDiv1);
+                    reply.append(replyDiv2);
+                    $(".replyContent").append(reply);
+                });
+            },
+            error: function (e) {
+                console.log(e)
+            }
+        });
+    }
+
+    $(document).on("click", ".modifyReplyBtn", function () {
+        $(this).parent().siblings(".modifyReplyInput").attr("readonly", false);
+        $(this).siblings(".deleteReplyBtn").css("display", "none");
+        $(this).css("display", "none");
+        $(this).siblings(".modifyReplyCompleteBtn").css("display", "block");
+    });
+    $(document).on("click",".deleteReplyBtn", function () {
+        let check = confirm("삭제하시겠습니까?");
+        if(check){
+            let deleteForm = $("<form></form>");
+            let reply_no = $(this).val();
+            deleteForm.append($("<input>", {type: "hidden", name: "reply_no", value: reply_no}));
+            $("body").append(deleteForm);
+            let data = deleteForm.serialize();
+            $.ajax({
+                url: "/delete.reply",
+                data: data,
+                type: "post",
+                success: function () {
+                    showReply();
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    });
+    $(document).on("click", ".modifyReplyCompleteBtn", function () {
+        let modifyForm = $("<form></form>");
+        let reply_no = $(this).val();
+        let reply = $(this).parent().siblings(".modifyReplyInput").val();
+        if(reply===""){
+            alert("댓글을 입력하세요.");
+        }
+        if(reply!==""){
+            modifyForm.append($("<input>", {type: "hidden", name: "reply_no", value: reply_no}));
+            modifyForm.append($("<input>", {type: "hidden", name: "reply", value: reply}));
+            $(".body").append(modifyForm);
+            let data = modifyForm.serialize();
+            $.ajax({
+                url: "/modify.reply",
+                type: "post",
+                data: data,
+                success: function () {
+                    showReply();
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    })
+
 </script>
 </body>
 </html>

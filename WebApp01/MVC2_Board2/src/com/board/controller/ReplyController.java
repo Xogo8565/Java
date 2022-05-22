@@ -30,44 +30,38 @@ public class ReplyController extends HttpServlet {
         Gson gson = new Gson();
         System.out.println("요청 uri " + uri);
         if (uri.equals("/insert.reply")) {
-            String id = request.getParameter("comment_id");
-            String nickname = request.getParameter("comment_nickname");
-            String content = request.getParameter("comment");
+            String id = request.getParameter("id");
+            String nickname = request.getParameter("nickname");
+            String content = request.getParameter("reply");
             int board_no = Integer.parseInt(request.getParameter("board_no"));
             try {
-                int rs = replyDAO.insert(new ReplyDTO(0, board_no, content, id, nickname, null));
-
+                replyDAO.insert(new ReplyDTO(0, board_no, content, id, nickname, null));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (uri.equals("/delete.reply")) {
             int reply_no = Integer.parseInt(request.getParameter("reply_no"));
-            int board_no = Integer.parseInt(request.getParameter("board_no"));
             try {
-                int rs = replyDAO.delete(reply_no);
-                if (rs > 0) {
-                    response.sendRedirect("/detailView.board?no=" + board_no);
-                }
+                replyDAO.delete(reply_no);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (uri.equals("/modify.reply")) {
             int reply_no = Integer.parseInt(request.getParameter("reply_no"));
-            int board_no = Integer.parseInt(request.getParameter("board_no"));
             String content = request.getParameter("reply");
             System.out.println(content + reply_no);
             try {
-                int rs = replyDAO.update(content, reply_no);
-                if (rs > 0) response.sendRedirect("/detailView.board?no=" + board_no);
+                replyDAO.update(content, reply_no);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (uri.equals("/show.reply")){
-            int board_no = Integer.parseInt(request.getParameter("board_no"));            try{
+        } else if (uri.equals("/show.reply")) {
+            int board_no = Integer.parseInt(request.getParameter("board_no"));
+            try {
                 ArrayList<ReplyDTO> arrayList = replyDAO.selectAllReply(board_no);
                 String strRs = gson.toJson(arrayList);
                 response.getWriter().append(strRs);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
