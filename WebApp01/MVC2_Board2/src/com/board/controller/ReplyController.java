@@ -35,23 +35,29 @@ public class ReplyController extends HttpServlet {
             String content = request.getParameter("reply");
             int board_no = Integer.parseInt(request.getParameter("board_no"));
             try {
-                replyDAO.insert(new ReplyDTO(0, board_no, content, id, nickname, null));
+                int rs = replyDAO.insert(new ReplyDTO(0, board_no, content, id, nickname, null));
+                if(rs>0) response.getWriter().append("success");
+                else response.getWriter().append("fail");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (uri.equals("/delete.reply")) {
             int reply_no = Integer.parseInt(request.getParameter("reply_no"));
             try {
-                replyDAO.delete(reply_no);
+                int rs = replyDAO.delete(reply_no);
+                if(rs>0) response.getWriter().append("success");
+                else response.getWriter().append("fail");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (uri.equals("/modify.reply")) {
             int reply_no = Integer.parseInt(request.getParameter("reply_no"));
             String content = request.getParameter("reply");
-            System.out.println(content + reply_no);
             try {
-                replyDAO.update(content, reply_no);
+                int rs = replyDAO.update(content, reply_no);
+                if(rs>0) response.getWriter().append("success");
+                else response.getWriter().append("fail");
             } catch (Exception e) {
                 e.printStackTrace();
             }

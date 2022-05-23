@@ -96,15 +96,32 @@
             background-color: RED;
         }
 
-        button[class*="modify"] {
+        .modifyPostBtn {
             border: none;
             border-radius: 5px;
             color: white;
             background-color: gold;
         }
+        .modifyReplyBtn {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: gold;
+        }
+        .modifyReplyCancleBtn {
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: silver;
+            display: none;
+        }
 
         .modifyReplyCompleteBtn {
             display: none;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: gold;
         }
 
         .replyContainer {
@@ -216,8 +233,10 @@
                                 <c:if test="${loginSession.id eq replyDTO.id}">
                                     <div class="replyBtnContainer">
                                         <button type="button" class="modifyReplyCompleteBtn"
-                                                value="${replyDTO.reply_no}">
-                                            수정 완료
+                                                value="${replyDTO.reply_no}">수정완료
+                                        </button>
+                                        <button type="button" class="modifyReplyCancleBtn" value="${replyDTO.reply_no}">
+                                            취소
                                         </button>
                                         <button type="button" class="modifyReplyBtn" value="${replyDTO.reply_no}">수정하기
                                         </button>
@@ -250,10 +269,13 @@
 </div>
 <script>
     $(".deletePostBtn").on("click", function () {
-        let deleteForm = $("<form action='/delete.board' method='post'></form>")
-        deleteForm.append($("<input>", {type: "hidden", value: "${boardDTO.no}", name: "no"}));
-        $("body").append(deleteForm);
-        deleteForm.submit();
+        let check = confirm("삭제하시겠습니까?");
+        if (check) {
+            let deleteForm = $("<form action='/delete.board' method='post'></form>")
+            deleteForm.append($("<input>", {type: "hidden", value: "${boardDTO.no}", name: "no"}));
+            $("body").append(deleteForm);
+            deleteForm.submit();
+        }
     });
     $(".modifyPostBtn").on("click", function () {
         location.href = "/toModify.board?no=${boardDTO.no}";
@@ -264,12 +286,12 @@
     $("#createReply").on("click", function () {
         let form = $("<form></form>");
         let input = $("#replyInput").val();
-        if(input===""){
+        if (input === "") {
             alert("댓글을 입력하세요.");
         }
-        if(input!==""){
-            form.append($("<input>", {type: "hidden", name: "id", val: "${boardDTO.id}"}));
-            form.append($("<input>", {type: "hidden", name: "nickname", val: "${boardDTO.nickname}"}));
+        if (input !== "") {
+            form.append($("<input>", {type: "hidden", name: "id", val: "${loginSession.id}"}));
+            form.append($("<input>", {type: "hidden", name: "nickname", val: "${loginSession.nickname}"}));
             form.append($("<input>", {type: "hidden", name: "reply", val: input}));
             form.append($("<input>", {type: "hidden", name: "board_no", val: "${boardDTO.no}"}));
             $("body").append(form);
@@ -278,8 +300,13 @@
                 url: "/insert.reply",
                 data: data,
                 type: "post",
-                success: function () {
-                    showReply();
+                success: function (data) {
+                    if (data === "fail") {
+                        alert("댓글 등록에 실패했습니다.");
+                    }
+                    if (data === "success") {
+                        showReply();
+                    }
                 },
                 error: function (e) {
                     console.log(e)
@@ -304,10 +331,11 @@
 
                     replyDiv1.append("<span class = 'reply_nickname'>" + item.nickname + "</span>");
                     replyDiv1.append("<span class = 'reply_date'>" + item.written_date + "</span>");
-                    if (id === item.id) {
-                        replyBtnContainer.append("<button type = 'button' class = 'modifyReplyCompleteBtn' value = '" + item.reply_no + "'>수정완료</button>");
-                        replyBtnContainer.append("<button type = 'button' class = 'modifyReplyBtn' value = '" + item.reply_no + "'>수정하기</button>");
-                        replyBtnContainer.append("<button type = 'button' class = 'deleteReplyBtn' value = '" + item.reply_no + "'>삭제하기</button>");
+                    if (item.id==="${loginSession.id}") {
+                        replyBtnContainer.append($("<button>").addClass("modifyReplyCompleteBtn").html("수정완료").val(item.reply_no));
+                        replyBtnContainer.append($("<button>").addClass("modifyReplyCancleBtn").html("취소").val(item.reply_no));
+                        replyBtnContainer.append($("<button>").addClass("modifyReplyBtn").html("수정하기").val(item.reply_no));
+                        replyBtnContainer.append($("<button>").addClass("deleteReplyBtn").html("삭제하기").val(item.reply_no));
                     }
                     replyDiv2.append("<input readonly type='text' class='modifyReplyInput' value = '" + item.content + "'>");
                     replyDiv2.append(replyBtnContainer);
@@ -322,15 +350,10 @@
         });
     }
 
-    $(document).on("click", ".modifyReplyBtn", function () {
-        $(this).parent().siblings(".modifyReplyInput").attr("readonly", false);
-        $(this).siblings(".deleteReplyBtn").css("display", "none");
-        $(this).css("display", "none");
-        $(this).siblings(".modifyReplyCompleteBtn").css("display", "block");
-    });
-    $(document).on("click",".deleteReplyBtn", function () {
+
+    $(document).on("click", ".deleteReplyBtn", function () {
         let check = confirm("삭제하시겠습니까?");
-        if(check){
+        if (check) {
             let deleteForm = $("<form></form>");
             let reply_no = $(this).val();
             deleteForm.append($("<input>", {type: "hidden", name: "reply_no", value: reply_no}));
@@ -340,8 +363,13 @@
                 url: "/delete.reply",
                 data: data,
                 type: "post",
-                success: function () {
-                    showReply();
+                success: function (data) {
+                    if (data === "fail") {
+                        alert("댓글 삭제를 실패했습니다.");
+                    }
+                    if (data === "success") {
+                        showReply();
+                    }
                 },
                 error: function (e) {
                     console.log(e);
@@ -349,14 +377,33 @@
             });
         }
     });
+    $(document).on("click", ".modifyReplyBtn", function () {
+        let prevVal = $(this).parent().siblings(".modifyReplyInput").val();
+
+        $(this).parent().siblings(".modifyReplyInput").attr("readonly", false);
+        $(this).siblings(".deleteReplyBtn").css("display", "none");
+        $(this).css("display", "none");
+        $(this).siblings(".modifyReplyCompleteBtn").css("display", "inline-block");
+        $(this).siblings(".modifyReplyCancleBtn").css("display", "inline-block");
+        $(this).parent().siblings(".modifyReplyInput").focus();
+
+        $(document).on("click", ".modifyReplyCancleBtn", function () {
+            $(this).css("display","none");
+            $(this).siblings(".modifyReplyCompleteBtn").css("display","none");
+            $(this).siblings(".modifyReplyBtn").css("display", "inline-block");
+            $(this).siblings(".deleteReplyBtn").css("display", "inline-block");
+            $(this).parent().siblings(".modifyReplyInput").prop("readonly", true);
+            $(this).parent().siblings(".modifyReplyInput").val(prevVal);
+        });
+    });
     $(document).on("click", ".modifyReplyCompleteBtn", function () {
         let modifyForm = $("<form></form>");
         let reply_no = $(this).val();
         let reply = $(this).parent().siblings(".modifyReplyInput").val();
-        if(reply===""){
+        if (reply === "") {
             alert("댓글을 입력하세요.");
         }
-        if(reply!==""){
+        if (reply !== "") {
             modifyForm.append($("<input>", {type: "hidden", name: "reply_no", value: reply_no}));
             modifyForm.append($("<input>", {type: "hidden", name: "reply", value: reply}));
             $(".body").append(modifyForm);
@@ -365,15 +412,25 @@
                 url: "/modify.reply",
                 type: "post",
                 data: data,
-                success: function () {
-                    showReply();
+                success: function (data) {
+                    if (data === "fail") {
+                        alert("댓글 수정에 실패했습니다.");
+                    }
+                    if (data === "success") {
+                        showReply();
+                    }
                 },
                 error: function (e) {
                     console.log(e);
                 }
             });
         }
-    })
+    });
+
+
+
+    // 만약 서버에서 응답해주는 값이 json 일수도 있고 일반 텍스트일 수 도 있으면 dataType 을 명시하지 않는다.
+    // json 형식의 문자열을 data = JSON.parse(data) 함수를 통해 자바스크립트 객체 형식으로 변환할 수 있다.
 
 </script>
 </body>
