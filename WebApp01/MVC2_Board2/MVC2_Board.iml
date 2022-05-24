@@ -26,5 +26,6 @@
     <orderEntry type="library" exported="" name="jstl-1.2" level="application" />
     <orderEntry type="library" exported="" name="tomcat-dbcp" level="application" />
     <orderEntry type="library" exported="" name="gson-2.8.9" level="application" />
+    <orderEntry type="library" exported="" name="cos" level="application" />
   </component>
 </module>

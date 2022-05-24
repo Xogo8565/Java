@@ -11,6 +11,7 @@
           <element id="library" level="application" name="tomcat-dbcp" />
           <element id="library" level="application" name="jstl-1.2" />
           <element id="library" level="application" name="JDBC" />
+          <element id="library" level="application" name="cos" />
         </element>
       </element>
     </root>

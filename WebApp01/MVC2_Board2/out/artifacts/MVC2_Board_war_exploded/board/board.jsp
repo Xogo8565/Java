@@ -107,6 +107,15 @@
         background-color: gold;
         color: white;
     }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap : 10px;
+        list-style-type: none;
+    }
+    .page_item{
+        flex-basis : 30px
+    }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -150,9 +159,23 @@
                         <th class='view_count'>${boardDTO.getView_count()}</th>
                     </tr>
                 </c:forEach>
+
             </c:if>
             </tbody>
         </table>
+        <div class = "pageNation">
+            <ul class="pagination">
+                <c:if test="${hashMap.prevBtn eq true}">
+                    <li class="page_item"><a href="/toBoard.board?curPage=${hashMap.navStart-1}">prev</a></li>
+                </c:if>
+                <c:forEach var="pageNum" begin="${hashMap.navStart}" end="${hashMap.navEnd}" step = "1">
+                    <li class="page_item"><a href="/toBoard.board?curPage=${pageNum}">${pageNum}</a></li>
+                </c:forEach>
+                <c:if test="${hashMap.nextBtn eq true}">
+                    <li class="page_item"><a href="/toBoard.board?curPage=${hashMap.navEnd+1}">next</a></li>
+                </c:if>
+            </ul>
+        </div>
     </div>
     <div class="footer">
         <button type="button" id="homeBtn"> 홈으로</button>
@@ -204,7 +227,7 @@
     document.getElementById("writeBtn").onclick = function () {
         location.href = "/toWrite.board";
     }
-
+    console.log(${hashMap.navStart} + " : " ${haspMap.navEnd})
 </script>
 </body>
 </html>

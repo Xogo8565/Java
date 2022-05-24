@@ -64,16 +64,16 @@ public class TestController extends HttpServlet {
                 e.printStackTrace();
             }
         } else if(uri.equals("/getList.test")){
-            BoardDAO boardDAO = new BoardDAO();
-            try{
-                ArrayList<BoardDTO> arrayList = boardDAO.selectAll();
-                Gson gson = new Gson();
-                String rs = gson.toJson(arrayList);
-                response.getWriter().append(rs);
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+//            BoardDAO boardDAO = new BoardDAO();
+//            try{
+//                ArrayList<BoardDTO> arrayList = boardDAO.selectAll();
+//                Gson gson = new Gson();
+//                String rs = gson.toJson(arrayList);
+//                response.getWriter().append(rs);
+//
+//            } catch (Exception e){
+//                e.printStackTrace();
+//            }
         }
     }
 }

@@ -1,18 +1,24 @@
 package com.board.controller;
 
 import com.board.dao.BoardDAO;
+import com.board.dao.FileDAO;
 import com.board.dao.MemberDAO;
 import com.board.dao.ReplyDAO;
 import com.board.dto.BoardDTO;
+import com.board.dto.FileDTO;
 import com.board.dto.MemberDTO;
 import com.board.dto.ReplyDTO;
 import com.google.gson.Gson;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet(name = "BoardController", value = "*.board")
 public class BoardController extends HttpServlet {
@@ -31,14 +37,23 @@ public class BoardController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String uri = request.getRequestURI();
         BoardDAO boardDAO = new BoardDAO();
+        FileDAO fileDAO = new FileDAO();
         ReplyDAO replyDAO = new ReplyDAO();
         System.out.println("요청 uri :" + uri);
 
         if (uri.equals("/toBoard.board")) {
+            int curPage = Integer.parseInt(request.getParameter("curPage"));
+
             try {
-                ArrayList<BoardDTO> arrayList = boardDAO.selectAll();
+                HashMap<String, Object> hashMap = boardDAO.getPageNavi(curPage);
+                int start = (int) hashMap.get("start");
+                int end = (int) hashMap.get("end");
+
+                ArrayList<BoardDTO> arrayList = boardDAO.selectAll(start, end);
                 request.setAttribute("arrayList", arrayList);
+                request.setAttribute("hashMap", hashMap);
                 request.getRequestDispatcher("/board/board.jsp").forward(request, response);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -49,14 +64,29 @@ public class BoardController extends HttpServlet {
             MemberDTO memberDTO = (MemberDTO) httpSession.getAttribute("loginSession");
             String id = memberDTO.getId();
             String nickname = memberDTO.getNickname();
-            String title = request.getParameter("title");
-            String content = request.getParameter("content");
+            String filePath = request.getServletContext().getRealPath("files");
+            File dir = new File(filePath);
+            int max = 1024 * 1024 * 10;
+
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+
             try {
+                MultipartRequest multipartRequest = new MultipartRequest(request, filePath, max, "utf-8", new DefaultFileRenamePolicy());
+                String ori_name = multipartRequest.getOriginalFileName("file");
+                String sys_name = multipartRequest.getFilesystemName("file");
+                String title = multipartRequest.getParameter("title");
+                String content = multipartRequest.getParameter("content");
+
                 int rs = boardDAO.newPost(new BoardDTO(0, id, nickname, title, content, 0, null));
-                if (rs > 0) response.sendRedirect("/toBoard.board");
+                if (rs > 0) {
+                    if(sys_name!=null) fileDAO.insert(new FileDTO(0,0, ori_name, sys_name));
+                    response.sendRedirect("/toBoard.board?curPage=1");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }//
         } else if (uri.equals("/detailView.board")) {
             int no = Integer.parseInt(request.getParameter("no"));
             try {
@@ -95,19 +125,19 @@ public class BoardController extends HttpServlet {
             int no = Integer.parseInt(request.getParameter("no"));
             try {
                 int rs = boardDAO.deletePost(no);
-                if (rs > 0) response.sendRedirect("/toBoard.board");
+                if (rs > 0) response.sendRedirect("/toBoard.board?curPage=1");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if(uri.equals("/search.board")){
+        } else if (uri.equals("/search.board")) {
             String search = request.getParameter("search");
-            try{
+            try {
                 ArrayList<BoardDTO> arrayList = boardDAO.searchByTitle(search);
                 Gson gson = new Gson();
                 String rs = gson.toJson(arrayList);
                 response.getWriter().append(rs);
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -12,11 +12,14 @@
     <title>Title</title>
 </head>
 <style>
+    * {
+        box-sizing: border-box;
+    }
     .container {
         width: 1200px;
-        height: 400px;
+        height: 600px;
     }
-    .container *{
+    .container {
         margin: 15px;
     }
 
@@ -47,7 +50,7 @@
 
     .container .content #content2 {
         border: 1px solid black;
-        height: 85%;
+        height: 65%;
         display: flex;
         align-items: center;
     }
@@ -61,7 +64,18 @@
         text-align: center;
     }
 
-    .container .footer {
+    #content3 {
+        border: 1px solid black;
+        height: 20%;
+        display: flex;
+        align-items: center;
+    }
+
+    #content span {
+        width: 15%;
+        text-align: center;
+    }
+    .footer {
         height: 10%;
         display: flex;
         justify-content: center;
@@ -86,7 +100,7 @@
 </style>
 <body>
 <div class="container">
-    <form action="/write.board" method="post" id = "writeForm">
+    <form action="/write.board" method="post" id = "writeForm" enctype="multipart/form-data">
         <div class="header">
             <h4>글쓰기</h4>
         </div>
@@ -98,6 +112,10 @@
             <div id="content2">
                 <span>내용</span>
                 <textarea name="content" id="content"></textarea>
+            </div>
+            <div id="content3">
+                <span>첨부파일</span>
+                <input type="file" name = "file" id = "file">
             </div>
         </div>
         <div class="footer">

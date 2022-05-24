@@ -122,7 +122,7 @@
                 }
             }
             document.getElementById("boardBtn").onclick = function () {
-                location.href = "/toBoard.board"
+                location.href = "/toBoard.board?curPage=1"
             }
         </script>
     </c:when>

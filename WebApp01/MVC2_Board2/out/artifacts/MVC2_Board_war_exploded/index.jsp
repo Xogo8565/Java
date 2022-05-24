@@ -122,7 +122,7 @@
                 }
             }
             document.getElementById("boardBtn").onclick = function () {
-                location.href = "/toBoard.board"
+                location.href = "/toBoard.board?curPage=1"
             }
         </script>
     </c:when>
@@ -159,6 +159,8 @@
                 }
                 document.getElementById("form").submit();
             }
+
+            //쿠키
             $("#idInput").val(Cookies.get('key'));
             if($("#idInput").val() != ""){
                 $("#rememberID").attr("checked", true);
