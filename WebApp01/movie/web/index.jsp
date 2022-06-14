@@ -12,10 +12,14 @@
   </head>
   <body>
     <button type="button" id ="getAPI">API 가져오기</button>
+    <button type="button" id = "select">출력테스트</button>
   </body>
   <script>
     document.getElementById("getAPI").onclick = function () {
       location.href = "/get.api";
+    }
+    document.getElementById("select").onclick = function () {
+      location.href = "/select.api"
     }
   </script>
 </html>

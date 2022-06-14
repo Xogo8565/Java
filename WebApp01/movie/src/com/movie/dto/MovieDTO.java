@@ -1,150 +1,93 @@
 package com.movie.dto;
 
 public class MovieDTO {
-    private String movieCd;
-    private String movieNm;
-    private String movieNmEn;
-    private String prdtYear;
-    private String openDt;
-    private String typeNm;
-    private String prdtStatNm;
-    private String nationAlt;
-    private String genreAlt;
-    private String repNationNm;
-    private String repGenreNm;
-    private String peopleNm;
-    private String companyCd;
-    private String companyNm;
+   private String movieCd;
+   private String movieNm;
+   private String movieNmEm;
+   private String prdtStartYear;
+   private String openDt;
+   private String genreAlt;
+   private String directors;
 
-    public MovieDTO() {
-    }
+   public String getMovieCd() {
+      return movieCd;
+   }
 
-    public MovieDTO(String movieCd, String movieNm, String movieNmEn, String prdtYear, String openDt, String typeNm, String prdtStatNm, String nationAlt, String genreAlt, String repNationNm, String repGenreNm, String peopleNm, String companyCd, String companyNm) {
-        this.movieCd = movieCd;
-        this.movieNm = movieNm;
-        this.movieNmEn = movieNmEn;
-        this.prdtYear = prdtYear;
-        this.openDt = openDt;
-        this.typeNm = typeNm;
-        this.prdtStatNm = prdtStatNm;
-        this.nationAlt = nationAlt;
-        this.genreAlt = genreAlt;
-        this.repNationNm = repNationNm;
-        this.repGenreNm = repGenreNm;
-        this.peopleNm = peopleNm;
-        this.companyCd = companyCd;
-        this.companyNm = companyNm;
-    }
+   public void setMovieCd(String movieCd) {
+      this.movieCd = movieCd;
+   }
 
-    public String getMovieCd() {
-        return movieCd;
-    }
+   public String getMovieNm() {
+      return movieNm;
+   }
 
-    public void setMovieCd(String movieCd) {
-        this.movieCd = movieCd;
-    }
+   public void setMovieNm(String movieNm) {
+      this.movieNm = movieNm;
+   }
 
-    public String getMovieNm() {
-        return movieNm;
-    }
+   public String getMovieNmEm() {
+      return movieNmEm;
+   }
 
-    public void setMovieNm(String movieNm) {
-        this.movieNm = movieNm;
-    }
+   public void setMovieNmEm(String movieNmEm) {
+      this.movieNmEm = movieNmEm;
+   }
 
-    public String getMovieNmEn() {
-        return movieNmEn;
-    }
+   public String getPrdtStartYear() {
+      return prdtStartYear;
+   }
 
-    public void setMovieNmEn(String movieNmEn) {
-        this.movieNmEn = movieNmEn;
-    }
+   public void setPrdtStartYear(String prdtStartYear) {
+      this.prdtStartYear = prdtStartYear;
+   }
 
-    public String getPrdtYear() {
-        return prdtYear;
-    }
+   public String getOpenDt() {
+      return openDt;
+   }
 
-    public void setPrdtYear(String prdtYear) {
-        this.prdtYear = prdtYear;
-    }
+   public void setOpenDt(String openDt) {
+      this.openDt = openDt;
+   }
 
-    public String getOpenDt() {
-        return openDt;
-    }
+   public String getGenreAlt() {
+      return genreAlt;
+   }
 
-    public void setOpenDt(String openDt) {
-        this.openDt = openDt;
-    }
+   public void setGenreAlt(String genreAlt) {
+      this.genreAlt = genreAlt;
+   }
 
-    public String getTypeNm() {
-        return typeNm;
-    }
+   public String getDirectors() {
+      return directors;
+   }
 
-    public void setTypeNm(String typeNm) {
-        this.typeNm = typeNm;
-    }
+   public void setDirectors(String directors) {
+      this.directors = directors;
+   }
 
-    public String getPrdtStatNm() {
-        return prdtStatNm;
-    }
+   public MovieDTO() {
+   }
 
-    public void setPrdtStatNm(String prdtStatNm) {
-        this.prdtStatNm = prdtStatNm;
-    }
+   public MovieDTO(String movieCd, String movieNm, String movieNmEm, String prdtStartYear, String openDt, String genreAlt, String directors) {
+      this.movieCd = movieCd;
+      this.movieNm = movieNm;
+      this.movieNmEm = movieNmEm;
+      this.prdtStartYear = prdtStartYear;
+      this.openDt = openDt;
+      this.genreAlt = genreAlt;
+      this.directors = directors;
+   }
 
-    public String getNationAlt() {
-        return nationAlt;
-    }
-
-    public void setNationAlt(String nationAlt) {
-        this.nationAlt = nationAlt;
-    }
-
-    public String getGenreAlt() {
-        return genreAlt;
-    }
-
-    public void setGenreAlt(String genreAlt) {
-        this.genreAlt = genreAlt;
-    }
-
-    public String getRepNationNm() {
-        return repNationNm;
-    }
-
-    public void setRepNationNm(String repNationNm) {
-        this.repNationNm = repNationNm;
-    }
-
-    public String getRepGenreNm() {
-        return repGenreNm;
-    }
-
-    public void setRepGenreNm(String repGenreNm) {
-        this.repGenreNm = repGenreNm;
-    }
-
-    public String getPeopleNm() {
-        return peopleNm;
-    }
-
-    public void setPeopleNm(String peopleNm) {
-        this.peopleNm = peopleNm;
-    }
-
-    public String getCompanyCd() {
-        return companyCd;
-    }
-
-    public void setCompanyCd(String companyCd) {
-        this.companyCd = companyCd;
-    }
-
-    public String getCompanyNm() {
-        return companyNm;
-    }
-
-    public void setCompanyNm(String companyNm) {
-        this.companyNm = companyNm;
-    }
+   @Override
+   public String toString() {
+      return "MovieDTO{" +
+              "movieCd='" + movieCd + '\'' +
+              ", movieNm='" + movieNm + '\'' +
+              ", movieNmEm='" + movieNmEm + '\'' +
+              ", prdtStartYear='" + prdtStartYear + '\'' +
+              ", openDt='" + openDt + '\'' +
+              ", genreAlt='" + genreAlt + '\'' +
+              ", directors='" + directors + '\'' +
+              '}';
+   }
 }
