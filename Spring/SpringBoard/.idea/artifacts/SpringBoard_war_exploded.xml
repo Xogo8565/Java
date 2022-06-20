@@ -1,0 +1,43 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="SpringBoard:war exploded">
+    <output-path>$PROJECT_DIR$/target/localAPI-1.0</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>SpringBoard</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="SpringBoard" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.springframework:spring-context:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.3.20" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-web:5.3.20" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.6.10" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.17.2" />
+          <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-to-slf4j:2.17.2" />
+          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.5" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.5" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.4" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.2" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/localAPI-1.0/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="SpringBoard/web/웹" />
+    </root>
+  </artifact>
+</component>
