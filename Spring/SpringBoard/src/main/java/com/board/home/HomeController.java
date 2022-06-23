@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.*;
 
 @Controller
-public class HomeController extends HttpServlet {
+public class HomeController {
     Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @RequestMapping("/")

@@ -49,13 +49,15 @@
             height: 60%;
         }
         .id {
-            position: relative;
-            height: 20%;
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .id input {
+            flex-basis: 70%;
         }
         #checkID {
-            position: absolute;
-            right: 0;
-            bottom: 0;
+            flex-basis: 20%;
         }
         .inputDiv input {
             width: 100%;
@@ -108,18 +110,18 @@
                 </div>
                 <div class="id">
                     <label for="id"> <span>ID</span>
-                    <input type="text" name="id" id="id" placeholder="영문(대소문자), 숫자 포함 6~12자">
+                    <input type="text" name="id" id="id" class = "unchecked" placeholder="영문(대소문자), 숫자 포함 6~12자">
                     </label>
                     <button type="button" id ="checkID">중복확인</button>
                 </div>
                 <div class="pw">
                     <label for="pw"> <span>PW</span>
-                        <input type="password" name = "pw" id="pw" placeholder="영문(대문자), 영문(소문자) , 숫자 최소 1자씩 6~12자">
+                        <input type="password" name = "pw" id="pw" placeholder="영문(대소문자), 숫자 포함 6~12자">
                     </label>
                 </div>
                 <div class="nickname">
                     <label for="nickname"> <span>NICKNAME</span>
-                        <input type="text" name = "nickname" id = "nickname" placeholder="영문(대소문자), 숫자 포함 6~12자">
+                        <input type="text" name = "nickname" id = "nickname" placeholder="영문(대소문자), 숫자, 한글 포함 4~10자">
                     </label>
                 </div>
                 <div class="buttonDiv">
@@ -131,13 +133,13 @@
     </div>
     <script>
         document.querySelector("#profile_file").addEventListener("change", function (){
-           let reader = new FileReader(); // 사용자가 파일 태그를 이용해 파일을 선택했을 때 사용자의 로컬에 있는 파일의 정보를 브라우저에서 사용 가능하게끔 해주는 클래스
-            reader.readAsDataURL(this.files[0]); // 인자값으로 파일 태그를 넘겨줘야 함
+            let reader = new FileReader(); // 사용자가 파일 태그를 이용해 파일을 선택했을 때 사용자의 로컬에 있는 파일의 정보를 브라우저에서 사용 가능하게끔 해주는 클래스
+            reader.readAsDataURL(this.files[0]) // 인자값으로 파일 태그를 넘겨줘야 함
             //onload -> trigger / onload 이벤트 발생했을 때 callback function으로 img 태그의 src 변화
 
-            reader.addEventListener("load", (e)=>{
+            reader.addEventListener("load", function (e){
                 let img = e.target.result; // e.target.result -> 브라우저에서 바로 해석(로드)가 가능하게끔 변환된 이미지의 경로값
-                document.querySelector("#profile_img").src = img;
+                document.querySelector("#profile_image").src = img;
             })
         });
 
@@ -147,8 +149,13 @@
             let nickname = document.querySelector("#nickname").value;
 
             let idRegex = /[a-zA-Z0-9]{6,12}/;
-            let pwRegex = /[a-zA-Z0-9]{6,12}/
-            let nickRegex = /[a-zA-Z0-9]{6,12}/;
+            let pwRegex = /[a-zA-Z0-9]{6,20}/
+            let nickRegex = /[ㄱ-힣a-zA-Z0-9]{4,10}/;
+
+            if(document.querySelector("#id").classList.contains("unchecked")){
+                alert("아이디 중복 체크를 해주세요");
+                event.preventDefault();
+            }
 
             if(!idRegex.test(id)){
                 alert("ID 형식 불일치");
@@ -160,7 +167,15 @@
                 alert("NICKNAME 형식 불일치");
                 event.preventDefault();
             }
-        })
+        });
+
+        document.querySelector("#checkID").addEventListener("click",()=>{
+            window.open("/member/checkIdPopUp", "아이디 중복체크", "width = 450px, height=300px, left=500px, top=300px");
+        });
+
+        document.querySelector("#cancel").addEventListener("click",()=>{
+            location.href = "/";
+        });
     </script>
 </body>
 </html>
