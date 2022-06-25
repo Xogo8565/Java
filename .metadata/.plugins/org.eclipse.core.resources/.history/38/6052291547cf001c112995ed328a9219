@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- client가 서버에 데이터를 전송하기 위한 방식 2가지
+	get / post
+	get :  url에 쿼리를 붙여서 데이터를 전송하는 방식
+	(key=value)-->
+
+</body>
+</html>

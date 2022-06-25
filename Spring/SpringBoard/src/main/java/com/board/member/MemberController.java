@@ -29,11 +29,11 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/signup")
-    public String signup(MemberDTO memberDTO, MultipartFile img, HttpSession session) throws Exception{ // MultipartFile -> 파일 가져오기, DTO 변수명과 다르게
+    public String signup(MemberDTO memberDTO, MultipartFile img) throws Exception{ // MultipartFile -> 파일 가져오기, DTO 변수명과 다르게
         logger.info("회원가입 요청 : " + memberDTO.getId() + " : " +memberDTO.getPw());
         logger.info("프로필 이미지 : " + img);
 
-        String path = session.getServletContext().getRealPath("profiles");
+        String path = httpSession.getServletContext().getRealPath("profiles");
         if(!img.isEmpty()){
             String image = memberService.uploadProfileImg(img,path);
             memberDTO.setProfile_image(image);
@@ -83,10 +83,10 @@ public class MemberController {
     }
     @ResponseBody
     @RequestMapping(value = "/modifyProfile")
-    public String modifyProfile(String profile_message, MultipartFile profile_image, HttpSession session) throws Exception {
+    public String modifyProfile(String profile_message, MultipartFile profile_image) throws Exception {
         logger.info("Modify profile : profile_message = " + profile_message + " / profile_image = " + profile_image);
         if(!profile_image.isEmpty()){
-            String path = session.getServletContext().getRealPath("profiles");
+            String path = httpSession.getServletContext().getRealPath("profiles");
             String image = memberService.uploadProfileImg(profile_image, path);
             ((MemberDTO)httpSession.getAttribute("loginSession")).setProfile_image(image);
         }

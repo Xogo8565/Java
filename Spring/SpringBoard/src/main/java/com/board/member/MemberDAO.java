@@ -1,6 +1,5 @@
 package com.board.member;
 
-import oracle.jdbc.proxy.annotation.Pre;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
