@@ -124,14 +124,14 @@
                 <div class="board_view">
                     <span>날짜 : ${boardDTO.date}</span><span>조회수 : ${boardDTO.view_count}</span>
                 </div>
-                <label> 파일 :
+                <div> 파일 :
                     <c:forEach items="${fileList}" var="file">
                         <div class="fileLi">
                             <a class="file" href="/board/download?file_name=${file.file_name}">${file.file_name}</a><button type="button" class="deleteFile hidden" value="${file.file_name}">delete</button>
                         </div>
                     </c:forEach>
                     <input type="file" class="hidden" name = "multipartFile" id ="file" multiple>
-                </label>
+                </div>
                 <label>
                     <textarea name="content" id="content" readonly>${boardDTO.content}</textarea>
                 </label>
@@ -224,17 +224,21 @@
         deleteForm.submit();
     });
 
-    const deleteFile = document.querySelectorAll(".deleteFile");
-    for(let del of deleteFile){
-        del.addEventListener("click", function (){
-            console.log(this);
-            // this.parentElement.remove();
-            // let input = document.createElement("input");
-            // input.type = "hidden";
-            // input.name = "files";
-            // input.val = this.value;
-            // document.querySelector("#form").prepend(input);
-        });
+
+
+    const delFile = document.querySelectorAll(".deleteFile");
+
+    delFile.forEach((a)=>{
+        a.addEventListener("click", deleteFile);
+    })
+
+    function deleteFile (){
+        this.parentElement.remove();
+        let input = document.createElement("input");
+        input.name = "files";
+        input.type = "hidden";
+        input.value = this.value;
+        document.querySelector("#form").append(input);
     }
 </script>
 

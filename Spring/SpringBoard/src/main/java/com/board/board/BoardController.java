@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,15 +32,10 @@ public class BoardController {
     @RequestMapping("/toBoard")
     public String toBoard(Integer curPage, Model model) throws Exception {
         logger.info("Board 요쳥 curPage =" + curPage);
-        if(curPage==null) curPage = 1;
 
-        HashMap<String, Object> page = boardService.pagination(30,10, curPage);
-        int start = 1;
-        int end = 30;
-
-        ArrayList<BoardDTO> board = boardService.selectAll(start, end);
-
-        model.addAttribute("page", page);
+        ArrayList<BoardDTO> board = boardService.selectAll();
+//
+//        model.addAttribute("page", page);
         model.addAttribute("board", board);
 
         return "board/board";
@@ -97,7 +93,9 @@ public class BoardController {
     public String modify(BoardDTO boardDTO, List<MultipartFile> multipartFile, String[] files, Model model) throws Exception {
         logger.info("수정 요청 : " + boardDTO.getTitle());
         String path = httpSession.getServletContext().getRealPath("file");
+
         List<String> file_name = null;
+
         if(multipartFile.size() != 1 && !multipartFile.get(0).getOriginalFilename().equals("")){
             for (MultipartFile file: multipartFile) {
                 logger.info("파일업로드 : " + file);
@@ -109,7 +107,13 @@ public class BoardController {
             boardService.insertFile(boardDTO.getSeq_board(), file_name);
         }
 
-        int rs = boardService.modify(boardDTO, files);
+        if(files!=null){
+            logger.info("file 삭제 요청 : "+ files);
+            boardService.deleteFile(files);
+        }
+
+        boardService.modify(boardDTO);
+
         model.addAttribute("seq_board", boardDTO.getSeq_board());
 
        return "redirect:/board/detail";

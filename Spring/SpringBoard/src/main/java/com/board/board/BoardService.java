@@ -33,8 +33,8 @@ public class BoardService {
         return pagination.getPageNavi(totalCnt, recordPerPage, naviCntPerPage, curPage);
     }
 
-    public ArrayList<BoardDTO> selectAll(int start, int end) throws Exception {
-        return boardDAO.selectAll(start, end);
+    public ArrayList<BoardDTO> selectAll() throws Exception {
+        return boardDAO.selectAll();
     }
 
     public List<String> uploadFile(List<MultipartFile> multipartFile, String path) throws Exception {
@@ -77,12 +77,14 @@ public class BoardService {
         return boardDAO.delete(seq_board);
     }
 
-    public int modify(BoardDTO boardDTO, String[] files) throws Exception {
-        if(files.length!=0){
-            for(int i = 0; i<files.length; i++){
-                fileDAO.delete(files[i]);
-            }
+    public void deleteFile(String[] files) throws Exception {
+        for(String str : files){
+            fileDAO.delete(str);
         }
+    }
+
+    public int modify(BoardDTO boardDTO) throws Exception {
+
         return boardDAO.modify(boardDTO);
     }
 

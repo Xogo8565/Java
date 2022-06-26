@@ -31,12 +31,10 @@ public class BoardDAO {
         }
     }
 
-    public ArrayList<BoardDTO> selectAll(int start, int end) throws Exception {
+    public ArrayList<BoardDTO> selectAll() throws Exception {
         String sql = "select * from board order by 1 desc ";
 
         try(Connection connection = basicDataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-//            preparedStatement.setInt(1, end);
-//            preparedStatement.setInt(2, start);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<BoardDTO> arrayList = new ArrayList<>();
