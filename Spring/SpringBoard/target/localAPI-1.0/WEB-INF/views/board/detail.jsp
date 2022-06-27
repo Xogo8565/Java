@@ -19,7 +19,7 @@
     .header {
         display: flex;
         justify-content: flex-end;
-        height: 30px;
+        height: 22px;
     }
     .content {
         height: 90%;
@@ -114,31 +114,32 @@
         </div>
         <div class="board_content">
             <form action="/board/modify" method="post" enctype="multipart/form-data" id="form">
-                <input type="hidden" name ="seq_board" value="${boardDTO.seq_board}">
+                <input type="hidden" name ="seq_board" value="${map['boardDTO'].seq_board}">
                 <label> 제목 :
-                    <input type="text" id="title" name="title" value="${boardDTO.title}" readonly>
+                    <input type="text" id="title" name="title" value="${map['boardDTO'].title}" readonly>
                 </label>
                 <label> 글쓴이 :
-                    <input type="text" id="nickname" name = "nickname" value="${boardDTO.writer_nickname}" readonly>
+                    <input type="text" id="nickname" name = "nickname" value="${map['boardDTO'].writer_nickname}" readonly>
                 </label>
                 <div class="board_view">
-                    <span>날짜 : ${boardDTO.date}</span><span>조회수 : ${boardDTO.view_count}</span>
+                    <span>날짜 : ${map["boardDTO"].date}</span><span>조회수 : ${map['boardDTO'].view_count}</span>
                 </div>
                 <div> 파일 :
-                    <c:forEach items="${fileList}" var="file">
+                    <c:forEach items="${map['fileList']}" var="file">
                         <div class="fileLi">
                             <a class="file" href="/board/download?file_name=${file.file_name}">${file.file_name}</a><button type="button" class="deleteFile hidden" value="${file.file_name}">delete</button>
                         </div>
                     </c:forEach>
                     <input type="file" class="hidden" name = "multipartFile" id ="file" multiple>
+                    <input type="text" class="hidden" name = "files" id = "deleteFile">
                 </div>
                 <label>
-                    <textarea name="content" id="content" readonly>${boardDTO.content}</textarea>
+                    <textarea name="content" id="content" readonly>${map['boardDTO'].content}</textarea>
                 </label>
                 <div class="board_footer">
                     <button type="button" id ="back">back</button>
 
-                    <c:if test="${loginSession.id eq boardDTO.writer_id}">
+                    <c:if test="${loginSession.id eq map['boardDTO'].writer_id}">
                         <button type="button" id ="modify">modify</button>
                         <button type="button" id ="delete">delete</button>
                         <button type="submit" id ="complete" class="hidden">complete</button>
@@ -163,6 +164,7 @@
             e.preventDefault();
             alert("내용을 입력하세요");
         }
+        document.querySelector("#deleteFile").value = deleteFileList;
     });
 
     document.querySelector("#modify").addEventListener("click",()=>{
@@ -183,7 +185,6 @@
         document.querySelector("#file").classList.remove("hidden");
 
         let delFile = document.getElementsByClassName("deleteFile");
-
         for(let i =0; i<delFile.length; i++){
             delFile[i].classList.remove("hidden");
         }
@@ -198,35 +199,36 @@
         document.querySelector("#modify").classList.remove("hidden");
         document.querySelector("#delete").classList.remove("hidden");
         document.querySelector("#file").classList.add("hidden");
-        let delFile = document.getElementsByClassName("deleteFile");
 
+        let delFile = document.getElementsByClassName("deleteFile");
         for(let i =0; i<delFile.length; i++){
             delFile[i].classList.add("hidden");
         }
     }
 
     document.querySelector("#delete").addEventListener("click",()=>{
-        console.log("a");
-        let deleteForm = document.createElement("form");
-        deleteForm.action = "/board/delete";
-        deleteForm.method = "post";
+        let check = confirm("정말로 삭제하시겠습니까?");
+        if(check) {
+            let deleteForm = document.createElement("form");
+            deleteForm.action = "/board/delete";
+            deleteForm.method = "post";
 
-        let seq_board = document.createElement("input");
-        seq_board.type = "hidden";
-        seq_board.value = "${boardDTO.seq_board}";
-        seq_board.name = "seq_board";
+            let seq_board = document.createElement("input");
+            seq_board.type = "hidden";
+            seq_board.value = "${map['boardDTO'].seq_board}";
+            seq_board.name = "seq_board";
 
-        deleteForm.appendChild(seq_board);
+            deleteForm.appendChild(seq_board);
 
-        console.log(deleteForm)
-
-        document.body.appendChild(deleteForm);
-        deleteForm.submit();
+            document.body.appendChild(deleteForm);
+            deleteForm.submit();
+        }
     });
 
 
 
     const delFile = document.querySelectorAll(".deleteFile");
+    const deleteFileList = [];
 
     delFile.forEach((a)=>{
         a.addEventListener("click", deleteFile);
@@ -234,11 +236,7 @@
 
     function deleteFile (){
         this.parentElement.remove();
-        let input = document.createElement("input");
-        input.name = "files";
-        input.type = "hidden";
-        input.value = this.value;
-        document.querySelector("#form").append(input);
+        deleteFileList.push(this.value);
     }
 </script>
 

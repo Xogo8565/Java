@@ -18,7 +18,7 @@
     .header {
         display: flex;
         justify-content: flex-end;
-        height: 30px;
+        height: 22px;
     }
     .content {
         height: 90%;

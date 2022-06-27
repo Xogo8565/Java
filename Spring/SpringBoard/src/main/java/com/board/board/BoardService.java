@@ -1,5 +1,6 @@
 package com.board.board;
 
+import com.board.file.FileDAO;
 import com.board.utils.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,10 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 @Service
 public class BoardService {
@@ -20,26 +19,24 @@ public class BoardService {
     private BoardDAO boardDAO;
     @Autowired
     private FileDAO fileDAO;
-    private Pagination pagination = new Pagination();
+    @Autowired
+    Pagination pagination;
 
     public int write(int seq_board, BoardDTO boardDTO) throws Exception {
-        boardDTO.setSeq_board(nextSeq());
-
         return boardDAO.write(seq_board, boardDTO);
     }
 
-    public HashMap<String, Object> pagination(int recordPerPage, int naviCntPerPage, int curPage) throws Exception {
+    public Map<String, Object> pagination(int recordPerPage, int naviCntPerPage, int curPage) throws Exception {
         int totalCnt = boardDAO.countAll();
         return pagination.getPageNavi(totalCnt, recordPerPage, naviCntPerPage, curPage);
     }
 
-    public ArrayList<BoardDTO> selectAll() throws Exception {
-        return boardDAO.selectAll();
+    public List<BoardDTO> selectAll(int start, int end) throws Exception {
+        return boardDAO.selectAll(start, end);
     }
 
-    public List<String> uploadFile(List<MultipartFile> multipartFile, String path) throws Exception {
+    public void uploadFile(List<MultipartFile> multipartFile, String path, int seq_board) throws Exception {
         File dir = new File(path);
-        List<String> fileList = new ArrayList<>();
 
         if(!dir.exists()) dir.mkdir();
         for(MultipartFile file : multipartFile){
@@ -47,44 +44,45 @@ public class BoardService {
             String sys_name = UUID.randomUUID() + "_" + ori_name;
 
             file.transferTo(new File(path+File.separator+sys_name));
-            fileList.add(sys_name);
+            fileDAO.insert(seq_board, sys_name);
         }
-
-        return fileList;
     }
 
     public int nextSeq () throws Exception {
         return boardDAO.nextSeq();
     }
 
-    // 테이블에 넣는
-    public void insertFile(int seq_board, List<String> file_list) throws Exception {
-        for(String file : file_list){
-            fileDAO.insert(seq_board, file);
-        }
-    }
+//    public void insertFile(int seq_board, List<String> file_list) throws Exception {
+//        for(String file : file_list){
+//            fileDAO.insert(seq_board, file);
+//        }
+//    }
 
-    public BoardDTO detail(int seq_board) throws Exception {
+    public Map<String, Object> detail(int seq_board) throws Exception {
         boardDAO.increaseViewCount(seq_board);
-        return boardDAO.detail(seq_board);
+        Map<String, Object> map = new HashMap<>();
+        map.put("boardDTO", boardDAO.detail(seq_board));
+        map.put("fileList", fileDAO.getFileList(seq_board));
+        return map;
     }
 
-    public ArrayList<FileDTO> getFileList(int seq_board) throws Exception {
-        return fileDAO.getFileList(seq_board);
-    }
+//    public List<FileDTO> getFileList(int seq_board) throws Exception {
+//        return fileDAO.getFileList(seq_board);
+//    }
 
     public int delete(int seq_board) throws Exception {
         return boardDAO.delete(seq_board);
     }
 
-    public void deleteFile(String[] files) throws Exception {
-        for(String str : files){
-            fileDAO.delete(str);
+    public void deleteFile(String[] files, String path) throws Exception {
+        for(String file_name : files){
+            fileDAO.delete(file_name);
+            File file = new File(path+File.separator+ file_name);
+            file.delete();
         }
     }
 
     public int modify(BoardDTO boardDTO) throws Exception {
-
         return boardDAO.modify(boardDTO);
     }
 
@@ -92,6 +90,9 @@ public class BoardService {
         File dir = new File(path);
         File file = new File(path+File.separator+file_name);
         int length = (int)file.length();
+
+        file_name = new String(file_name.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+
         response.setHeader("Content-disposition", "attachment; filename=\""+file_name +"\"");
         response.setHeader("Content-transfer-Encoding", "binary");
         response.setHeader("Content-type", "application/octet-stream");
@@ -105,12 +106,9 @@ public class BoardService {
             while ((readCount = fileInputStream.read(bytes))!=-1){
                 outputStream.write(bytes,0, readCount);
             }
+            outputStream.flush();
         }
 
-    }
-
-    public int deleteFile(String file_name) throws Exception {
-       return fileDAO.delete(file_name);
     }
 
 //    public int countAll() throws Exception {

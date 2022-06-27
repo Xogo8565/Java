@@ -81,6 +81,48 @@
         justify-content: center;
         gap : 20px;
     }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .board_head:first-child, .board_head:last-child, .board_li:first-child, .board_li:last-child {
+        flex-basis: 15px;
+    }
+
+    .board_head span:nth-child(2), .board_li span:nth-child(2) {
+        flex-basis: 50%;
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    .board_head span:nth-child(3), .board_li span:nth-child(3) {
+        flex-basis: 70px;
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    .board_head span:nth-child(4), .board_li span:nth-child(4) {
+        flex-basis: 100px;
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    .noResult {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 <body>
 <div class="container">
@@ -95,7 +137,7 @@
             </div>
             <div class="board_ul">
                 <c:if test="${empty board}">
-                    등록된 게시글이 없습니다.
+                    <div class="noResult">등록된 게시글이 없습니다</div>
                 </c:if>
                 <c:if test="${not empty board}">
                     <c:forEach items="${board}" var="i">
@@ -111,7 +153,7 @@
             </div>
             <div class="pagination">
                 <ul>
-                    <li class="prev"><a href="/board/toBoard?curPage=${page.naviStrat-1}">prev</a></li>
+                    <li class="prev"><a href="/board/toBoard?curPage=${page.naviStart-1}">prev</a></li>
                     <c:forEach var="num" step="1" begin="${page.naviStart}" end ="${page.naviEnd}">
                         <li class="page"><a href="/board/toBoard?curPage=${num}">${num}</a></li>
                     </c:forEach>

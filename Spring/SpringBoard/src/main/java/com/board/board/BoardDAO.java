@@ -1,7 +1,6 @@
 package com.board.board;
 
 import com.board.utils.DateConvert;
-import oracle.jdbc.proxy.annotation.Pre;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,18 +9,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
 public class BoardDAO {
     @Autowired
     private BasicDataSource basicDataSource;
-    private DateConvert dateConvert = new DateConvert();
+    @Autowired
+    private DateConvert dateConvert;
 
-    public int write(int no, BoardDTO boardDTO) throws Exception {
+    public int write(int seq_board, BoardDTO boardDTO) throws Exception {
         String sql = "insert into board values(?,?,?,?,?,0,sysdate)";
         try (Connection connection = basicDataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, no);
+            preparedStatement.setInt(1, seq_board);
             preparedStatement.setString(2, boardDTO.getTitle());
             preparedStatement.setString(3, boardDTO.getContent());
             preparedStatement.setString(4, boardDTO.getWriter_nickname());
@@ -31,13 +32,15 @@ public class BoardDAO {
         }
     }
 
-    public ArrayList<BoardDTO> selectAll() throws Exception {
-        String sql = "select * from board order by 1 desc ";
+    public List<BoardDTO> selectAll(int start, int end) throws Exception {
+        String sql = "select * from (select a.*, rownum as num from (select * from board order by 1 desc) a where rownum <= ?) where num >= ?";
 
         try(Connection connection = basicDataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, end);
+            preparedStatement.setInt(2, start);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<BoardDTO> arrayList = new ArrayList<>();
+            List<BoardDTO> list = new ArrayList<>();
 
             while(resultSet.next()){
 
@@ -49,9 +52,9 @@ public class BoardDAO {
                 int view_count =resultSet.getInt(6);
                 String written_date = dateConvert.dateToString(resultSet.getDate(7));
 
-                arrayList.add(new BoardDTO(seq_board,title,content,writer_nickname,writer_id,view_count,written_date));
+                list.add(new BoardDTO(seq_board,title,content,writer_nickname,writer_id,view_count,written_date));
 
-            } return arrayList;
+            } return list;
         }
     }
 

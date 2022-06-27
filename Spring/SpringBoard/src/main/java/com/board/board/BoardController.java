@@ -1,22 +1,18 @@
 package com.board.board;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RequestMapping(value = "/board")
@@ -30,12 +26,15 @@ public class BoardController {
     private HttpSession httpSession;
 
     @RequestMapping("/toBoard")
-    public String toBoard(Integer curPage, Model model) throws Exception {
+    public String toBoard(@RequestParam(value = "curPage", defaultValue = "1") int curPage, Model model) throws Exception {
         logger.info("Board 요쳥 curPage =" + curPage);
 
-        ArrayList<BoardDTO> board = boardService.selectAll();
-//
-//        model.addAttribute("page", page);
+        Map<String, Object> page = boardService.pagination(10,10,curPage);
+        int start = (int) page.get("start");
+        int end = (int) page.get("end");
+
+        List<BoardDTO> board = boardService.selectAll(start, end);
+        model.addAttribute("page", page);
         model.addAttribute("board", board);
 
         return "board/board";
@@ -54,29 +53,24 @@ public class BoardController {
         String path = httpSession.getServletContext().getRealPath("file");
         int seq_board = boardService.nextSeq();
 
-
-        if(multipartFile.size() != 1 && !multipartFile.get(0).getOriginalFilename().equals("")){
-            for (MultipartFile file: multipartFile) {
-                logger.info("파일업로드 :" + file);
-            }
-            //업로드
-           List<String> file_name = boardService.uploadFile(multipartFile, path);
-
-           //테이블에 저장
-            boardService.insertFile(seq_board, file_name);
-        }
-
         boardService.write(seq_board,boardDTO);
+
+        if(multipartFile.size() != 1 || !multipartFile.get(0).getOriginalFilename().equals("")){
+            multipartFile.forEach((item)->{
+                logger.info("파일업로드" + item);
+            });
+            //업로드
+           boardService.uploadFile(multipartFile, path, seq_board);
+        }
 
         return "redirect:/board/toBoard";
     }
     @RequestMapping("/detail")
     public String detail(int seq_board, Model model) throws Exception {
         logger.info("게시글 열람 요청 : "+ seq_board);
-        BoardDTO boardDTO = boardService.detail(seq_board);
-        ArrayList<FileDTO> fileList = boardService.getFileList(seq_board);
-        model.addAttribute("boardDTO", boardDTO);
-        model.addAttribute("fileList", fileList);
+        Map<String, Object> map = boardService.detail(seq_board);
+
+        model.addAttribute("map", map);
 
         return "board/detail";
     }
@@ -96,20 +90,17 @@ public class BoardController {
 
         List<String> file_name = null;
 
-        if(multipartFile.size() != 1 && !multipartFile.get(0).getOriginalFilename().equals("")){
-            for (MultipartFile file: multipartFile) {
-                logger.info("파일업로드 : " + file);
-            }
+        if(multipartFile.size() != 1 || !multipartFile.get(0).getOriginalFilename().equals("")){
+            multipartFile.forEach((item)->{
+                logger.info("파일업로드" + item);
+            });
             //업로드
-            file_name = boardService.uploadFile(multipartFile, path);
-
-            //테이블에 저장
-            boardService.insertFile(boardDTO.getSeq_board(), file_name);
+            boardService.uploadFile(multipartFile, path, boardDTO.getSeq_board());
         }
 
         if(files!=null){
             logger.info("file 삭제 요청 : "+ files);
-            boardService.deleteFile(files);
+            boardService.deleteFile(files, path);
         }
 
         boardService.modify(boardDTO);
@@ -122,6 +113,6 @@ public class BoardController {
     @RequestMapping("/download")
     public void download(String file_name, HttpServletResponse response) throws Exception {
         String path = httpSession.getServletContext().getRealPath("file");
-        boardService.download(path,file_name, response);
+        boardService.download(path, file_name, response);
     }
 }

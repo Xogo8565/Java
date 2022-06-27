@@ -254,7 +254,7 @@
     }
 
     document.querySelector("#toBoard").addEventListener("click", ()=>{
-        location.href = "/board/toBoard?curPage=1";
+        location.href = "/board/toBoard";
     })
 </script>
 </body>

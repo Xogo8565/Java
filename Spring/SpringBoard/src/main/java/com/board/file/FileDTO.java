@@ -1,4 +1,4 @@
-package com.board.board;
+package com.board.file;
 
 public class FileDTO {
     private int seq_file;

@@ -1,9 +1,12 @@
 package com.board.utils;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
+import java.util.Map;
 
-
+@Component
 public class Pagination {
     private int totalCnt;
     private int totalPage;
@@ -17,7 +20,7 @@ public class Pagination {
     private boolean prevBtn;
     private boolean nextBtn;
 
-    public HashMap<String, Object> getPageNavi(int totalCnt,  int recordPerPage, int naviCntPerPage, int curPage) throws Exception {
+    public Map<String, Object> getPageNavi(int totalCnt, int recordPerPage, int naviCntPerPage, int curPage) throws Exception {
         // 총 페이지 수
         totalPage = totalCnt / recordPerPage + (totalCnt % recordPerPage == 0 ? 0 : 1);
         // 페이징 처리
@@ -37,17 +40,17 @@ public class Pagination {
         postStart = ((curPage - 1) * recordPerPage) + 1;
         postEnd = recordPerPage * curPage;
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("totalCnt", totalCnt);
-        hashMap.put("totalPage", totalPage);
-        hashMap.put("naviStart", naviStart);
-        hashMap.put("naviEnd", naviEnd);
-        hashMap.put("prevBtn", prevBtn);
-        hashMap.put("nextBtn", nextBtn);
-        hashMap.put("start", postStart);
-        hashMap.put("end", postEnd);
+        Map<String, Object> map = new HashMap<>();
+        map.put("totalCnt", totalCnt);
+        map.put("totalPage", totalPage);
+        map.put("naviStart", naviStart);
+        map.put("naviEnd", naviEnd);
+        map.put("prevBtn", prevBtn);
+        map.put("nextBtn", nextBtn);
+        map.put("start", postStart);
+        map.put("end", postEnd);
 
-        return hashMap;
+        return map;
 
     }
 }

@@ -1,15 +1,14 @@
-package com.board.board;
+package com.board.file;
 
-import oracle.jdbc.proxy.annotation.Pre;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class FileDAO {
@@ -26,20 +25,20 @@ public class FileDAO {
         }
     }
 
-    public ArrayList<FileDTO> getFileList(int board_seq) throws Exception{
+    public List<FileDTO> getFileList(int board_seq) throws Exception{
         String sql = "select * from tbl_file where seq_board = ? ";
         try(Connection connection = basicDataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, board_seq);
             ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<FileDTO> arrayList = new ArrayList<>();
+            List<FileDTO> list = new ArrayList<>();
 
             while(resultSet.next()){
                 int seq_file = resultSet.getInt(1);
                 int seq_board = resultSet.getInt(2);
                 String file_name = resultSet.getString(3);
 
-                arrayList.add(new FileDTO(seq_file,seq_board,file_name));
-            } return arrayList;
+                list.add(new FileDTO(seq_file,seq_board,file_name));
+            } return list;
         }
     }
 
