@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--mapper 파일 : DB 에 접속해서 실행할 쿼리문을 모아놓음 -> id 값을 부여 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 하나의 mapper 파일에서 작성하는 모든 쿼리문은 mapper 태그 안쪽에 정의
+    mapper의 namespace : 해당 파일을 참조하기 위해 사용하는 이름
+
+    쿼리문의 종류에 따라 태그자를 나누어 사용
+
+    쿼리문 태그자의 속성
+    id -> dao 에서 쿼리문을 호출하기 위해 사용하는 이름
+
+    parameterType : 인자값 자료형
+    만약 인자값이 객체의 형태면 파라미터 타입에 반드시 자료형을 명시
+    기본 자로형이면 명시하지 않아도 됨
+
+    resultType : 반환값 자료형
+
+
+    문장 끝에 세미콜론 x
+
+    쿼리문에 넘겨받은 데이터를 세팅하는 방법
+
+
+    1. #(변수)
+    -> 인자값이 String
+    -> preparedStatement 와 유사하게 인자값을 문자열로 세팅, sql injection 방어
+
+    2. $(변수)
+    -> 인자값을 세팅하려는 칼럼의 자료형에 맞춰서 자동으로 인자값의 자료형이 변환
+    -> statement 와 유사 , sql injection 방어 x
+    -> 테이블 명이나 컬럼명을 동적으로 세팅하는 경우
+
+
+
+   -->
+
+<mapper namespace="messageMapper">
+    <insert id="insert" parameterType="com.message.dto.MessageDTO">
+        insert into TBL_MSG
+        values (SEQ_MSG.nextval, #{nickname}, #{message})
+    </insert>
+    <!--
+    resultType 에 DTO 타입을 명시하게 되면 DTO 클래스가 가지고 있는 setter/ 인자값 받는 생성자를 활용하여 컬럼명과 동일한 멤버필드에 값을 세팅해줌.
+    -->
+    <select id="selectOne" parameterType="int" resultType="com.message.dto.MessageDTO">
+        select *
+        from TBL_MSG
+        where NO = #{i}
+    </select>
+
+    <select id="selectList" resultType="com.message.dto.MessageDTO">
+        select *
+        from TBL_MSG
+    </select>
+
+    <delete id="delete" parameterType="int">
+        delete
+        from TBL_MSG
+        where NO = #{no}
+    </delete>
+    <update id="modify" parameterType="com.message.dto.MessageDTO">
+        update TBL_MSG
+        set MESSAGE = #{message}
+        where no = #{no}
+    </update>
+
+    <select id="search1" parameterType="string" resultType="com.message.dto.MessageDTO">
+        select *
+        from TBL_MSG
+        where NICKNAME like '%' || #{keyword} || '%'
+    </select>
+
+    <select id="search2" parameterType="map" resultType="com.message.dto.MessageDTO">
+        select * from tbl_msg where
+        <if test="category == 'all'">
+            no like '%' || #{keyword} || '%'
+            or nickname like '%' || #{keyword} || '%'
+            or message like '%' || #{keyword} || '%'
+        </if>
+        <if test="category!='all'">
+            ${category} like '%' || #{keyword} || '%'
+        </if>
+    </select>
+    <select id="search3" parameterType="map" resultType="com.message.dto.MessageDTO">
+        select * from tbl_msg
+        <trim prefixOverrides="or" prefix ="where">
+        <if test="no!= null and no != ''">
+            no like '%' || #{keyword} || '%'
+        </if>
+        <if test="nickname!= null and no != ''">
+            or nickname like '%' || #{keyword} || '%'
+        </if>
+        <if test="message!= null and no != ''">
+            or message like '%' || #{keyword} || '%'
+        </if>
+    </trim>
+</select>
+
+        <!--  trim 태그 :
+          <trim></trim>
+            if 문 안쪽이 true 면 실행 false 면 x
+            -> 설정해둔 문자열을 쿼리문에 동적으로 추가하거나 삭제하는 것이 가능
+
+            1. prefix -> 쿼리문 가장 앞쪽에 prefix 속성을 준 문자열을 붙여줄 수 있음
+            2. prefixOverrides -> 쿼리문 가장 앞쪽에 있는 접두사를 재거해주는 속성
+            3. suffix -> 쿼리문의 가장 뒤쪽에 문자열을 붙여주는 속성
+            4. suffixOverrides -> 쿼리문 가장 뒤쪽에 있는 점미사를 제거해주는 속성
+
+          -->
+        </mapper>
