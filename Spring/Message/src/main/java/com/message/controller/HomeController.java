@@ -82,12 +82,14 @@ public class HomeController extends HttpServlet {
 
     //ajax
     @RequestMapping(value = "/toOutput2")
-    public String toOutput2(Model model) throws Exception {
-        ArrayList<MessageDTO> arrayList = messageDAO.selectAll();
-
-        model.addAttribute("arrayList", arrayList);
-
+    public String toOutput2() throws Exception {
         return "output2";
+    }
+
+    @ResponseBody
+    @RequestMapping(value =  "/outputAjax")
+    public ArrayList<MessageDTO> outputAjax() throws Exception {
+       return messageDAO.selectAll();
     }
 
     @RequestMapping(value = "/delete")
@@ -103,9 +105,9 @@ public class HomeController extends HttpServlet {
     @RequestMapping(value = "/deleteAjax")
     @ResponseBody
     public String deleteAjax(int seq_msg) throws Exception {
-        messageDAO.delete(seq_msg);
-
-        return "success";
+        int rs = messageDAO.delete(seq_msg);
+        if(rs>0) return "success";
+        else return "fail";
     }
 
     @RequestMapping(value = "/modify")
@@ -119,11 +121,14 @@ public class HomeController extends HttpServlet {
 
     @ResponseBody
     @RequestMapping(value = "/modifyAjax")
-    public String modifyAjax(MessageDTO messageDTO) throws Exception {
+    public MessageDTO modifyAjax(MessageDTO messageDTO) throws Exception {
 
         messageDAO.modify(messageDTO);
+        // DTO 반환(or 객체) Servlet -> Gson
+        // Spring -> Jackson library 이용
 
-        return messageDTO.getMessage();
+
+        return messageDTO;
     }
 
     @RequestMapping(value = "/toError")

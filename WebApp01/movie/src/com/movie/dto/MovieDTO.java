@@ -3,11 +3,24 @@ package com.movie.dto;
 public class MovieDTO {
    private String movieCd;
    private String movieNm;
-   private String movieNmEm;
-   private String prdtStartYear;
-   private String openDt;
+   private String movieNmEn;
+   private String prdtYear;
+   private String nationAlt;
    private String genreAlt;
    private String directors;
+
+   public MovieDTO() {
+   }
+
+   public MovieDTO(String movieCd, String movieNm, String movieNmEn, String prdtYear, String nationAlt, String genreAlt, String directors) {
+      this.movieCd = movieCd;
+      this.movieNm = movieNm;
+      this.movieNmEn = movieNmEn;
+      this.prdtYear = prdtYear;
+      this.nationAlt = nationAlt;
+      this.genreAlt = genreAlt;
+      this.directors = directors;
+   }
 
    public String getMovieCd() {
       return movieCd;
@@ -25,28 +38,28 @@ public class MovieDTO {
       this.movieNm = movieNm;
    }
 
-   public String getMovieNmEm() {
-      return movieNmEm;
+   public String getMovieNmEn() {
+      return movieNmEn;
    }
 
-   public void setMovieNmEm(String movieNmEm) {
-      this.movieNmEm = movieNmEm;
+   public void setMovieNmEn(String movieNmEn) {
+      this.movieNmEn = movieNmEn;
    }
 
-   public String getPrdtStartYear() {
-      return prdtStartYear;
+   public String getPrdtYear() {
+      return prdtYear;
    }
 
-   public void setPrdtStartYear(String prdtStartYear) {
-      this.prdtStartYear = prdtStartYear;
+   public void setPrdtYear(String prdtYear) {
+      this.prdtYear = prdtYear;
    }
 
-   public String getOpenDt() {
-      return openDt;
+   public String getNationAlt() {
+      return nationAlt;
    }
 
-   public void setOpenDt(String openDt) {
-      this.openDt = openDt;
+   public void setNationAlt(String nationAlt) {
+      this.nationAlt = nationAlt;
    }
 
    public String getGenreAlt() {
@@ -63,31 +76,5 @@ public class MovieDTO {
 
    public void setDirectors(String directors) {
       this.directors = directors;
-   }
-
-   public MovieDTO() {
-   }
-
-   public MovieDTO(String movieCd, String movieNm, String movieNmEm, String prdtStartYear, String openDt, String genreAlt, String directors) {
-      this.movieCd = movieCd;
-      this.movieNm = movieNm;
-      this.movieNmEm = movieNmEm;
-      this.prdtStartYear = prdtStartYear;
-      this.openDt = openDt;
-      this.genreAlt = genreAlt;
-      this.directors = directors;
-   }
-
-   @Override
-   public String toString() {
-      return "MovieDTO{" +
-              "movieCd='" + movieCd + '\'' +
-              ", movieNm='" + movieNm + '\'' +
-              ", movieNmEm='" + movieNmEm + '\'' +
-              ", prdtStartYear='" + prdtStartYear + '\'' +
-              ", openDt='" + openDt + '\'' +
-              ", genreAlt='" + genreAlt + '\'' +
-              ", directors='" + directors + '\'' +
-              '}';
    }
 }

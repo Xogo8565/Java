@@ -11,13 +11,11 @@
 <head>
     <title>Output</title>
     <style>
-        .complete {
+
+        .hidden {
             display: none;
         }
 
-        .cancel {
-            display: none;
-        }
     </style>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -29,7 +27,8 @@
         <th>No</th>
         <th>닉네임</th>
         <th>메시지</th>
-        <th></th>
+        <th>수정</th>
+        <th>삭제</th>
     </tr>
     </thead>
     <tbody>
@@ -40,12 +39,18 @@
             <td><input type="text" readonly value="${messageDTO.message}"></td>
             <td>
                 <button class='modify'>modify</button>
-                <button class='delete' value="${messageDTO.no}">delete</button>
-                <button class='complete' value="${messageDTO.no}">complete</button>
-                <button class="cancel">cancel</button>
+                <button class='complete hidden' value="${messageDTO.no}">complete</button>
+            </td>
+            <td>
+                <input type="checkbox" value="${messageDTO.no}" class="deleteNum">
             </td>
         </tr>
     </c:forEach>
+    <tr>
+        <td colspan="6">
+            <button id="delete">삭제</button>
+        </td>
+    </tr>
     </tbody>
 </table>
 <div class="search1">
@@ -69,7 +74,7 @@
     </label>
 </div>
 <div class="search3">
-    <form id = "form3">
+    <form id="form3">
         <input type="checkbox" id="all" class="category"> all
         <input type="checkbox" name="no" value="no" class="category"> no
         <input type="checkbox" name="nickname" value="nickname" class="category"> nickname
@@ -79,44 +84,45 @@
     </form>
 </div>
 <script>
-    let del = document.getElementsByClassName("delete");
-    for (let i = 0; i < del.length; i++) {
-        del[i].addEventListener("click", function () {
-            let check = confirm("정말로 삭제하시겠습니까?")
-            let no = this.value;
-            if (check) {
-                let form = document.createElement("form");
-                form.action = "/delete/" + no;
-                form.method = "post";
+    const del = document.querySelector("#delete")
 
-                let input = document.createElement("input");
-                input.type = "hidden"
-                input.name = "_method";
-                input.value = "delete";
+    del.addEventListener("click", function () {
+        const arr = [];
+        const check = confirm("정말로 삭제하시겠습니까?");
+        const delNum = document.querySelectorAll(".deleteNum:checked");
 
-                form.appendChild(input);
-                document.body.appendChild(form);
-                form.submit();
-            }
-        })
-    }
+        delNum.forEach((i)=>{
+            arr.push(i.value);
+        });
+
+        if(delNum.length===0) alert("선택된 항목이 없습니다.");
+
+        if (check && arr.length!==0) {
+            $.ajax({
+                url : "/delete",
+                data : { "no[]" : arr },
+                success : function() {
+                    location.href ="/outputList";
+                },
+                error : function (e) {
+                    console.log(e)
+                }
+            })
+        }
+    })
+
 
     let modify = document.getElementsByClassName("modify");
     for (let i = 0; i < modify.length; i++) {
         modify[i].addEventListener("click", function () {
-            let sibling = this.parentElement.children;
-            for (let j = 0; j < sibling.length; j++) {
-                sibling[j].style.display = "inline-block";
-            }
-            this.style.display = "none";
-            this.nextElementSibling.style.display = "none";
+
+            this.classList.add("hidden");
+            this.nextElementSibling.classList.remove("hidden");
 
             let input = this.parentElement.previousElementSibling.children[0];
-            let defaultVal = input.value;
             input.readOnly = false;
 
-            let complete = this.nextElementSibling.nextElementSibling;
-            let cancel = this.parentElement.lastElementChild;
+            let complete = this.nextElementSibling;
 
             complete.addEventListener("click", function () {
 
@@ -146,15 +152,6 @@
                 form.submit();
             });
 
-            cancel.addEventListener("click", function () {
-                input.value = defaultVal;
-                input.readOnly = true;
-                for (let i = 0; i < sibling.length; i++) {
-                    sibling[i].style.display = "inline-block";
-                }
-                this.style.display = "none";
-                this.previousElementSibling.style.display = "none";
-            })
         });
     }
 
@@ -236,10 +233,10 @@
 
     const category = document.querySelectorAll(".category");
 
-    for(let i = 0; i < category.length; i++){
-        category[i].addEventListener("click",()=>{
+    for (let i = 0; i < category.length; i++) {
+        category[i].addEventListener("click", () => {
             const checked = document.querySelectorAll(".category:checked");
-            if(category.length !== checked.length){
+            if (category.length !== checked.length) {
                 document.querySelector("#all").checked = false;
             } else {
                 document.querySelector("#all").checked = true;

@@ -131,7 +131,7 @@
                         </div>
                     </c:forEach>
                     <input type="file" class="hidden" name = "multipartFile" id ="file" multiple>
-                    <input type="text" class="hidden" name = "files" id = "deleteFile">
+                    <input type="text" class="hidden" name = "files[]" id = "deleteFile">
                 </div>
                 <label>
                     <textarea name="content" id="content" readonly>${map['boardDTO'].content}</textarea>
@@ -232,7 +232,7 @@
 
     delFile.forEach((a)=>{
         a.addEventListener("click", deleteFile);
-    })
+    });
 
     function deleteFile (){
         this.parentElement.remove();

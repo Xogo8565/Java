@@ -2,7 +2,6 @@ package com.board.controller;
 
 import com.board.dao.BoardDAO;
 import com.board.dao.FileDAO;
-import com.board.dao.MemberDAO;
 import com.board.dao.ReplyDAO;
 import com.board.dto.BoardDTO;
 import com.board.dto.FileDTO;
@@ -79,9 +78,11 @@ public class BoardController extends HttpServlet {
                 String title = multipartRequest.getParameter("title");
                 String content = multipartRequest.getParameter("content");
 
-                int rs = boardDAO.newPost(new BoardDTO(0, id, nickname, title, content, 0, null));
+                int board_no = boardDAO.getBoardSeq();
+
+                int rs = boardDAO.newPost(new BoardDTO(board_no, id, nickname, title, content, 0, null));
                 if (rs > 0) {
-                    if(sys_name!=null) fileDAO.insert(new FileDTO(0,0, ori_name, sys_name));
+                    if(sys_name!=null) fileDAO.insert(new FileDTO(0,board_no, ori_name, sys_name));
                     response.sendRedirect("/toBoard.board?curPage=1");
                 }
             } catch (Exception e) {
@@ -94,8 +95,10 @@ public class BoardController extends HttpServlet {
                 boardDAO.plusViewCount(no);
                 BoardDTO boardDTO = boardDAO.selectByNo(no);
                 ArrayList<ReplyDTO> arrayList = replyDAO.selectAllReply(no);
+                FileDTO fileDTO = fileDAO.selectAll(no);
                 request.setAttribute("boardDTO", boardDTO);
                 request.setAttribute("arrayList", arrayList);
+                request.setAttribute("fileDTO", fileDTO);
                 request.getRequestDispatcher("/board/detailView.jsp").forward(request, response);
 
             } catch (Exception e) {
@@ -136,7 +139,6 @@ public class BoardController extends HttpServlet {
                 Gson gson = new Gson();
                 String rs = gson.toJson(arrayList);
                 response.getWriter().append(rs);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

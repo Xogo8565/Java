@@ -136,11 +136,11 @@
                 <span>글 번호</span> <span>제목</span> <span> 글쓴이</span> <span>날짜</span> <span>조회수</span>
             </div>
             <div class="board_ul">
-                <c:if test="${empty board}">
+                <c:if test="${empty map['board']}">
                     <div class="noResult">등록된 게시글이 없습니다</div>
                 </c:if>
-                <c:if test="${not empty board}">
-                    <c:forEach items="${board}" var="i">
+                <c:if test="${not empty map['board']}">
+                    <c:forEach items="${map['board']}" var="i">
                         <div class="board_li">
                             <span>${i.seq_board}</span>
                             <span><a href="/board/detail?seq_board=${i.seq_board}">${i.title}</a></span>
@@ -153,11 +153,11 @@
             </div>
             <div class="pagination">
                 <ul>
-                    <li class="prev"><a href="/board/toBoard?curPage=${page.naviStart-1}">prev</a></li>
-                    <c:forEach var="num" step="1" begin="${page.naviStart}" end ="${page.naviEnd}">
+                    <li class="prev"><a>prev</a></li>
+                    <c:forEach var="num" step="1" begin="${map['page'].naviStart}" end ="${map['page'].naviEnd}">
                         <li class="page"><a href="/board/toBoard?curPage=${num}">${num}</a></li>
                     </c:forEach>
-                    <li class="next"><a href="/board/toBoard?curPage=${page.naviEnd-1}">next</a></li>
+                    <li class="next"><a>next</a></li>
                 </ul>
             </div>
             <div class="board_footer">
@@ -167,6 +167,11 @@
     </div>
 </div>
 <script>
+    let prev = ${map['page'].prevBtn};
+    let next = ${map['page'].nextBtn};
+    if(prev) document.querySelector(".prev a").href = "/board/toBoard?curPage=${map['page'].naviStart-1}";
+    if(next) document.querySelector(".next a").href = "/board/toBoard?curPage=${map['page'].naviEnd+1}";
+
     document.querySelector("#write").addEventListener("click",()=>{
         location.href = "/board/toWrite";
     });

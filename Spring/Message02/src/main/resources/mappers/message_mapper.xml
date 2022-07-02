@@ -38,9 +38,21 @@
    -->
 
 <mapper namespace="messageMapper">
+    <!--
+    select key
+        order: select key 태그가 들으있는 구문을 수행하기 전에 추출하고자 하는 값을 가져올지
+        쿼리문이 실행된 후에 값을 가져올지에 대한 속성(BEFORE, AFTER)
+
+        keyProperty : 결과값을 저장할 변수
+
+        resultType : selectKey 안의 구문이 실행됐을 때 반환받을 데이터의 타입
+      -->
     <insert id="insert" parameterType="com.message.dto.MessageDTO">
+        <selectKey order = "BEFORE" keyProperty="no" resultType="int">
+            select seq_msg.nextval from dual
+        </selectKey>
         insert into TBL_MSG
-        values (SEQ_MSG.nextval, #{nickname}, #{message})
+        values (#{no}, #{nickname}, #{message})
     </insert>
     <!--
     resultType 에 DTO 타입을 명시하게 되면 DTO 클래스가 가지고 있는 setter/ 인자값 받는 생성자를 활용하여 컬럼명과 동일한 멤버필드에 값을 세팅해줌.
@@ -61,6 +73,31 @@
         from TBL_MSG
         where NO = #{no}
     </delete>
+    <!--
+    foreach => [] or list가 넘어올 경우 사용
+        1. collection : dao 에서 넘겨주는 배열 / 리스트의 이름
+        -> dao 에서 배열이나 이름에 별도의 key를 붙여주지 않는 경우
+        array or list 라는 별칭 사용
+
+        2. item -> 배열이나 리스트를 반복문을 돌리며 각 인덱스에 있는 값을 담아줄 변수
+
+        3. open - > prefix
+
+        4. close -> suffix
+
+        5. separator -> 구분자
+    -->
+    <!--
+        key 값을 활용하는 경우 collection 속성값에 반드시 key값을 사용해야 함
+    -->
+    <delete id="deleteList" parameterType="int">
+        delete from TBL_MSG
+        where no in
+        <foreach collection="no" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </delete>
+
     <update id="modify" parameterType="com.message.dto.MessageDTO">
         update TBL_MSG
         set MESSAGE = #{message}
@@ -86,28 +123,33 @@
     </select>
     <select id="search3" parameterType="map" resultType="com.message.dto.MessageDTO">
         select * from tbl_msg
-        <trim prefixOverrides="or" prefix ="where">
-        <if test="no!= null and no != ''">
-            no like '%' || #{keyword} || '%'
-        </if>
-        <if test="nickname!= null and no != ''">
-            or nickname like '%' || #{keyword} || '%'
-        </if>
-        <if test="message!= null and no != ''">
-            or message like '%' || #{keyword} || '%'
-        </if>
-    </trim>
-</select>
+        <trim prefixOverrides="or" prefix="where">
+            <if test="no!= null and no != ''">
+                no like '%' || #{keyword} || '%'
+            </if>
+            <if test="nickname!= null and no != ''">
+                or nickname like '%' || #{keyword} || '%'
+            </if>
+            <if test="message!= null and no != ''">
+                or message like '%' || #{keyword} || '%'
+            </if>
+        </trim>
+    </select>
 
-        <!--  trim 태그 :
-          <trim></trim>
-            if 문 안쪽이 true 면 실행 false 면 x
-            -> 설정해둔 문자열을 쿼리문에 동적으로 추가하거나 삭제하는 것이 가능
+    <!--  trim 태그 :
+      <trim></trim>
+        if 문 안쪽이 true 면 실행 false 면 x
+        -> 설정해둔 문자열을 쿼리문에 동적으로 추가하거나 삭제하는 것이 가능
 
-            1. prefix -> 쿼리문 가장 앞쪽에 prefix 속성을 준 문자열을 붙여줄 수 있음
-            2. prefixOverrides -> 쿼리문 가장 앞쪽에 있는 접두사를 재거해주는 속성
-            3. suffix -> 쿼리문의 가장 뒤쪽에 문자열을 붙여주는 속성
-            4. suffixOverrides -> 쿼리문 가장 뒤쪽에 있는 점미사를 제거해주는 속성
+        1. prefix -> 쿼리문 가장 앞쪽에 prefix 속성을 준 문자열을 붙여줄 수 있음
+        2. prefixOverrides -> 쿼리문 가장 앞쪽에 있는 접두사를 재거해주는 속성
+        3. suffix -> 쿼리문의 가장 뒤쪽에 문자열을 붙여주는 속성
+        4. suffixOverrides -> 쿼리문 가장 뒤쪽에 있는 점미사를 제거해주는 속성
 
-          -->
-        </mapper>
+      -->
+    <select id="select2" resultType="org.apache.commons.collections4.map.CaseInsensitiveMap">
+        select nickname, message, address, phone
+        from tbl_msg
+                 join member using (nickname)
+    </select>
+</mapper>

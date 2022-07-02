@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomeController {
@@ -38,8 +39,9 @@ public class HomeController {
 
     @PostMapping("/input")
     public String input(MessageDTO messageDTO) throws Exception {
-        logger.info(messageDTO.toString());
         messageService.insert(messageDTO);
+        logger.info(messageDTO.toString());
+
         return "redirect:/input";
     }
 
@@ -52,7 +54,7 @@ public class HomeController {
         return "output";
     }
 
-    @GetMapping("/outputList")
+    @GetMapping("/output2")
     public String outputList(Model model) throws Exception {
         logger.info("outputList");
         List<MessageDTO> list = messageService.selectList();
@@ -61,12 +63,30 @@ public class HomeController {
         return "output2";
     }
 
-    @DeleteMapping("/delete/{no}")
-    public String delete(@PathVariable(value = "no") int no) throws Exception {
-        logger.info("delete : " + no);
-        messageService.delete(no);
+    @GetMapping("/output3")
+    public String output3(Model model) throws Exception {
+        logger.info("output2");
+        List<Map<String, Object>> list = messageService.select2();
+        model.addAttribute("list", list);
 
-        return "redirect:/outputList";
+        return "output3";
+    }
+
+//    @DeleteMapping("/delete/{no}")
+//    public String delete(@PathVariable(value = "no") int no) throws Exception {
+//        logger.info("delete : " + no);
+//        messageService.delete(no);
+//
+//        return "redirect:/outputList";
+//    }
+
+    @ResponseBody
+    @RequestMapping("/delete")
+    public void delete(@RequestParam(value="no[]") int[] no) throws Exception {
+        for(int i : no){
+            logger.info("del : " + i);
+        }
+        messageService.delete(no);
     }
 
     @PutMapping("/modify")

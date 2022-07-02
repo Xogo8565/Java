@@ -12,18 +12,22 @@
 </head>
 <body>
 <button id = 'input'>to Input</button>
-<button id = 'outputList'>to Output List</button>
-<button id = "output">to Output</button>
+<button id = 'output1'>output1</button>
+<button id = "output2">output2</button>
+<button id = "output3">output3</button>
 
 <script>
     document.getElementById("input").onclick = function () {
         location.href = "/input";
     }
-    document.getElementById("outputList").onclick = function () {
-        location.href = "/outputList";
-    }
-    document.querySelector("#output").onclick = function () {
+    document.getElementById("output1").onclick = function () {
         location.href = "/output";
+    }
+    document.querySelector("#output2").onclick = function () {
+        location.href = "/output2";
+    }
+    document.querySelector("#output3").onclick = function () {
+        location.href = "/output3";
     }
 
 </script>

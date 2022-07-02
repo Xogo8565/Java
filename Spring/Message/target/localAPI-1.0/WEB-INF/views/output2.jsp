@@ -31,112 +31,118 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${arrayList}" var="messageDTO">
-        <tr>
-            <td>${messageDTO.seq_msg}</td>
-            <td>${messageDTO.nickname}</td>
-            <td><input type="text" readonly value="${messageDTO.message}"></td>
-            <td>
-                <button class ='modify'>modify</button>
-                <button class ='delete' value="${messageDTO.seq_msg}">delete</button>
-                <button class ='complete' value="${messageDTO.seq_msg}">complete</button>
-                <button class= "cancel" >cancel</button>
-            </td>
-        </tr>
-    </c:forEach>
+
     </tbody>
 </table>
 <script>
-    let del = document.getElementsByClassName("delete");
-    for(let i =0; i<del.length; i++){
-        del[i].addEventListener("click", function (){
-            let check = confirm("정말로 삭제하시겠습니까?")
-            let val = this.value;
-            let that = this;
-
-            if(check) {
-                // let form = document.createElement("form");
-                // form.action = "delete";
-                // form.method = "post";
-                //
-                // let input = document.createElement("input");
-                // input.type = "hidden"
-                // input.name = "seq_msg";
-                // input.value = val;
-                //
-                // form.appendChild(input);
-                // document.body.appendChild(form);
-
-
-                $.ajax({
-                    url : "/deleteAjax",
-                    type : "post",
-                    data : { seq_msg : val },
-                    success : function (data) {
-                        if(data === "success"){
-                            that.parentElement.parentElement.remove();
-                        }
-                    },
-                    error: function (e) {
-                        console.log(e);
-                    }
-                });
+    //output2.jsp 가 로드 되면 ajax 요청을 보내서 데이터를 가져온 후 동적으로 뿌려주기
+    function show(){
+        $.ajax({
+            url : "/outputAjax",
+            success : function (data){
+                $.each(data, function (index,item){
+                    let td1 = $("<td>").append(item.seq_msg);
+                    let td2 = $("<td>").append(item.nickname);
+                    let td3 = $("<td>").append($("<input>").val(item.message).attr("readonly", true));
+                    let modifyBtn = $("<button>").attr({ "class" : "modify"}).append("modify");
+                    let delBtn = $("<button>").attr({ "class" : "delete", "value" : item.seq_msg}).append("delete");
+                    let completeBtn = $("<button>").attr({ "class" : "complete", "value" : item.seq_msg}).append("complete");
+                    let cancel = $("<button>").attr({ "class" : "cancel"}).append("cancel");
+                    let td4 = $("<td>").append(modifyBtn, delBtn, completeBtn, cancel);
+                    let tr = $("<tr>").append(td1,td2,td3,td4);
+                    $("tbody").append(tr);
+                })
+            },
+            error : function (error){
+                console.log(error);
             }
         })
     }
 
-    let modify = document.getElementsByClassName("modify");
-    for(let i = 0; i<modify.length; i++){
-        modify[i].addEventListener("click",function () {
-            let sibling = this.parentElement.children;
-            for(let j = 0; j<sibling.length; j++){
-                sibling[j].style.display = "inline-block";
+    $(show);
+
+    $("tbody").on("click", ".delete", function (){
+        let check = confirm("정말로 삭제하시겠습니까?")
+        let val = this.value;
+        let that = this;
+
+        if(check) {
+            // let form = document.createElement("form");
+            // form.action = "delete";
+            // form.method = "post";
+            //
+            // let input = document.createElement("input");
+            // input.type = "hidden"
+            // input.name = "seq_msg";
+            // input.value = val;
+            //
+            // form.appendChild(input);
+            // document.body.appendChild(form);
+
+
+            $.ajax({
+                url : "/deleteAjax",
+                type : "post",
+                data : { seq_msg : val },
+                success : function (data) {
+                    if(data === "success"){
+                        $("tbody").empty();
+                        show();
+                    } else if (data === "fail"){
+                        alert("데이터 삭제에 실패했습니다");
+                    }
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        }
+    })
+
+    $("tbody").on("click", ".modify", function (){
+        let sibling = this.parentElement.children;
+        for(let j = 0; j<sibling.length; j++){
+            sibling[j].style.display = "inline-block";
+        }
+        this.style.display = "none";
+        this.nextElementSibling.style.display = "none";
+
+        let input = this.parentElement.previousElementSibling.children[0];
+        let defaultVal = input.value;
+        input.readOnly = false;
+
+        let complete = this.nextElementSibling.nextElementSibling;
+        let cancel = this.parentElement.lastElementChild;
+
+        complete.addEventListener("click", function (){
+            let no = this.value;
+            let that = this;
+
+            $.ajax({
+                url : "/modifyAjax",
+                data : { seq_msg : no, message : input.value },
+                type : "post",
+                success : function (data) {
+                    $("tbody").empty();
+                    show();
+                },
+                error : function (e) {
+                    console.log(e);
+                }
+
+            });
+        });
+
+        cancel.addEventListener("click",function () {
+            input.value = defaultVal;
+            input.readOnly = true;
+            for(let i = 0; i< sibling.length; i++){
+                sibling[i].style.display = "inline-block";
             }
             this.style.display = "none";
-            this.nextElementSibling.style.display = "none";
-
-            let input = this.parentElement.previousElementSibling.children[0];
-            let defaultVal = input.value;
-            input.readOnly = false;
-
-            let complete = this.nextElementSibling.nextElementSibling;
-            let cancel = this.parentElement.lastElementChild;
-
-            complete.addEventListener("click", function (){
-                let no = this.value;
-                let that = this;
-
-                $.ajax({
-                    url : "/modifyAjax",
-                    data : { seq_msg : no, message : input.value },
-                    type : "post",
-                    success : function (data) {
-                        input.value = data;
-                        for(let i = 0; i< sibling.length; i++){
-                            sibling[i].style.display = "inline-block";
-                        }
-                        that.style.display = "none";
-                        that.nextElementSibling.style.display = "none";
-
-                    },
-                    error : function (e) {
-                        console.log(e);
-                    }
-
-                });
-            });
-
-            cancel.addEventListener("click",function () {
-                input.value = defaultVal;
-                input.readOnly = true;
-                for(let i = 0; i< sibling.length; i++){
-                    sibling[i].style.display = "inline-block";
-                }
-                this.style.display = "none";
-                this.previousElementSibling.style.display = "none";
-            })
-        });
-    }
+            this.previousElementSibling.style.display = "none";
+        })
+    })
 </script>
 </body>
 </html>

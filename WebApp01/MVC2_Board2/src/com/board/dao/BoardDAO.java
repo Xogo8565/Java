@@ -29,13 +29,24 @@ public class BoardDAO {
         return basicDataSource.getConnection();
     }
 
+    public int getBoardSeq() throws Exception {
+        String sql = "select seq_board.nextval from dual";
+        try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+         ResultSet resultSet = preparedStatement.executeQuery();
+         resultSet.next();
+
+         return resultSet.getInt(1) ;
+        }
+    }
+
     public int newPost(BoardDTO boardDTO) throws Exception {
-        String sql = "insert into tbl_board values(seq_board.nextval,?,?,?,?,0,sysdate)";
+        String sql = "insert into tbl_board values(?,?,?,?,?,0,sysdate)";
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, boardDTO.getId());
-            preparedStatement.setString(2, boardDTO.getNickname());
-            preparedStatement.setString(3, boardDTO.getTitle());
-            preparedStatement.setString(4, boardDTO.getContent());
+            preparedStatement.setInt(1, boardDTO.getNo());
+            preparedStatement.setString(2, boardDTO.getId());
+            preparedStatement.setString(3, boardDTO.getNickname());
+            preparedStatement.setString(4, boardDTO.getTitle());
+            preparedStatement.setString(5, boardDTO.getContent());
 
             return preparedStatement.executeUpdate();
         }

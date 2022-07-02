@@ -29,13 +29,8 @@ public class BoardController {
     public String toBoard(@RequestParam(value = "curPage", defaultValue = "1") int curPage, Model model) throws Exception {
         logger.info("Board 요쳥 curPage =" + curPage);
 
-        Map<String, Object> page = boardService.pagination(10,10,curPage);
-        int start = (int) page.get("start");
-        int end = (int) page.get("end");
-
-        List<BoardDTO> board = boardService.selectAll(start, end);
-        model.addAttribute("page", page);
-        model.addAttribute("board", board);
+        Map<String, Object> map = boardService.selectAll(curPage);
+        model.addAttribute("map", map);
 
         return "board/board";
     }
@@ -53,21 +48,15 @@ public class BoardController {
         String path = httpSession.getServletContext().getRealPath("file");
         int seq_board = boardService.nextSeq();
 
-        boardService.write(seq_board,boardDTO);
+        boardService.write(seq_board, boardDTO, multipartFile, path);
 
-        if(multipartFile.size() != 1 || !multipartFile.get(0).getOriginalFilename().equals("")){
-            multipartFile.forEach((item)->{
-                logger.info("파일업로드" + item);
-            });
-            //업로드
-           boardService.uploadFile(multipartFile, path, seq_board);
-        }
 
         return "redirect:/board/toBoard";
     }
+
     @RequestMapping("/detail")
     public String detail(int seq_board, Model model) throws Exception {
-        logger.info("게시글 열람 요청 : "+ seq_board);
+        logger.info("게시글 열람 요청 : " + seq_board);
         Map<String, Object> map = boardService.detail(seq_board);
 
         model.addAttribute("map", map);
@@ -77,37 +66,20 @@ public class BoardController {
 
     @RequestMapping("/delete")
     public String delete(int seq_board) throws Exception {
-        logger.info("게시물 삭제 요청 : "+ seq_board);
+        logger.info("게시물 삭제 요청 : " + seq_board);
         boardService.delete(seq_board);
 
         return "redirect:/board/toBoard";
     }
 
     @RequestMapping("/modify")
-    public String modify(BoardDTO boardDTO, List<MultipartFile> multipartFile, String[] files, Model model) throws Exception {
+    public String modify(BoardDTO boardDTO, List<MultipartFile> multipartFile, @RequestParam(value = "files[]") String[] files, Model model) throws Exception {
         logger.info("수정 요청 : " + boardDTO.getTitle());
         String path = httpSession.getServletContext().getRealPath("file");
 
-        List<String> file_name = null;
+        boardService.modify(boardDTO, multipartFile, path, files);
 
-        if(multipartFile.size() != 1 || !multipartFile.get(0).getOriginalFilename().equals("")){
-            multipartFile.forEach((item)->{
-                logger.info("파일업로드" + item);
-            });
-            //업로드
-            boardService.uploadFile(multipartFile, path, boardDTO.getSeq_board());
-        }
-
-        if(files!=null){
-            logger.info("file 삭제 요청 : "+ files);
-            boardService.deleteFile(files, path);
-        }
-
-        boardService.modify(boardDTO);
-
-        model.addAttribute("seq_board", boardDTO.getSeq_board());
-
-       return "redirect:/board/detail";
+        return "redirect:/board/detail?seq_board=" + boardDTO.getSeq_board();
     }
 
     @RequestMapping("/download")

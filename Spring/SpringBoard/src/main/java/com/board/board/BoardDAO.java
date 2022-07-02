@@ -33,7 +33,11 @@ public class BoardDAO {
     }
 
     public List<BoardDTO> selectAll(int start, int end) throws Exception {
-        String sql = "select * from (select a.*, rownum as num from (select * from board order by 1 desc) a where rownum <= ?) where num >= ?";
+        String sql = "select * from " +
+                     "(select a.*, rownum as num from " +
+                     "(select * from board order by 1 desc) a " +
+                     "where rownum <= ?) " +
+                     "where num >= ?";
 
         try(Connection connection = basicDataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, end);

@@ -9,6 +9,9 @@
             <param name="ConversionPattern" value="%-5p: %c - %m%n" />
         </layout>
     </appender>
+    <logger name="com.kh.*">
+        <level value="info"/>
+    </logger>
 
     <!-- Application Loggers -->
     <logger name="org.zerock.controller">

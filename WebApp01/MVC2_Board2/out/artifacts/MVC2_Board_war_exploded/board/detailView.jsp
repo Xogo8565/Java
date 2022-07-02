@@ -55,10 +55,27 @@
         .postContainer {
             height: 50%;
         }
+        .downloadContainer{
+            height: 30%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .downloadContainer span {
+            flex-basis: 65%;
+        }
+        .downloadContainer button {
+            flex-basis: 70px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: gold;
+            height: 20px;
+        }
 
         .postContent {
             display: flex;
-            height: 85%;
+            height: 55%;
         }
 
         .postContentTitle {
@@ -210,6 +227,16 @@
                     <div class="postHeaderTitle"><span>날짜</span></div>
                     <div class="postHeaderDetail"><span>${boardDTO.written_date}</span></div>
                 </div>
+            </div>
+            <div class="downloadContainer">
+                <c:if test="${not empty fileDTO}">
+                    <span>${fileDTO.fileOriName}</span>
+                    <button type="button" id = "fileDownload">다운로드</button>
+                    <div class="downloadImg"><img src="/files/${fileDTO.fileSysName}" width ="100px"></div>
+                </c:if>
+                <c:if test="${empty fileDTO}">
+                    <span>다운로드할 파일이 없습니다.</span>
+                </c:if>
             </div>
             <div class="postContent">
                 <div class="postContentTitle"><span>내용</span></div>
@@ -426,6 +453,10 @@
             });
         }
     });
+
+    $(document).on("click","#fileDownload", function (){
+        location.href = "/download.file?file_seq=${fileDTO.file_seq}"
+    })
 
 
 

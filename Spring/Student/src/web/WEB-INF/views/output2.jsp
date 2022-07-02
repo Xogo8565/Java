@@ -10,12 +10,13 @@
 <html>
 <head>
     <title>$Title$</title>
+    <style>
+        .cancel, .complete {
+            display: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
-<style>
-    .cancel, .complete {
-        display: none;
-    }
-</style>
 <body>
     <table>
         <thead>
@@ -24,81 +25,106 @@
             <th>name</th>
             <th>memo</th>
             <th></th>
-        </tr></thead>
+        </tr>
+        </thead>
         <tbody>
 
         </tbody>
     </table>
     <script>
-        
-
-        let del = document.getElementsByClassName("delete");
-        for(let i =0; i<del.length; i++){
-            del[i].addEventListener("click", function (){
-                let form = document.createElement("form");
-                form.action = "/delete.stu";
-                form.method = "post";
-
-                let input = document.createElement("input");
-                input.name = "no";
-                input.value = this.value;
-                input.type = "hidden";
-
-                form.append(input);
-                document.body.append(form);
-                form.submit();
-            });
+        function show(){
+            $.ajax({
+                url : "/output.stu2",
+                success : function (data){
+                    $.each(data, function (index,item){
+                        let td1 = $("<td>").append(item.no);
+                        let td2 = $("<td>").append(item.name);
+                        let td3 = $("<td>").append($("<input>").val(item.memo).attr("readonly", true));
+                        let modifyBtn = $("<button>").attr({ "class" : "modify"}).append("modify");
+                        let delBtn = $("<button>").attr({ "class" : "delete", "value" : item.no}).append("delete");
+                        let completeBtn = $("<button>").attr({ "class" : "complete", "value" : item.no}).append("complete");
+                        let cancel = $("<button>").attr({ "class" : "cancel"}).append("cancel");
+                        let td4 = $("<td>").append(modifyBtn, delBtn, completeBtn, cancel);
+                        let tr = $("<tr>").append(td1,td2,td3,td4);
+                        $("tbody").append(tr);
+                    });
+                },
+                error : function (error){
+                    console.log(error);
+                }
+            })
         }
 
-        let modify = document.getElementsByClassName("modify");
-        for(let i =0; i<modify.length; i++){
-            modify[i].addEventListener("click", function (){
-                let del = this.parentElement.children[1];
-                let complete = this.parentElement.children[2];
-                let cancel = this.parentElement.children[3];
+        $(show);
 
-                this.style.display = "none";
-                del.style.display = "none";
-                complete.style.display = "inline-block";
-                cancel.style.display = "inline-block";
+        $("tbody").on("click", ".delete", function (event){
+            let check = confirm("정말로 삭제하시겠습니까");
+            let val = this.value;
+            if(check){
+                $.ajax({
+                    url : "/delete.stu2",
+                    data : { no : val },
+                    success : function (data) {
+                        if(data === "success"){
+                            $("tbody").empty();
+                            show();
+                        } else {
+                            alert("데이터 삭제에 실패했습니다.")
+                        }
+                    },
+                    error : function (e) {
+                        console.log(e);
+                    }
 
-                let input = this.parentElement.previousElementSibling.children[0];
-                let input_val = input.value;
-                input.readOnly = false;
-
-                complete.addEventListener("click", function (){
-                    let no = this.value;
-
-                    let form = document.createElement("form");
-                    form.action ="/modify.stu";
-                    form.method ="post";
-
-                    let input_no = document.createElement("input");
-                    input_no.type = "hidden";
-                    input_no.value = no;
-                    input_no.name = "no";
-
-                    let input_copy = input.cloneNode();
-                    input_copy.type = "hidden";
-                    input_copy.name = "memo";
-
-                    form.append(input_no);
-                    form.append(input_copy);
-                    document.body.append(form);
-
-                    form.submit();
                 });
+            }
+        })
 
-                cancel.addEventListener("click", function (){
-                    input.value = input_val;
-                    input.readOnly = true;
-                    this.parentElement.children[0].style.display = "inline-block";
-                    del.style.display = "inline-block";
-                    complete.style.display = "none";
-                    cancel.style.display = "none";
-                })
+
+        $("tbody").on("click", ".modify", function (){
+            let del = this.parentElement.children[1];
+            let complete = this.parentElement.children[2];
+            let cancel = this.parentElement.children[3];
+
+            this.style.display = "none";
+            del.style.display = "none";
+            complete.style.display = "inline-block";
+            cancel.style.display = "inline-block";
+
+            let input = this.parentElement.previousElementSibling.children[0];
+            input.readOnly = false;
+
+            complete.addEventListener("click", function (){
+                let no = this.value;
+                let input_val = input.value;
+
+                $.ajax({
+                    url : "/modify.stu2",
+                    data : { no : no, memo : input_val },
+                    success : function (data){
+                        if(data === "success"){
+                            $("tbody").empty();
+                            show();
+                        } else {
+                            alert("데이터 수정에 실패했습니다.")
+                        }
+                    },
+                    error : function (e){
+                        console.log(e)
+                    }
+                });
             });
-        }
+
+            cancel.addEventListener("click", function (){
+                input.value = input_val;
+                input.readOnly = true;
+                this.parentElement.children[0].style.display = "inline-block";
+                del.style.display = "inline-block";
+                complete.style.display = "none";
+                cancel.style.display = "none";
+            })
+        });
+
     </script>
 </body>
 </html>

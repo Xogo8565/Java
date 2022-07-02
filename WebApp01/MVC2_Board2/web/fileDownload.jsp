@@ -7,10 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <title>Title</title>
+</head>
+<body>
+  <button type ="button" id = "download">다운로드</button>
+  <script>
+    document.getElementById("download").onclick = function () {
+      location.href = "/download.fileTest";
+    }
+  </script>
+</body>
 </html>

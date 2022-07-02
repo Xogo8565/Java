@@ -22,41 +22,44 @@ public class BoardService {
     @Autowired
     Pagination pagination;
 
-    public int write(int seq_board, BoardDTO boardDTO) throws Exception {
-        return boardDAO.write(seq_board, boardDTO);
-    }
+    public int write(int seq_board, BoardDTO boardDTO, List<MultipartFile> multipartFile, String path) throws Exception {
+        int rs = boardDAO.write(seq_board, boardDTO);
 
-    public Map<String, Object> pagination(int recordPerPage, int naviCntPerPage, int curPage) throws Exception {
-        int totalCnt = boardDAO.countAll();
-        return pagination.getPageNavi(totalCnt, recordPerPage, naviCntPerPage, curPage);
-    }
-
-    public List<BoardDTO> selectAll(int start, int end) throws Exception {
-        return boardDAO.selectAll(start, end);
-    }
-
-    public void uploadFile(List<MultipartFile> multipartFile, String path, int seq_board) throws Exception {
         File dir = new File(path);
-
         if(!dir.exists()) dir.mkdir();
-        for(MultipartFile file : multipartFile){
-            String ori_name = file.getOriginalFilename();;
-            String sys_name = UUID.randomUUID() + "_" + ori_name;
 
-            file.transferTo(new File(path+File.separator+sys_name));
-            fileDAO.insert(seq_board, sys_name);
+        if(multipartFile.size() != 1 || !multipartFile.get(0).getOriginalFilename().equals("")){
+            for(MultipartFile file : multipartFile){
+                String ori_name = file.getOriginalFilename();;
+                String sys_name = UUID.randomUUID() + "_" + ori_name;
+
+                file.transferTo(new File(path+File.separator+sys_name));
+                fileDAO.insert(seq_board, sys_name);
+            }
         }
+
+        return rs;
+    }
+
+    public Map<String, Object> selectAll(int curPage) throws Exception {
+        int totalCnt = boardDAO.countAll();
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> page = pagination.getPageNavi(totalCnt,10,3, curPage);
+        int start = (int) page.get("start");
+        int end = (int) page.get("end");
+
+        List<BoardDTO> board = boardDAO.selectAll(start,end);
+
+        map.put("page", page);
+        map.put("board", board);
+
+        return map;
     }
 
     public int nextSeq () throws Exception {
         return boardDAO.nextSeq();
     }
 
-//    public void insertFile(int seq_board, List<String> file_list) throws Exception {
-//        for(String file : file_list){
-//            fileDAO.insert(seq_board, file);
-//        }
-//    }
 
     public Map<String, Object> detail(int seq_board) throws Exception {
         boardDAO.increaseViewCount(seq_board);
@@ -66,23 +69,34 @@ public class BoardService {
         return map;
     }
 
-//    public List<FileDTO> getFileList(int seq_board) throws Exception {
-//        return fileDAO.getFileList(seq_board);
-//    }
-
     public int delete(int seq_board) throws Exception {
         return boardDAO.delete(seq_board);
     }
 
-    public void deleteFile(String[] files, String path) throws Exception {
-        for(String file_name : files){
-            fileDAO.delete(file_name);
-            File file = new File(path+File.separator+ file_name);
-            file.delete();
-        }
-    }
 
-    public int modify(BoardDTO boardDTO) throws Exception {
+    public int modify(BoardDTO boardDTO, List<MultipartFile> multipartFile, String path, String[] files) throws Exception {
+        File dir = new File(path);
+        if(!dir.exists()) dir.mkdir();
+
+        if(multipartFile.size() != 1 || !multipartFile.get(0).getOriginalFilename().equals("")){
+            for(MultipartFile file : multipartFile){
+                String ori_name = file.getOriginalFilename();;
+                String sys_name = UUID.randomUUID() + "_" + ori_name;
+
+                file.transferTo(new File(path+File.separator+sys_name));
+                fileDAO.insert(boardDTO.getSeq_board(), sys_name);
+            }
+        }
+
+        if (files.length != 0 || files != null) {
+            for(String file_name : files){
+                fileDAO.delete(file_name);
+                File file = new File(path+File.separator+ file_name);
+
+                if(file.exists()) file.delete();
+            }
+        }
+
         return boardDAO.modify(boardDTO);
     }
 
@@ -111,7 +125,4 @@ public class BoardService {
 
     }
 
-//    public int countAll() throws Exception {
-//        return boardDAO.countAll();
-//    }
 }

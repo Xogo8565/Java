@@ -50,4 +50,16 @@ public class FileDAO {
             return preparedStatement.executeUpdate();
         }
     }
+
+    public List<String> selectAll() throws Exception {
+        String sql = "select * from tbl_file";
+        try(Connection connection = basicDataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<String> list = new ArrayList<>();
+
+            while(resultSet.next()){
+                list.add(resultSet.getString(1));
+            } return list;
+        }
+    }
 }

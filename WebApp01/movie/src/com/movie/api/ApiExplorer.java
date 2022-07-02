@@ -46,10 +46,10 @@ public class ApiExplorer {
             String movieNm = String.valueOf(movies.get("movieNm"));
             String movieNmEn = String.valueOf(movies.get("movieNmEn"));
             String prdtYear = String.valueOf(movies.get("prdtYear"));
-            String openDt = String.valueOf(movies.get("openDt"));
+//            String openDt = String.valueOf(movies.get("openDt"));
 //            String typeNm = String.valueOf(movies.get("typeNm"));
 //            String prdtStatNm = String.valueOf(movies.get("prdtStatNm"));
-//            String nationAlt = String.valueOf(movies.get("nationAlt"));
+            String nationAlt = String.valueOf(movies.get("nationAlt"));
             String genreAlt = String.valueOf(movies.get("genreAlt"));
 //            String repNationNm = String.valueOf(movies.get("repNationNm"));
 //            String repGenreNm = String.valueOf(movies.get("repGenreNm"));
@@ -79,15 +79,15 @@ public class ApiExplorer {
             movieNm = quotesRemover(movieNm);
             movieNmEn = quotesRemover(movieNmEn);
             prdtYear = quotesRemover(prdtYear);
-            openDt = quotesRemover(openDt);
+//            openDt = quotesRemover(openDt);
 //            typeNm = quotesRemover(typeNm);
 //            prdtStatNm = quotesRemover(prdtStatNm);
-//            nationAlt = quotesRemover(nationAlt);
+            nationAlt = quotesRemover(nationAlt);
             genreAlt = quotesRemover(genreAlt);
 //            repNationNm = quotesRemover(repNationNm);
 //            repGenreNm = quotesRemover(repGenreNm);
 
-            arrayList.add(new MovieDTO(movieCd, movieNm, movieNmEn, prdtYear, openDt, genreAlt, peopleNm));
+            arrayList.add(new MovieDTO(movieCd, movieNm, movieNmEn, prdtYear, nationAlt, genreAlt, peopleNm));
         }
         return arrayList;
     }
