@@ -141,6 +141,7 @@
             <button type='button' id="logout">Logout</button>
             <button type='button' id="myInfo">My info</button>
             <button type='button' id="toBoard">To board</button>
+            <button type = "button" id ="toPublicData">public Data</button>
         </div>
     </form>
     <div class="modal hidden">
@@ -255,6 +256,10 @@
 
     document.querySelector("#toBoard").addEventListener("click", ()=>{
         location.href = "/board/toBoard";
+    });
+
+    document.querySelector("#toPublicData").addEventListener("click", ()=>{
+        location.href = "/public/home";
     })
 </script>
 </body>

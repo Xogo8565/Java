@@ -39,7 +39,7 @@ public class Scheduler {
     @Autowired
     private ServletContext servletContext;
 
-    @Scheduled(cron = "* * * 0/7 * *")
+    @Scheduled(cron = "0 0 12 ? * SUN")
     public void deleteFiles() throws Exception {
         logger.info("delete scheduler");
         String path = servletContext.getRealPath("file");
